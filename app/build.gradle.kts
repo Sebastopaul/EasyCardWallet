@@ -1,10 +1,11 @@
 plugins {
+    id("com.google.gms.google-services")
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
 }
 
 android {
-    namespace = "com.example.easycardwallet"
+    namespace = "com.isitechproject.easycardwallet"
     compileSdk = 34
 
     defaultConfig {
@@ -50,7 +51,8 @@ android {
 }
 
 dependencies {
-
+    implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
+    implementation("com.google.firebase:firebase-analytics")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
