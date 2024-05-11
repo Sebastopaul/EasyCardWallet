@@ -51,7 +51,10 @@ fun HomeScreen(
     )
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(
+    showBackground = true,
+    showSystemUi = true
+)
 @Composable
 fun HomePreview() {
     EasyCardWalletTheme {

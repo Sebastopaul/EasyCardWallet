@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.isitechproject.easycardwallet.R
+import com.isitechproject.easycardwallet.screens.sign_up.SignUpViewModel
 import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 
 @Composable
@@ -112,7 +113,10 @@ fun SignInScreen(
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(
+    showBackground = true,
+    showSystemUi = true
+)
 @Composable
 fun AuthPreview() {
     EasyCardWalletTheme {

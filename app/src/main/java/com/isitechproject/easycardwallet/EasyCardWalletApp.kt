@@ -64,7 +64,10 @@ fun NavGraphBuilder.notesGraph(appState: EasyCardWalletAppState) {
     }
 }
 
-@Preview
+@Preview(
+    showBackground = true,
+    showSystemUi = true
+)
 @Composable
 fun EasyCardWalletAppPreview() {
     EasyCardWalletApp()
