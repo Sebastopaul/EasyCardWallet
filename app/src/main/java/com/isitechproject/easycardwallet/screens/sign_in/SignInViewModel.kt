@@ -1,10 +1,6 @@
 package com.isitechproject.easycardwallet.screens.sign_in
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.ViewModel
 import com.isitechproject.easycardwallet.MAIN_SCREEN
-import com.isitechproject.easycardwallet.R
 import com.isitechproject.easycardwallet.SIGN_IN_SCREEN
 import com.isitechproject.easycardwallet.SIGN_UP_SCREEN
 import com.isitechproject.easycardwallet.model.service.AccountService

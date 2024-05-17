@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.EasyCardWallet"
-        tools:targetApi="31">
+        tools:targetApi="31"
+        android:name = "com.isitechproject.easycardwallet.EasyCardWalletHiltApp">
         <activity
             android:name="com.isitechproject.easycardwallet.EasyCardWalletActivity"
             android:exported="true"
