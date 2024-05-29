@@ -1,8 +1,8 @@
 package com.isitechproject.easycardwallet.model.service.impl
 
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.auth.auth
 import com.isitechproject.easycardwallet.model.User
 import com.isitechproject.easycardwallet.model.service.AccountService
 import kotlinx.coroutines.channels.awaitClose
@@ -14,10 +14,10 @@ import javax.inject.Inject
 class AccountServiceImpl @Inject constructor(): AccountService {
     override val currentUser: Flow<User?>
         get() = callbackFlow {
-            val listener = FirebaseAuth.AuthStateListener { auth ->
-                this.trySend(auth.currentUser?.let { User(it.uid) })
-            }
-
+            val listener =
+                FirebaseAuth.AuthStateListener { auth ->
+                    this.trySend(auth.currentUser?.let { User(it.uid) })
+                }
             Firebase.auth.addAuthStateListener(listener)
             awaitClose { Firebase.auth.removeAuthStateListener(listener) }
         }

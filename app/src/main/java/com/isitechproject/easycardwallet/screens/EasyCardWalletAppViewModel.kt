@@ -17,6 +17,6 @@ open class EasyCardWalletAppViewModel : ViewModel() {
         )
 
     companion object {
-        const val ERROR_TAG = "NOTES APP ERROR"
+        const val ERROR_TAG = "EASYCARDWALLET APP ERROR"
     }
 }
