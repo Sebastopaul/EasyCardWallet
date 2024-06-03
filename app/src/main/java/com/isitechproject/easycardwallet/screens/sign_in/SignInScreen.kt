@@ -54,7 +54,7 @@ fun SignInScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(id = R.mipmap.auth_image),
+            painter = painterResource(id = R.drawable.title),
             contentDescription = "Auth image",
             modifier = modifier
                 .fillMaxWidth()
