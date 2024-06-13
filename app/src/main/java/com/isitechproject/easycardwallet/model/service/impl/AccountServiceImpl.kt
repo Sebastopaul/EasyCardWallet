@@ -11,8 +11,7 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class AccountServiceImpl @Inject constructor():
-    AccountService {
+class AccountServiceImpl @Inject constructor(): AccountService {
     private val firebaseAuth = Firebase.auth
 
     override val currentUser: Flow<User?>
