@@ -5,6 +5,6 @@ data class User(
     val firstname: String = "",
     val lastname: String = "",
     val email: String = "",
-    val profilePicture: Picture = Picture(type = USER_PROFILE_PICTURE),
+    val profilePictureId: String = "",
     val loyaltyCards: MutableList<LoyaltyCard> = mutableListOf(),
 )
