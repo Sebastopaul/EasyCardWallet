@@ -3,6 +3,7 @@ package com.isitechproject.easycardwallet.model.service.impl
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.firestore
 import com.isitechproject.easycardwallet.model.User
 import com.isitechproject.easycardwallet.model.service.AccountService
 import kotlinx.coroutines.channels.awaitClose
@@ -13,36 +14,38 @@ import javax.inject.Inject
 
 class AccountServiceImpl @Inject constructor():
     AccountService {
+    private val firebaseAuth = Firebase.auth
+
     override val currentUser: Flow<User?>
         get() = callbackFlow {
             val listener =
                 FirebaseAuth.AuthStateListener { auth ->
                     this.trySend(auth.currentUser?.let { User(it.uid) })
                 }
-            Firebase.auth.addAuthStateListener(listener)
-            awaitClose { Firebase.auth.removeAuthStateListener(listener) }
+            firebaseAuth.addAuthStateListener(listener)
+            awaitClose { firebaseAuth.removeAuthStateListener(listener) }
         }
 
     override val currentUserId: String
-        get() = Firebase.auth.currentUser?.uid.orEmpty()
+        get() = firebaseAuth.currentUser?.uid.orEmpty()
 
     override fun hasUser(): Boolean {
-        return Firebase.auth.currentUser != null
+        return firebaseAuth.currentUser != null
     }
 
     override suspend fun signIn(email: String, password: String) {
-        Firebase.auth.signInWithEmailAndPassword(email, password).await()
+        firebaseAuth.signInWithEmailAndPassword(email, password).await()
     }
 
     override suspend fun signUp(email: String, password: String) {
-        Firebase.auth.createUserWithEmailAndPassword(email, password).await()
+        firebaseAuth.createUserWithEmailAndPassword(email, password).await()
     }
 
     override suspend fun signOut() {
-        Firebase.auth.signOut()
+        firebaseAuth.signOut()
     }
 
     override suspend fun deleteAccount() {
-        Firebase.auth.currentUser!!.delete().await()
+        firebaseAuth.currentUser!!.delete().await()
     }
 }

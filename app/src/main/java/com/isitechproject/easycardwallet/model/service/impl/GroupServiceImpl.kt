@@ -20,23 +20,23 @@ class GroupServiceImpl @Inject constructor(
     private val auth: AccountService,
     private val groupMemberService: GroupMemberService,
 ): GroupService {
+    private val db = Firebase.firestore
+    private val groupsPath = db.collection(GROUPS_COLLECTION)
+
     @OptIn(ExperimentalCoroutinesApi::class)
     override val groups: Flow<List<Group>>
         get() = auth.currentUser.flatMapLatest { user ->
-            Firebase.firestore.collection(GROUPS_COLLECTION).dataObjects<Group>().map {
-                it.filter { group ->
-                    group.members.any { member ->
-                        member.userId == user?.id
-                    }
+            groupsPath.dataObjects<Group>().map { groupList ->
+                groupList.filter { group ->
+                    group.members.any { it.userId == user?.id }
                 }
             }
         }
 
     override suspend fun create(group: Group) {
-        val createdGroup = Firebase.firestore
-            .collection(GROUPS_COLLECTION)
-            .add(group).await()
+        val createdGroup = groupsPath.add(group).await()
         groupMemberService.create(
+            createdGroup.id,
             GroupMember(
                 createdGroup.id,
                 auth.currentUserId,
@@ -46,24 +46,14 @@ class GroupServiceImpl @Inject constructor(
     }
 
     override suspend fun getOne(id: String): Group? {
-        return Firebase.firestore
-            .collection(GROUPS_COLLECTION)
-            .document(id).get().await().toObject()
+        return groupsPath.document(id).get().await().toObject()
     }
 
     override suspend fun update(group: Group) {
-        Firebase.firestore
-            .collection(GROUPS_COLLECTION)
-            .document(group.id).set(group).await()
+        groupsPath.document(group.id).set(group).await()
     }
 
     override suspend fun delete(id: String) {
-        Firebase.firestore
-            .collection(GROUPS_COLLECTION)
-            .document(id).delete().await()
-    }
-
-    companion object {
-        private const val GROUPS_COLLECTION = "Groups"
+        groupsPath.document(id).delete().await()
     }
 }
