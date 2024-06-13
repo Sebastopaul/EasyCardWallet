@@ -1,6 +1,5 @@
 package com.isitechproject.easycardwallet.model.service
 
-import com.isitechproject.easycardwallet.model.LoyaltyCard
 import com.isitechproject.easycardwallet.model.SharedLoyaltyCard
 import kotlinx.coroutines.flow.Flow
 

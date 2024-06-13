@@ -1,6 +1,5 @@
 package com.isitechproject.easycardwallet.model.service.impl
 
-import android.app.AuthenticationRequiredException
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.dataObjects
 import com.google.firebase.firestore.firestore

@@ -3,7 +3,6 @@ package com.isitechproject.easycardwallet.model.service.impl
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
-import com.google.firebase.firestore.firestore
 import com.isitechproject.easycardwallet.model.User
 import com.isitechproject.easycardwallet.model.service.AccountService
 import kotlinx.coroutines.channels.awaitClose

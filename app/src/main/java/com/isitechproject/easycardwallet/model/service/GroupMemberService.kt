@@ -1,6 +1,5 @@
 package com.isitechproject.easycardwallet.model.service
 
-import com.isitechproject.easycardwallet.model.Group
 import com.isitechproject.easycardwallet.model.GroupMember
 import kotlinx.coroutines.flow.Flow
 
