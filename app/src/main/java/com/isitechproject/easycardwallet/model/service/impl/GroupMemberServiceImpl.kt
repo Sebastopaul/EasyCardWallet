@@ -1,6 +1,8 @@
 package com.isitechproject.easycardwallet.model.service.impl
 
 import com.google.firebase.Firebase
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.dataObjects
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
@@ -34,26 +36,27 @@ class GroupMemberServiceImpl @Inject constructor(
 
     override suspend fun create(groupId: String, groupMember: GroupMember) {
         val groupMemberWithUserId = groupMember.copy(userId = auth.currentUserId)
-        val groupMemberPath = groupsPath.document(groupId)
-            .collection(GROUP_MEMBERS_COLLECTION)
+        val groupMemberPath = getGroupMemberPath(groupId)
         groupMemberPath.add(groupMemberWithUserId).await()
     }
 
     override suspend fun getOne(groupId: String, groupMemberId: String): GroupMember? {
-        return groupsPath.document(groupId)
-            .collection(GROUP_MEMBERS_COLLECTION)
-            .document(groupMemberId).get().await().toObject()
+        return getGroupMemberDocument(groupId, groupMemberId).get().await().toObject()
     }
 
     override suspend fun update(groupId: String, groupMember: GroupMember) {
-        groupsPath.document(groupId)
-            .collection(GROUP_MEMBERS_COLLECTION)
-            .document(groupMember.id).set(groupMember).await()
+        getGroupMemberDocument(groupId, groupMember.id).set(groupMember).await()
     }
 
     override suspend fun delete(groupId: String, groupMemberId: String) {
-        groupsPath.document(groupId)
-            .collection(GROUP_MEMBERS_COLLECTION)
-            .document(groupMemberId).delete().await()
+        getGroupMemberDocument(groupId, groupMemberId).delete().await()
+    }
+
+    private fun getGroupMemberPath(groupId: String): CollectionReference {
+        return groupsPath.document(groupId).collection(GROUP_MEMBERS_COLLECTION)
+    }
+
+    private fun getGroupMemberDocument(groupId: String, groupMemberId: String): DocumentReference {
+        return getGroupMemberPath(groupId).document(groupMemberId)
     }
 }
