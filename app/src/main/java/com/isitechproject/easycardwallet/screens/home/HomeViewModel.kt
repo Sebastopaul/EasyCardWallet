@@ -1,5 +1,6 @@
 package com.isitechproject.easycardwallet.screens.home
 
+import androidx.lifecycle.MutableLiveData
 import com.isitechproject.easycardwallet.SPLASH_SCREEN
 import com.isitechproject.easycardwallet.model.service.AccountService
 import com.isitechproject.easycardwallet.screens.EasyCardWalletAppViewModel
@@ -16,6 +17,12 @@ class HomeViewModel @Inject constructor(
                 if (user == null) restartApp(SPLASH_SCREEN)
             }
         }
+    }
+
+    val isDrawerOpen = MutableLiveData<Boolean>().apply { value = false }
+
+    fun toggleDrawer() {
+        isDrawerOpen.value = !(isDrawerOpen.value ?: false)
     }
 
     fun onSignOutClick() {
