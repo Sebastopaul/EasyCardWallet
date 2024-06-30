@@ -15,8 +15,8 @@ import com.isitechproject.easycardwallet.utils.ImageConverterBase64
 @Composable
 fun Card(
     card: LoyaltyCard,
+    modifier: Modifier = Modifier,
     onCardClick: () -> Unit = {},
-    modifier: Modifier
 ) {
     ElevatedCard(
         elevation = CardDefaults.elevatedCardElevation(defaultElevation = 6.dp),

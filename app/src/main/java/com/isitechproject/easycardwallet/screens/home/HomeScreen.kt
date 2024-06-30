@@ -41,7 +41,6 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     LaunchedEffect(Unit) { viewModel.initialize(restartApp) }
-    // Menu coulissant
     ModalNavigationDrawer(
         drawerContent = {
             ModalDrawerSheet {
@@ -86,6 +85,7 @@ fun HomeScreen(
 
                 CardListComponent(
                     title = stringResource(R.string.title_home_page),
+                    cards = viewModel.
                     onAddCardClick = { viewModel.toggleDrawer() },
                     onCardClick = { showExitAppDialog = true }
                 )

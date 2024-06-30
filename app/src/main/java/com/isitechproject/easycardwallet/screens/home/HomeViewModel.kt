@@ -2,14 +2,17 @@ package com.isitechproject.easycardwallet.screens.home
 
 import androidx.lifecycle.MutableLiveData
 import com.isitechproject.easycardwallet.SPLASH_SCREEN
+import com.isitechproject.easycardwallet.model.LoyaltyCard
 import com.isitechproject.easycardwallet.model.service.AccountService
+import com.isitechproject.easycardwallet.model.service.LoyaltyCardService
 import com.isitechproject.easycardwallet.screens.EasyCardWalletAppViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val accountService: AccountService
+    private val accountService: AccountService,
+    private val loyaltyCardService: LoyaltyCardService
 ): EasyCardWalletAppViewModel() {
     fun initialize(restartApp: (String) -> Unit) {
         launchCatching {
@@ -19,7 +22,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    val isDrawerOpen = MutableLiveData<Boolean>().apply { value = false }
+    private val isDrawerOpen = MutableLiveData<Boolean>().apply { value = false }
 
     fun toggleDrawer() {
         isDrawerOpen.value = !(isDrawerOpen.value ?: false)
@@ -35,5 +38,9 @@ class HomeViewModel @Inject constructor(
         launchCatching {
             accountService.deleteAccount()
         }
+    }
+
+    fun getLoyaltyCards(): List<LoyaltyCard> {
+        loyaltyCardService.loyaltyCards.
     }
 }

@@ -75,8 +75,11 @@ fun CardListComponent(
             verticalArrangement = Arrangement.spacedBy(10.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            items(cards.size) {
-
+            items(cards.size) { index ->
+                Card(
+                    card = cards[index],
+                    onCardClick = onCardClick
+                )
             }
         }
     }
