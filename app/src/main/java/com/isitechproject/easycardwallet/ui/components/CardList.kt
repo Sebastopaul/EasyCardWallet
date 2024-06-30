@@ -1,5 +1,4 @@
-package com.example.easycardwallet.ui.components
-
+package com.isitechproject.easycardwallet.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -25,15 +24,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.isitechproject.easycardwallet.R
+import com.isitechproject.easycardwallet.model.LoyaltyCard
 
 @Composable
 fun CardListComponent(
     title: String,
+    cards: List<LoyaltyCard>,
     onAddCardClick: () -> Unit = {},
     onCardClick: () -> Unit = {}
 ) {
@@ -75,25 +75,8 @@ fun CardListComponent(
             verticalArrangement = Arrangement.spacedBy(10.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            items(20) { index -> // Change 10 to the number of cards you want
-                ElevatedCard(
-                    elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(100.dp),
-                    onClick = onCardClick
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_launcher_background),
-                            contentDescription = "Card Image",
-                            modifier = Modifier.fillMaxSize()
-                        )
-                    }
-                }
+            items(cards.size) {
+
             }
         }
     }

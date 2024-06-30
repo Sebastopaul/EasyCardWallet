@@ -4,5 +4,5 @@ data class LoyaltyCard(
     val id: String = "",
     val company: String = "",
     val code: String = "",
-    val pictureId: String = "",
+    val picture: Picture = Picture(type = LOYALTY_CARD_PICTURE),
 )
