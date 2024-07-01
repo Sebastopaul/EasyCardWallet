@@ -1,6 +1,7 @@
 package com.isitechproject.easycardwallet.screens.home
 
 import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -10,6 +11,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
@@ -26,14 +28,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.firebase.FirebaseApp
 import com.isitechproject.easycardwallet.ui.components.CardListComponent
 import com.isitechproject.easycardwallet.ui.components.TopAppBarComponent
 import com.isitechproject.easycardwallet.R
+import com.isitechproject.easycardwallet.model.service.AccountService
+import com.isitechproject.easycardwallet.model.service.LoyaltyCardService
+import com.isitechproject.easycardwallet.model.service.impl.AccountServiceImpl
+import com.isitechproject.easycardwallet.model.service.impl.LoyaltyCardServiceImpl
+import com.isitechproject.easycardwallet.model.service.impl.UserDataServiceImpl
 import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-@OptIn(ExperimentalMaterial3Api::class)
 fun HomeScreen(
     restartApp: (String) -> Unit,
     openScreen: (String) -> Unit,
@@ -45,14 +52,14 @@ fun HomeScreen(
         drawerContent = {
             ModalDrawerSheet {
                 Text("Menu", modifier = Modifier.padding(16.dp))
-                Divider()
+                HorizontalDivider()
                 NavigationDrawerItem(
-                    label = { Text(text = "Cartes") },
+                    label = { Text(text = "Cards") },
                     selected = false,
                     onClick = { /*TODO*/ }
                 )
                 NavigationDrawerItem(
-                    label = { Text(text = "Fidélités") },
+                    label = { Text(text = "Loyalty") },
                     selected = false,
                     onClick = { /*TODO*/ }
                 )
@@ -85,7 +92,7 @@ fun HomeScreen(
 
                 CardListComponent(
                     title = stringResource(R.string.title_home_page),
-                    cards = viewModel.
+                    cards = viewModel.getLoyaltyCards(),
                     onAddCardClick = { viewModel.toggleDrawer() },
                     onCardClick = { showExitAppDialog = true }
                 )
@@ -118,10 +125,12 @@ fun HomeScreen(
 }
 
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(showBackground = true, showSystemUi = true, apiLevel = 34)
 @Composable
 fun HomePreview() {
+    val accountService = AccountServiceImpl()
+
     EasyCardWalletTheme {
-        HomeScreen({ }, { })
+        HomeScreen({ }, { }, viewModel = HomeViewModel(accountService, LoyaltyCardServiceImpl(UserDataServiceImpl(accountService))))
     }
 }

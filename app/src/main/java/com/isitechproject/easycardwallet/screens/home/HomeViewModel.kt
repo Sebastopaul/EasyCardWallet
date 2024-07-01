@@ -7,6 +7,10 @@ import com.isitechproject.easycardwallet.model.service.AccountService
 import com.isitechproject.easycardwallet.model.service.LoyaltyCardService
 import com.isitechproject.easycardwallet.screens.EasyCardWalletAppViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.toList
 import javax.inject.Inject
 
 @HiltViewModel
@@ -40,7 +44,15 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     fun getLoyaltyCards(): List<LoyaltyCard> {
-        loyaltyCardService.loyaltyCards.
+        val list = mutableListOf<LoyaltyCard>()
+
+        launchCatching {
+            for (loyaltyCard in loyaltyCardService.loyaltyCards.flatMapConcat { it.asFlow() }.toList()) {
+                list.add(loyaltyCard)
+            }
+        }
+        return list
     }
 }
