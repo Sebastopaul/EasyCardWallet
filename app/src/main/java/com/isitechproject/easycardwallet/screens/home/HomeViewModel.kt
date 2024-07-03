@@ -1,6 +1,9 @@
 package com.isitechproject.easycardwallet.screens.home
 
 import androidx.lifecycle.MutableLiveData
+import com.isitechproject.easycardwallet.LOYALTY_CARD_DEFAULT_ID
+import com.isitechproject.easycardwallet.LOYALTY_CARD_ID
+import com.isitechproject.easycardwallet.LOYALTY_CARD_SCREEN
 import com.isitechproject.easycardwallet.SPLASH_SCREEN
 import com.isitechproject.easycardwallet.model.LoyaltyCard
 import com.isitechproject.easycardwallet.model.service.AccountService
@@ -36,6 +39,10 @@ class HomeViewModel @Inject constructor(
         launchCatching {
             accountService.signOut()
         }
+    }
+
+    fun onAddClick(openScreen: (String) -> Unit) {
+        openScreen("$LOYALTY_CARD_SCREEN?$LOYALTY_CARD_ID=$LOYALTY_CARD_DEFAULT_ID")
     }
 
     fun onDeleteAccountCLick() {
