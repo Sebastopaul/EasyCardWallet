@@ -1,10 +1,8 @@
-package com.isitechproject.easycardwallet.screens.home
+package com.isitechproject.easycardwallet.screens.loyaltycards.loyaltycardslistscreen
 
-import androidx.lifecycle.MutableLiveData
 import com.isitechproject.easycardwallet.LOYALTY_CARD_DEFAULT_ID
 import com.isitechproject.easycardwallet.LOYALTY_CARD_ID
 import com.isitechproject.easycardwallet.LOYALTY_CARD_SCREEN
-import com.isitechproject.easycardwallet.SPLASH_SCREEN
 import com.isitechproject.easycardwallet.model.LoyaltyCard
 import com.isitechproject.easycardwallet.model.service.AccountService
 import com.isitechproject.easycardwallet.model.service.LoyaltyCardService
@@ -17,30 +15,10 @@ import kotlinx.coroutines.flow.toList
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+class LoyaltyCardsListViewModel @Inject constructor(
     private val accountService: AccountService,
     private val loyaltyCardService: LoyaltyCardService
-): EasyCardWalletAppViewModel() {
-    fun initialize(restartApp: (String) -> Unit) {
-        launchCatching {
-            accountService.currentUser.collect {user ->
-                if (user == null) restartApp(SPLASH_SCREEN)
-            }
-        }
-    }
-
-    private val isDrawerOpen = MutableLiveData<Boolean>().apply { value = false }
-
-    fun toggleDrawer() {
-        isDrawerOpen.value = !(isDrawerOpen.value ?: false)
-    }
-
-    fun onSignOutClick() {
-        launchCatching {
-            accountService.signOut()
-        }
-    }
-
+): EasyCardWalletAppViewModel(accountService) {
     fun onAddClick(openScreen: (String) -> Unit) {
         openScreen("$LOYALTY_CARD_SCREEN?$LOYALTY_CARD_ID=$LOYALTY_CARD_DEFAULT_ID")
     }

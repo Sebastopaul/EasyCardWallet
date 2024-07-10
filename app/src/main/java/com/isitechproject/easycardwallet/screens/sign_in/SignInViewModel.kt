@@ -1,6 +1,6 @@
 package com.isitechproject.easycardwallet.screens.sign_in
 
-import com.isitechproject.easycardwallet.MAIN_SCREEN
+import com.isitechproject.easycardwallet.LOYALTY_CARDS_LIST_SCREEN
 import com.isitechproject.easycardwallet.SIGN_IN_SCREEN
 import com.isitechproject.easycardwallet.SIGN_UP_SCREEN
 import com.isitechproject.easycardwallet.model.service.AccountService
@@ -12,7 +12,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SignInViewModel @Inject constructor(
     private val accountService: AccountService
-): EasyCardWalletAppViewModel() {
+): EasyCardWalletAppViewModel(accountService) {
     val email = MutableStateFlow("")
     val password = MutableStateFlow("")
 
@@ -27,7 +27,7 @@ class SignInViewModel @Inject constructor(
     fun onSignInClick(openAndPopUp: (String, String) -> Unit) {
         launchCatching {
             accountService.signIn(email.value, password.value)
-            openAndPopUp(MAIN_SCREEN, SIGN_IN_SCREEN)
+            openAndPopUp(LOYALTY_CARDS_LIST_SCREEN, SIGN_IN_SCREEN)
         }
     }
 

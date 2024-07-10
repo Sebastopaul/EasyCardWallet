@@ -12,7 +12,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.isitechproject.easycardwallet.screens.home.HomeScreen
+import com.isitechproject.easycardwallet.screens.loyaltycards.loyaltycardslistscreen.LoyaltyCardsListScreen
 import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 import com.isitechproject.easycardwallet.screens.sign_in.SignInScreen
 import com.isitechproject.easycardwallet.screens.sign_up.SignUpScreen
@@ -44,8 +44,8 @@ fun rememberAppState(navController: NavHostController = rememberNavController())
     }
 
 fun NavGraphBuilder.easyCardWalletGraph(appState: EasyCardWalletAppState) {
-    composable(MAIN_SCREEN) {
-        HomeScreen(
+    composable(LOYALTY_CARDS_LIST_SCREEN) {
+        LoyaltyCardsListScreen(
             restartApp = { route -> appState.clearAndNavigate(route) },
             openScreen = { route -> appState.navigate(route) }
         )
