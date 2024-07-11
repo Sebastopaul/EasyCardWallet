@@ -8,12 +8,12 @@ plugins {
 
 android {
     namespace = "com.isitechproject.easycardwallet"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.isitechproject.easycardwallet"
         minSdk = 28
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -44,6 +44,7 @@ android {
     packaging {
         resources.excludes.add("/META-INF/{AL2.0,LGPL2.1}")
     }
+    buildToolsVersion = "35.0.0"
 }
 
 dependencies {
@@ -57,6 +58,10 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.ui.text.google.fonts)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.barcode.scanning)
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
 
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)

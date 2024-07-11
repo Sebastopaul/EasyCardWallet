@@ -1,41 +1,37 @@
-package com.isitechproject.easycardwallet.screens.loyaltycards.loyaltycardslistscreen
+package com.isitechproject.easycardwallet.screens.loyaltycards.createloyaltycardscreen
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.isitechproject.easycardwallet.ui.components.CardListComponent
 import com.isitechproject.easycardwallet.R
 import com.isitechproject.easycardwallet.ui.components.BasicStructure
 import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 
 
 @Composable
-fun LoyaltyCardsListScreen(
+fun CreateLoyaltyCardScreen(
     restartApp: (String) -> Unit,
-    openScreen: (String) -> Unit,
+    //openScreen: (String) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: LoyaltyCardsListViewModel = hiltViewModel()
+    viewModel: CreateLoyaltyCardViewModel = hiltViewModel(),
 ) {
     BasicStructure(
         restartApp = restartApp,
         viewModel = viewModel,
         modifier = modifier,
-        title = stringResource(R.string.title_home_page)
+        title = stringResource(R.string.register_loyalty_card),
     ) {
-        CardListComponent(
-            cards = viewModel.getLoyaltyCards(),
-            onAddCardClick = { viewModel.onAddClick(openScreen) }
-        )
+
     }
 }
 
 
 @Preview(showBackground = true, showSystemUi = true, apiLevel = 34)
 @Composable
-fun LoyaltyCardsListPreview() {
+fun CreateLoyaltyCardPreview() {
     EasyCardWalletTheme {
-        LoyaltyCardsListScreen({ }, { })
+        CreateLoyaltyCardScreen({ } /*{ }*/)
     }
 }

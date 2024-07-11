@@ -14,8 +14,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.isitechproject.easycardwallet.screens.loyaltycards.loyaltycardslistscreen.LoyaltyCardsListScreen
 import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
-import com.isitechproject.easycardwallet.screens.sign_in.SignInScreen
-import com.isitechproject.easycardwallet.screens.sign_up.SignUpScreen
+import com.isitechproject.easycardwallet.screens.auth.sign_in.SignInScreen
+import com.isitechproject.easycardwallet.screens.auth.sign_up.SignUpScreen
 import com.isitechproject.easycardwallet.screens.splash.SplashScreen
 
 @Composable

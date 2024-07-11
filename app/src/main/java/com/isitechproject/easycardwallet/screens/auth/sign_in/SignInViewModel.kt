@@ -1,4 +1,4 @@
-package com.isitechproject.easycardwallet.screens.sign_in
+package com.isitechproject.easycardwallet.screens.auth.sign_in
 
 import com.isitechproject.easycardwallet.LOYALTY_CARDS_LIST_SCREEN
 import com.isitechproject.easycardwallet.SIGN_IN_SCREEN

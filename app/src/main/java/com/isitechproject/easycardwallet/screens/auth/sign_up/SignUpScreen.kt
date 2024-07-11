@@ -1,4 +1,4 @@
-package com.isitechproject.easycardwallet.screens.sign_up
+package com.isitechproject.easycardwallet.screens.auth.sign_up
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image

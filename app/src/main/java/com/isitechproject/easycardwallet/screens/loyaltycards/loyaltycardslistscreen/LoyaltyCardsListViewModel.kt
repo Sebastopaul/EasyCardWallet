@@ -23,6 +23,7 @@ class LoyaltyCardsListViewModel @Inject constructor(
         openScreen("$LOYALTY_CARD_SCREEN?$LOYALTY_CARD_ID=$LOYALTY_CARD_DEFAULT_ID")
     }
 
+    // TODO: place this in a settings screen
     fun onDeleteAccountCLick() {
         launchCatching {
             accountService.deleteAccount()

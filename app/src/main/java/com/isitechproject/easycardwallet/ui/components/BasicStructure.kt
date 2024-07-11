@@ -53,6 +53,14 @@ fun BasicStructure(
                     .padding(20.dp)
             )
 
+            Text(text = title)
+
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(20.dp)
+            )
+
             content()
 
             // Message sign out
