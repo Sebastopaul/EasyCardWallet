@@ -1,5 +1,6 @@
 package com.isitechproject.easycardwallet.screens.loyaltycards.loyaltycardslistscreen
 
+import android.util.Log
 import com.isitechproject.easycardwallet.LOYALTY_CARD_DEFAULT_ID
 import com.isitechproject.easycardwallet.LOYALTY_CARD_ID
 import com.isitechproject.easycardwallet.LOYALTY_CARD_SCREEN
@@ -34,6 +35,7 @@ class LoyaltyCardsListViewModel @Inject constructor(
     fun getLoyaltyCards(): List<LoyaltyCard> {
         val list = mutableListOf<LoyaltyCard>()
 
+        Log.d("Cards", loyaltyCardService.loyaltyCards.toString())
         launchCatching {
             for (loyaltyCard in loyaltyCardService.loyaltyCards.flatMapConcat { it.asFlow() }.toList()) {
                 list.add(loyaltyCard)

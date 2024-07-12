@@ -5,6 +5,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.isitechproject.easycardwallet.model.User
 import com.isitechproject.easycardwallet.model.service.AccountService
+import com.isitechproject.easycardwallet.model.service.impl.exception.NotCreatedException
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -35,8 +36,12 @@ class AccountServiceImpl @Inject constructor(): AccountService {
         firebaseAuth.signInWithEmailAndPassword(email, password).await()
     }
 
-    override suspend fun signUp(email: String, password: String) {
-        firebaseAuth.createUserWithEmailAndPassword(email, password).await()
+    override suspend fun signUp(email: String, password: String): String {
+        return firebaseAuth
+            .createUserWithEmailAndPassword(email, password)
+            .await()
+            .user?.uid
+            ?: throw NotCreatedException("Could not create account for user with email $email")
     }
 
     override suspend fun signOut() {

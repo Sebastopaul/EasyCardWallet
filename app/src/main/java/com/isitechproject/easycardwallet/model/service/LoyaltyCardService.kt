@@ -1,5 +1,6 @@
 package com.isitechproject.easycardwallet.model.service
 
+import com.google.firebase.firestore.DocumentSnapshot
 import com.isitechproject.easycardwallet.model.LoyaltyCard
 import kotlinx.coroutines.flow.Flow
 

@@ -1,3 +1,5 @@
 package com.isitechproject.easycardwallet.model.service.impl.exception
 
-class NotAuthenticatedException : Exception("You must be authenticated to make this action.")
+class NotAuthenticatedException(
+    override val message: String = "You must be authenticated to make this action."
+) : Exception(message)

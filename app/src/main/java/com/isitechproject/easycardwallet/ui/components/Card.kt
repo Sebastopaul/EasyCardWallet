@@ -1,5 +1,7 @@
 package com.isitechproject.easycardwallet.ui.components
 
+import android.os.Debug
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,6 +11,7 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.google.firebase.logger.Logger
 import com.isitechproject.easycardwallet.model.LoyaltyCard
 import com.isitechproject.easycardwallet.utils.ImageConverterBase64
 
@@ -30,8 +33,9 @@ fun Card(
                 .fillMaxSize()
         ) {
             BitmapImage(
-                bitmap = ImageConverterBase64.from(card.picture.content),
+                bitmap = ImageConverterBase64.from(card.picture),
             )
+            Log.d("image", card.picture)
         }
     }
 }

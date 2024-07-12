@@ -1,5 +1,6 @@
 package com.isitechproject.easycardwallet.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -57,6 +58,7 @@ fun CardListComponent(
             verticalArrangement = Arrangement.spacedBy(10.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
+            Log.d("number of cards", cards.size.toString())
             items(cards.size) { index ->
                 Card(
                     card = cards[index],
