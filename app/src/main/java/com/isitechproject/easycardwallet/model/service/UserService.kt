@@ -8,7 +8,6 @@ interface UserService {
     val currentUserId: String
 
     suspend fun create(user: User, password: String)
-    suspend fun getAuthUser(): User?
     suspend fun updateAuthUser(user: User)
     suspend fun deleteAuthUser()
 }

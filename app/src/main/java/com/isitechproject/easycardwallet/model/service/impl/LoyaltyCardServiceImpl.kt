@@ -14,6 +14,7 @@ import com.isitechproject.easycardwallet.model.service.UserService
 import com.isitechproject.easycardwallet.model.service.impl.exception.NotCreatedException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
@@ -27,11 +28,15 @@ class LoyaltyCardServiceImpl @Inject constructor(
     private val db = Firebase.firestore
     private val loyaltyCardsPath = db.collection(LOYALTY_CARDS_COLLECTION)
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     override val loyaltyCards: Flow<List<LoyaltyCard>>
         get() =
-            loyaltyCardsPath
-                .where(Filter.equalTo("uid", userService.currentUserId))
-                .dataObjects()
+            userService.currentUser.flatMapLatest { user ->
+                Firebase.firestore
+                    .collection(LOYALTY_CARDS_COLLECTION)
+                    .whereEqualTo(UID_FIELD, user?.uid)
+                    .dataObjects()
+            }
 
     override suspend fun create(loyaltyCard: LoyaltyCard) {
         loyaltyCardsPath.add(loyaltyCard).await()
@@ -41,7 +46,7 @@ class LoyaltyCardServiceImpl @Inject constructor(
         val response = loyaltyCardsPath.document(id).get().await()
 
         return response.toObject<LoyaltyCard>()
-            ?.withId(response.id)
+            ?.withId<LoyaltyCard>(response.id)
             ?: throw NotFoundException("Could not find loyalty card with id: $id")
     }
 

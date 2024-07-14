@@ -1,6 +1,8 @@
 package com.isitechproject.easycardwallet.screens.loyaltycards.loyaltycardslistscreen
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,8 +26,10 @@ fun LoyaltyCardsListScreen(
         modifier = modifier,
         title = stringResource(R.string.title_home_page)
     ) {
+        val loyaltyCards by viewModel.loyaltyCards.collectAsState(emptyList())
+
         CardListComponent(
-            cards = viewModel.getLoyaltyCards(),
+            cards = loyaltyCards,
             onAddCardClick = { viewModel.onAddClick(openScreen) }
         )
     }

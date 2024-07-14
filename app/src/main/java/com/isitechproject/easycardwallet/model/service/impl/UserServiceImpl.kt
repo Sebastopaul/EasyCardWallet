@@ -20,7 +20,7 @@ class UserServiceImpl @Inject constructor(private val auth: AccountService): Use
     override val currentUserId = auth.currentUserId
     override val currentUser = usersPath.where(Filter.equalTo("uid", auth.currentUserId))
         .dataObjects<User>()
-        .map { it.first() }
+        .map { it.first().withId<User>(auth.currentUserId) }
 
     override suspend fun create(user: User, password: String) {
         val registeredUser = User(
@@ -31,12 +31,6 @@ class UserServiceImpl @Inject constructor(private val auth: AccountService): Use
             profilePicture = user.profilePicture,
         )
         usersPath.add(registeredUser).await()
-    }
-
-    override suspend fun getAuthUser(): User? {
-        return if (auth.hasUser())
-                usersPath.document(auth.currentUserId).get().await().toObject()
-            else null
     }
 
     override suspend fun updateAuthUser(user: User) {

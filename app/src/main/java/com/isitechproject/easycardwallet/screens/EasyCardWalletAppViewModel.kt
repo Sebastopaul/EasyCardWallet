@@ -18,7 +18,7 @@ open class EasyCardWalletAppViewModel(
     fun launchCatching(block: suspend CoroutineScope.() -> Unit) =
         viewModelScope.launch(
             CoroutineExceptionHandler { _, throwable ->
-                Log.d(ERROR_TAG, throwable.message.orEmpty())
+                Log.e(ERROR_TAG, throwable.message.orEmpty())
             },
             block = block
         )
