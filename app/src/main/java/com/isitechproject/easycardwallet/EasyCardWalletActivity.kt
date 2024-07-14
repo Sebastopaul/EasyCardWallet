@@ -9,7 +9,7 @@ import com.google.firebase.BuildConfig
 import com.google.firebase.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint()
+@AndroidEntryPoint
 class EasyCardWalletActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

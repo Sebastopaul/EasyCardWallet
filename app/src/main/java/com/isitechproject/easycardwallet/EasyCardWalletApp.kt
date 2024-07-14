@@ -12,10 +12,12 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.isitechproject.easycardwallet.screens.loyaltycards.loyaltycardslistscreen.LoyaltyCardsListScreen
 import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 import com.isitechproject.easycardwallet.screens.auth.sign_in.SignInScreen
 import com.isitechproject.easycardwallet.screens.auth.sign_up.SignUpScreen
+import com.isitechproject.easycardwallet.screens.loyaltycards.createloyaltycardscreen.CreateLoyaltyCardScreen
 import com.isitechproject.easycardwallet.screens.splash.SplashScreen
 
 @Composable
@@ -44,10 +46,23 @@ fun rememberAppState(navController: NavHostController = rememberNavController())
     }
 
 fun NavGraphBuilder.easyCardWalletGraph(appState: EasyCardWalletAppState) {
+    composable(CREATE_LOYALTY_CARD_SCREEN) {
+        CreateLoyaltyCardScreen(
+            restartApp = { route -> appState.clearAndNavigate(route) },
+            openScreen = { route -> appState.navigate(route) }
+        )
+    }
+
+    composable(
+        route = "$LOYALTY_CARD_SCREEN$LOYALTY_CARD_ID_ARG",
+        arguments = listOf(navArgument(LOYALTY_CARD_ID) { defaultValue = LOYALTY_CARD_DEFAULT_ID })
+    ) {
+    }
+
     composable(LOYALTY_CARDS_LIST_SCREEN) {
         LoyaltyCardsListScreen(
             restartApp = { route -> appState.clearAndNavigate(route) },
-            openScreen = { route -> appState.navigate(route) }
+            openAddScreen = { route -> appState.navigate(route) }
         )
     }
 

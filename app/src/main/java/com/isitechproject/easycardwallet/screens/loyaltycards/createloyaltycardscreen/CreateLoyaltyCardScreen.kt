@@ -13,7 +13,7 @@ import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 @Composable
 fun CreateLoyaltyCardScreen(
     restartApp: (String) -> Unit,
-    //openScreen: (String) -> Unit,
+    openScreen: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: CreateLoyaltyCardViewModel = hiltViewModel(),
 ) {
@@ -21,7 +21,6 @@ fun CreateLoyaltyCardScreen(
         restartApp = restartApp,
         viewModel = viewModel,
         modifier = modifier,
-        title = stringResource(R.string.register_loyalty_card),
     ) {
 
     }
@@ -32,6 +31,6 @@ fun CreateLoyaltyCardScreen(
 @Composable
 fun CreateLoyaltyCardPreview() {
     EasyCardWalletTheme {
-        CreateLoyaltyCardScreen({ } /*{ }*/)
+        CreateLoyaltyCardScreen({ }, { })
     }
 }

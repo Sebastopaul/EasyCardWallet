@@ -1,11 +1,24 @@
 package com.isitechproject.easycardwallet.screens.loyaltycards.loyaltycardslistscreen
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.isitechproject.easycardwallet.ui.components.CardListComponent
 import com.isitechproject.easycardwallet.R
@@ -16,7 +29,7 @@ import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 @Composable
 fun LoyaltyCardsListScreen(
     restartApp: (String) -> Unit,
-    openScreen: (String) -> Unit,
+    openAddScreen: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: LoyaltyCardsListViewModel = hiltViewModel()
 ) {
@@ -24,14 +37,40 @@ fun LoyaltyCardsListScreen(
         restartApp = restartApp,
         viewModel = viewModel,
         modifier = modifier,
-        title = stringResource(R.string.title_home_page)
     ) {
         val loyaltyCards by viewModel.loyaltyCards.collectAsState(emptyList())
 
-        CardListComponent(
-            cards = loyaltyCards,
-            onAddCardClick = { viewModel.onAddClick(openScreen) }
-        )
+        Column {
+            Row(
+                modifier = Modifier
+                    .padding(horizontal = 20.dp)
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.End,
+            ) {
+
+                Text(text = stringResource(id = R.string.loyalty_card_list))
+
+                IconButton(onClick = { viewModel.onAddClick(openAddScreen) }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.add_card_24),
+                        contentDescription = stringResource(R.string.add_card),
+                        modifier = Modifier.size(26.dp),
+                    )
+                }
+            }
+
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(15.dp),
+            )
+
+            CardListComponent(
+                cards = loyaltyCards,
+                onCardClick = {},
+            )
+        }
     }
 }
 

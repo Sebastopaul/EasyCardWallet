@@ -11,6 +11,7 @@ const val CREATE_LOYALTY_CARD_SCREEN = "CreateLoyaltyCardScreen"
 
 const val LOYALTY_CARD_ID = "loyaltyCardId"
 const val LOYALTY_CARD_DEFAULT_ID = "-1"
+const val LOYALTY_CARD_ID_ARG = "?$LOYALTY_CARD_ID={$LOYALTY_CARD_ID}"
 
 const val LOCALHOST = "10.0.2.2"
 const val AUTH_PORT = 9099

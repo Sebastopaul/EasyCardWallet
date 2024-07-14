@@ -28,7 +28,6 @@ fun BasicStructure(
     restartApp: (String) -> Unit,
     viewModel: EasyCardWalletAppViewModel,
     modifier: Modifier = Modifier,
-    title: String = stringResource(id = R.string.app_name),
     content: @Composable () -> Unit
 ) {
     var showExitAppDialog by remember { mutableStateOf(false) }
@@ -46,14 +45,6 @@ fun BasicStructure(
                 onNavigationIconClick = { viewModel.toggleDrawer() },
                 onActionIconClick = { showExitAppDialog = true }
             )
-
-            Spacer(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(20.dp)
-            )
-
-            Text(text = title)
 
             Spacer(
                 modifier = Modifier
