@@ -7,31 +7,29 @@ import android.graphics.RectF
 import android.view.View
 import android.graphics.Paint
 
-class BarcodeBoxView {
-    class BarcodeBoxView(
-        context: Context
-    ) : View(context) {
+class BarcodeBoxView(
+    context: Context
+) : View(context) {
 
-        private val paint = Paint()
+    private val paint = Paint()
 
-        private var mRect = RectF()
+    private var mRect = RectF()
 
-        override fun onDraw(canvas: Canvas) {
-            super.onDraw(canvas)
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
 
-            val cornerRadius = 10f
+        val cornerRadius = 10f
 
-            paint.style = Paint.Style.STROKE
-            paint.color = Color.RED
-            paint.strokeWidth = 5f
+        paint.style = Paint.Style.STROKE
+        paint.color = Color.RED
+        paint.strokeWidth = 5f
 
-            canvas.drawRoundRect(mRect, cornerRadius, cornerRadius, paint)
-        }
+        canvas.drawRoundRect(mRect, cornerRadius, cornerRadius, paint)
+    }
 
-        fun setRect(rect: RectF) {
-            mRect = rect
-            invalidate()
-            requestLayout()
-        }
+    fun setRect(rect: RectF) {
+        mRect = rect
+        invalidate()
+        requestLayout()
     }
 }
