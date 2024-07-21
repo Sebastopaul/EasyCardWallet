@@ -1,5 +1,7 @@
 package com.isitechproject.easycardwallet
 
+import android.app.ActivityManager
+import android.content.Intent
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -7,18 +9,19 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.navigation.compose.NavHost
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.isitechproject.easycardwallet.screens.loyaltycards.loyaltycardslistscreen.LoyaltyCardsListScreen
-import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 import com.isitechproject.easycardwallet.screens.auth.sign_in.SignInScreen
 import com.isitechproject.easycardwallet.screens.auth.sign_up.SignUpScreen
-import com.isitechproject.easycardwallet.screens.loyaltycards.createloyaltycardscreen.CreateLoyaltyCardScreen
+import com.isitechproject.easycardwallet.screens.loyaltycards.loyaltycardslistscreen.LoyaltyCardsListScreen
 import com.isitechproject.easycardwallet.screens.splash.SplashScreen
+import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
+import org.checkerframework.checker.units.qual.Current
+
 
 @Composable
 fun EasyCardWalletApp() {
@@ -47,10 +50,11 @@ fun rememberAppState(navController: NavHostController = rememberNavController())
 
 fun NavGraphBuilder.easyCardWalletGraph(appState: EasyCardWalletAppState) {
     composable(CREATE_LOYALTY_CARD_SCREEN) {
-        CreateLoyaltyCardScreen(
-            restartApp = { route -> appState.clearAndNavigate(route) },
-            openScreen = { route -> appState.navigate(route) }
-        )
+        EasyCardWalletActivity().switchActivity(BarcodeScannerActivity::class.java)
+        //CreateLoyaltyCardScreen(
+        //    restartApp = { route -> appState.clearAndNavigate(route) },
+        //    openScreen = { route -> appState.navigate(route) }
+        //)
     }
 
     composable(

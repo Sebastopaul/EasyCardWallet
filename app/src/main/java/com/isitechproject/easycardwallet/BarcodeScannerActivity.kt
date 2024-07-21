@@ -2,6 +2,7 @@ package com.isitechproject.easycardwallet
 
 import android.content.pm.PackageManager
 import android.Manifest
+import android.content.Intent
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
@@ -129,5 +130,10 @@ class BarcodeScannerActivity : AppCompatActivity() {
                 exc.printStackTrace()
             }
         }, ContextCompat.getMainExecutor(this))
+    }
+
+    fun <T> switchActivity(nextActivity: Class<T>) {
+        val newIntent = Intent(this, nextActivity)
+        startActivity(newIntent)
     }
 }

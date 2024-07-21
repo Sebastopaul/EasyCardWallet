@@ -1,16 +1,17 @@
 package com.isitechproject.easycardwallet
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.google.firebase.auth.auth
-import com.google.firebase.firestore.firestore
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.BuildConfig
 import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
+import com.google.firebase.firestore.firestore
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class EasyCardWalletActivity : ComponentActivity() {
+class EasyCardWalletActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         configureFirebaseServices()
@@ -29,5 +30,10 @@ class EasyCardWalletActivity : ComponentActivity() {
                 FIRESTORE_PORT
             )
         }
+    }
+
+    fun <T> switchActivity(nextActivity: Class<T>) {
+        val newIntent = Intent(this, nextActivity)
+        startActivity(newIntent)
     }
 }
