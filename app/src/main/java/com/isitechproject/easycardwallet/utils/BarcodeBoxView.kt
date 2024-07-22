@@ -1,4 +1,4 @@
-package com.isitechproject.easycardwallet.ui.componentsclass
+package com.isitechproject.easycardwallet.utils
 
 import android.content.Context
 import android.graphics.Canvas

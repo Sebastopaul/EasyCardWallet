@@ -2,6 +2,7 @@ package com.isitechproject.easycardwallet
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.BuildConfig
@@ -13,6 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class EasyCardWalletActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d("test", "test")
         super.onCreate(savedInstanceState)
         configureFirebaseServices()
 

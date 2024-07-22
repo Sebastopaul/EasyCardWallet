@@ -51,6 +51,7 @@ fun rememberAppState(navController: NavHostController = rememberNavController())
 fun NavGraphBuilder.easyCardWalletGraph(appState: EasyCardWalletAppState) {
     composable(CREATE_LOYALTY_CARD_SCREEN) {
         EasyCardWalletActivity().switchActivity(BarcodeScannerActivity::class.java)
+        //BarcodeScannerActivity().switchActivity(EasyCardWalletActivity::class.java)
         //CreateLoyaltyCardScreen(
         //    restartApp = { route -> appState.clearAndNavigate(route) },
         //    openScreen = { route -> appState.navigate(route) }

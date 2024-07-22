@@ -1,6 +1,5 @@
-package com.isitechproject.easycardwallet.ui.componentsclass
+package com.isitechproject.easycardwallet.utils
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Rect
 import android.graphics.RectF
@@ -11,14 +10,22 @@ import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
+import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
 
-class QrCodeAnalyzer(
+class ImageAnalyzerWithBoxView(
     private val context: Context,
     private val barcodeBoxView: BarcodeBoxView,
     private val previewViewWidth: Float,
     private val previewViewHeight: Float
 ) : ImageAnalysis.Analyzer {
+    private val options = BarcodeScannerOptions.Builder()
+        .setBarcodeFormats(
+            Barcode.FORMAT_QR_CODE,
+            Barcode.FORMAT_AZTEC,
+        ).build()
+
+    private val scanner = BarcodeScanning.getClient(options)
 
     /**
      * This parameters will handle preview box scaling
@@ -45,12 +52,6 @@ class QrCodeAnalyzer(
             scaleY = previewViewHeight / img.width.toFloat()
 
             val inputImage = InputImage.fromMediaImage(img, image.imageInfo.rotationDegrees)
-
-            // Process image searching for barcodes
-            val options = BarcodeScannerOptions.Builder()
-                .build()
-
-            val scanner = BarcodeScanning.getClient(options)
 
             scanner.process(inputImage)
                 .addOnSuccessListener { barcodes ->

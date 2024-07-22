@@ -15,8 +15,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.isitechproject.easycardwallet.databinding.BarcodeScannerBinding
-import com.isitechproject.easycardwallet.ui.componentsclass.BarcodeBoxView
-import com.isitechproject.easycardwallet.ui.componentsclass.QrCodeAnalyzer
+import com.isitechproject.easycardwallet.utils.BarcodeBoxView
+import com.isitechproject.easycardwallet.utils.ImageAnalyzerWithBoxView
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -106,12 +106,15 @@ class BarcodeScannerActivity : AppCompatActivity() {
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .build()
                 .also {
-                    it.setAnalyzer(cameraExecutor, QrCodeAnalyzer(
-                        this,
-                        barcodeBoxView,
-                        binding.previewView.width.toFloat(),
-                        binding.previewView.height.toFloat(),
-                    ))
+                    it.setAnalyzer(
+                        cameraExecutor,
+                        ImageAnalyzerWithBoxView(
+                            this,
+                            barcodeBoxView,
+                            binding.previewView.width.toFloat(),
+                            binding.previewView.height.toFloat(),
+                        )
+                    )
                 }
 
             // Select back camera as a default
