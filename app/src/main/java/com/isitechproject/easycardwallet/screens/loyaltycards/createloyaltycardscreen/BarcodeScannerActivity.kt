@@ -1,7 +1,8 @@
-package com.isitechproject.easycardwallet
+package com.isitechproject.easycardwallet.screens.loyaltycards.createloyaltycardscreen
 
 import android.content.pm.PackageManager
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.ViewGroup
@@ -14,15 +15,24 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.BuildConfig
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
+import com.google.firebase.firestore.firestore
+import com.isitechproject.easycardwallet.AUTH_PORT
+import com.isitechproject.easycardwallet.FIRESTORE_PORT
+import com.isitechproject.easycardwallet.LOCALHOST
 import com.isitechproject.easycardwallet.databinding.BarcodeScannerBinding
 import com.isitechproject.easycardwallet.utils.BarcodeBoxView
 import com.isitechproject.easycardwallet.utils.ImageAnalyzerWithBoxView
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import kotlin.reflect.KClass
 
 @AndroidEntryPoint
 class BarcodeScannerActivity : AppCompatActivity() {
+    //private val viewModel = BarcodeScannerViewModel(application)
 
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var barcodeBoxView: BarcodeBoxView
@@ -30,6 +40,8 @@ class BarcodeScannerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        configureFirebaseServices()
+
         binding = BarcodeScannerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -41,10 +53,17 @@ class BarcodeScannerActivity : AppCompatActivity() {
         checkCameraPermission()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-
-        cameraExecutor.shutdown()
+    private fun configureFirebaseServices() {
+        if (BuildConfig.DEBUG) {
+            Firebase.auth.useEmulator(
+                LOCALHOST,
+                AUTH_PORT
+            )
+            Firebase.firestore.useEmulator(
+                LOCALHOST,
+                FIRESTORE_PORT
+            )
+        }
     }
 
     private fun checkCameraPermission() {
@@ -135,8 +154,9 @@ class BarcodeScannerActivity : AppCompatActivity() {
         }, ContextCompat.getMainExecutor(this))
     }
 
-    fun <T> switchActivity(nextActivity: Class<T>) {
-        val newIntent = Intent(this, nextActivity)
-        startActivity(newIntent)
+    override fun onDestroy() {
+        super.onDestroy()
+
+        cameraExecutor.shutdown()
     }
 }

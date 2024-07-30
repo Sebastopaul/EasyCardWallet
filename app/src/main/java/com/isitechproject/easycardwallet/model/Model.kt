@@ -8,7 +8,8 @@ open class Model {
     @Exclude
     var id: String = ""
 
-    fun <T : Model?> withId(id: String): T {
+    @Suppress("UNCHECKED_CAST")
+    fun <T : Model> withId(id: String): T {
         this.id = id
         return this as T
     }

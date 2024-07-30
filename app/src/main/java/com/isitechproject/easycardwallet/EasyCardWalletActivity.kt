@@ -14,7 +14,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class EasyCardWalletActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d("test", "test")
         super.onCreate(savedInstanceState)
         configureFirebaseServices()
 
@@ -32,10 +31,5 @@ class EasyCardWalletActivity : AppCompatActivity() {
                 FIRESTORE_PORT
             )
         }
-    }
-
-    fun <T> switchActivity(nextActivity: Class<T>) {
-        val newIntent = Intent(this, nextActivity)
-        startActivity(newIntent)
     }
 }
