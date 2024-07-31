@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".screens.loyaltycards.createloyaltycardscreen.BarcodeScannerActivity"
+            android:name="com.isitechproject.barcodescanner.BarcodeScannerActivity"
             android:exported="true"
             android:theme="@style/EasyCardWalletBaseTheme">
             <intent-filter>

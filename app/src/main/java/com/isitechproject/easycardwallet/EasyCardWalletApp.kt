@@ -1,6 +1,5 @@
 package com.isitechproject.easycardwallet
 
-import android.content.Intent
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -17,13 +16,11 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.isitechproject.easycardwallet.screens.auth.sign_in.SignInScreen
 import com.isitechproject.easycardwallet.screens.auth.sign_up.SignUpScreen
-import com.isitechproject.easycardwallet.screens.loyaltycards.createloyaltycardscreen.BarcodeScannerActivity
+import com.isitechproject.barcodescanner.BarcodeScannerActivity
+import com.isitechproject.barcodescanner.CREATE_LOYALTY_CARD_SCREEN
 import com.isitechproject.easycardwallet.screens.loyaltycards.loyaltycardslistscreen.LoyaltyCardsListScreen
 import com.isitechproject.easycardwallet.screens.splash.SplashScreen
 import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
-import kotlinx.coroutines.withContext
-import kotlin.coroutines.coroutineContext
-
 
 @Composable
 fun EasyCardWalletApp() {
@@ -51,8 +48,9 @@ fun rememberAppState(navController: NavHostController = rememberNavController())
     }
 
 fun NavGraphBuilder.easyCardWalletGraph(appState: EasyCardWalletAppState) {
-    activity(CREATE_LOYALTY_CARD_SCREEN) {
+    activity(SCAN_LOYALTY_CARD_SCREEN) {
         activityClass = BarcodeScannerActivity::class
+        argument("createCard") { defaultValue = { appState.navigate(CREATE_LOYALTY_CARD_SCREEN) } }
     }
 
     composable(

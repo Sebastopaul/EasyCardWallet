@@ -1,16 +1,11 @@
-package com.isitechproject.easycardwallet.screens.loyaltycards.createloyaltycardscreen
+package com.isitechproject.barcodescanner
 
 import android.content.pm.PackageManager
 import android.Manifest
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageAnalysis
-import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -24,16 +19,21 @@ import com.isitechproject.easycardwallet.FIRESTORE_PORT
 import com.isitechproject.easycardwallet.LOCALHOST
 import com.isitechproject.easycardwallet.databinding.BarcodeScannerBinding
 import com.isitechproject.easycardwallet.model.service.impl.AccountServiceImpl
+import com.isitechproject.easycardwallet.model.service.impl.LoyaltyCardServiceImpl
+import com.isitechproject.easycardwallet.model.service.impl.UserServiceImpl
 import com.isitechproject.easycardwallet.utils.BarcodeBoxView
-import com.isitechproject.easycardwallet.utils.ImageAnalyzerWithBoxView
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import kotlin.reflect.KClass
 
 @AndroidEntryPoint
-class BarcodeScannerActivity : AppCompatActivity() {
-    private val viewModel = BarcodeScannerViewModel(AccountServiceImpl())
+class BarcodeScannerActivity(
+    private val createCard: () -> Unit
+) : AppCompatActivity() {
+    private val accountService = AccountServiceImpl()
+    private val viewModel = BarcodeScannerViewModel(
+        accountService,
+    )
 
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var barcodeBoxView: BarcodeBoxView
@@ -118,6 +118,7 @@ class BarcodeScannerActivity : AppCompatActivity() {
                 binding,
                 barcodeBoxView,
                 this,
+                createCard,
             )
         }, ContextCompat.getMainExecutor(this))
     }

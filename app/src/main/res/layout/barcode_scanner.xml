@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screens.loyaltycards.createloyaltycardscreen.BarcodeScannerActivity">
+    tools:context="com.isitechproject.barcodescanner.BarcodeScannerActivity">
 
     <androidx.camera.view.PreviewView
         android:id="@+id/preview_view"

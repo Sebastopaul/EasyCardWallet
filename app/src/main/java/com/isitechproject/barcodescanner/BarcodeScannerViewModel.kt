@@ -1,28 +1,29 @@
-package com.isitechproject.easycardwallet.screens.loyaltycards.createloyaltycardscreen
+package com.isitechproject.barcodescanner
 
-import android.app.Application
-import android.content.Context
+import android.util.Base64
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import com.google.common.util.concurrent.ListenableFuture
+import com.google.mlkit.vision.barcode.common.Barcode
 import com.isitechproject.easycardwallet.databinding.BarcodeScannerBinding
+import com.isitechproject.easycardwallet.model.LoyaltyCard
 import com.isitechproject.easycardwallet.model.service.AccountService
-import com.isitechproject.easycardwallet.screens.EasyCardWalletActivityViewModel
+import com.isitechproject.easycardwallet.model.service.LoyaltyCardService
 import com.isitechproject.easycardwallet.screens.EasyCardWalletAppViewModel
 import com.isitechproject.easycardwallet.utils.BarcodeBoxView
 import com.isitechproject.easycardwallet.utils.ImageAnalyzerWithBoxView
-import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 import javax.inject.Inject
 
-@HiltViewModel
 class BarcodeScannerViewModel @Inject constructor(
-    accountService: AccountService
+    private val accountService: AccountService,
 ): EasyCardWalletAppViewModel(accountService) {
+    private fun openCreateCardScreen(createCard: () -> Unit) {
+        createCard()
+    }
 
     fun cameraListener(
         cameraExecutor: ExecutorService,
@@ -30,6 +31,7 @@ class BarcodeScannerViewModel @Inject constructor(
         binding: BarcodeScannerBinding,
         barcodeBoxView: BarcodeBoxView,
         activity: AppCompatActivity,
+        createCard: () -> Unit
     ) {
         val cameraProvider = cameraProviderFuture.get()
 
@@ -52,7 +54,9 @@ class BarcodeScannerViewModel @Inject constructor(
                         barcodeBoxView,
                         binding.previewView.width.toFloat(),
                         binding.previewView.height.toFloat(),
-                    )
+                    ) { barcode ->
+                        openCreateCardScreen(createCard)
+                    }
                 )
             }
 

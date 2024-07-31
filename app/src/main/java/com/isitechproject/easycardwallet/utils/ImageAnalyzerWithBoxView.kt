@@ -17,7 +17,14 @@ class ImageAnalyzerWithBoxView(
     private val context: Context,
     private val barcodeBoxView: BarcodeBoxView,
     private val previewViewWidth: Float,
-    private val previewViewHeight: Float
+    private val previewViewHeight: Float,
+    private val handleBarcode: (Barcode) -> Unit = { barcode ->
+        Toast.makeText(
+            context,
+            "Value: " + barcode.rawValue,
+            Toast.LENGTH_SHORT
+        ).show()
+    }
 ) : ImageAnalysis.Analyzer {
     private val options = BarcodeScannerOptions.Builder()
         .setBarcodeFormats(
@@ -30,7 +37,7 @@ class ImageAnalyzerWithBoxView(
     /**
      * This parameters will handle preview box scaling
      */
-    private var scaleX = 1f
+    private var scaleX = 1.5f
     private var scaleY = 1f
 
     private fun translateX(x: Float) = x * scaleX
@@ -58,12 +65,7 @@ class ImageAnalyzerWithBoxView(
                     if (barcodes.isNotEmpty()) {
                         for (barcode in barcodes) {
                             // Handle received barcodes...
-                            Toast.makeText(
-                                context,
-                                "Value: " + barcode.rawValue,
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
+                            handleBarcode(barcode)
                             // Update bounding rect
                             barcode.boundingBox?.let { rect ->
                                 barcodeBoxView.setRect(
