@@ -1,5 +1,6 @@
 package com.isitechproject.easycardwallet
 
+import android.content.Intent
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -20,6 +21,8 @@ import com.isitechproject.easycardwallet.screens.loyaltycards.createloyaltycards
 import com.isitechproject.easycardwallet.screens.loyaltycards.loyaltycardslistscreen.LoyaltyCardsListScreen
 import com.isitechproject.easycardwallet.screens.splash.SplashScreen
 import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
+import kotlinx.coroutines.withContext
+import kotlin.coroutines.coroutineContext
 
 
 @Composable

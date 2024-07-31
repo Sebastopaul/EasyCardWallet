@@ -23,6 +23,7 @@ import com.isitechproject.easycardwallet.AUTH_PORT
 import com.isitechproject.easycardwallet.FIRESTORE_PORT
 import com.isitechproject.easycardwallet.LOCALHOST
 import com.isitechproject.easycardwallet.databinding.BarcodeScannerBinding
+import com.isitechproject.easycardwallet.model.service.impl.AccountServiceImpl
 import com.isitechproject.easycardwallet.utils.BarcodeBoxView
 import com.isitechproject.easycardwallet.utils.ImageAnalyzerWithBoxView
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,7 +33,7 @@ import kotlin.reflect.KClass
 
 @AndroidEntryPoint
 class BarcodeScannerActivity : AppCompatActivity() {
-    //private val viewModel = BarcodeScannerViewModel(application)
+    private val viewModel = BarcodeScannerViewModel(AccountServiceImpl())
 
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var barcodeBoxView: BarcodeBoxView
@@ -42,10 +43,10 @@ class BarcodeScannerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         configureFirebaseServices()
 
+        cameraExecutor = Executors.newSingleThreadExecutor()
+
         binding = BarcodeScannerBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        cameraExecutor = Executors.newSingleThreadExecutor()
 
         barcodeBoxView = BarcodeBoxView(this)
         addContentView(barcodeBoxView, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
@@ -111,46 +112,13 @@ class BarcodeScannerActivity : AppCompatActivity() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
 
         cameraProviderFuture.addListener({
-            val cameraProvider = cameraProviderFuture.get()
-
-            // Preview
-            val preview = Preview.Builder()
-                .build()
-                .also {
-                    it.setSurfaceProvider(binding.previewView.surfaceProvider)
-                }
-
-            // Image analyzer
-            val imageAnalyzer = ImageAnalysis.Builder()
-                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                .build()
-                .also {
-                    it.setAnalyzer(
-                        cameraExecutor,
-                        ImageAnalyzerWithBoxView(
-                            this,
-                            barcodeBoxView,
-                            binding.previewView.width.toFloat(),
-                            binding.previewView.height.toFloat(),
-                        )
-                    )
-                }
-
-            // Select back camera as a default
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-
-            try {
-                // Unbind use cases before rebinding
-                cameraProvider.unbindAll()
-
-                // Bind use cases to camera
-                cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview, imageAnalyzer
-                )
-
-            } catch (exc: Exception) {
-                exc.printStackTrace()
-            }
+            viewModel.cameraListener(
+                cameraExecutor,
+                cameraProviderFuture,
+                binding,
+                barcodeBoxView,
+                this,
+            )
         }, ContextCompat.getMainExecutor(this))
     }
 
