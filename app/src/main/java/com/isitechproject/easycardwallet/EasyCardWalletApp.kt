@@ -1,5 +1,6 @@
 package com.isitechproject.easycardwallet
 
+import android.util.Log
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -50,7 +51,6 @@ fun rememberAppState(navController: NavHostController = rememberNavController())
 fun NavGraphBuilder.easyCardWalletGraph(appState: EasyCardWalletAppState) {
     activity(SCAN_LOYALTY_CARD_SCREEN) {
         activityClass = BarcodeScannerActivity::class
-        argument("createCard") { defaultValue = { appState.navigate(CREATE_LOYALTY_CARD_SCREEN) } }
     }
 
     composable(

@@ -1,6 +1,6 @@
 package com.isitechproject.easycardwallet.screens.loyaltycards.loyaltycardslistscreen
 
-import com.isitechproject.easycardwallet.CREATE_LOYALTY_CARD_SCREEN
+import com.isitechproject.easycardwallet.SCAN_LOYALTY_CARD_SCREEN
 import com.isitechproject.easycardwallet.model.service.AccountService
 import com.isitechproject.easycardwallet.model.service.LoyaltyCardService
 import com.isitechproject.easycardwallet.screens.EasyCardWalletAppViewModel
@@ -15,6 +15,6 @@ class LoyaltyCardsListViewModel @Inject constructor(
     val loyaltyCards = loyaltyCardService.loyaltyCards
 
     fun onAddClick(openScreen: (String) -> Unit) {
-        openScreen(CREATE_LOYALTY_CARD_SCREEN)
+        openScreen(SCAN_LOYALTY_CARD_SCREEN)
     }
 }

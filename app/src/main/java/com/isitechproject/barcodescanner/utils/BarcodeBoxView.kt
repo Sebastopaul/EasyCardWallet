@@ -1,4 +1,4 @@
-package com.isitechproject.easycardwallet.utils
+package com.isitechproject.barcodescanner.utils
 
 import android.content.Context
 import android.graphics.Canvas

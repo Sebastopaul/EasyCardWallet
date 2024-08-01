@@ -1,37 +1,27 @@
 package com.isitechproject.barcodescanner
 
-import android.util.Base64
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.view.PreviewView
 import com.google.common.util.concurrent.ListenableFuture
-import com.google.mlkit.vision.barcode.common.Barcode
-import com.isitechproject.easycardwallet.databinding.BarcodeScannerBinding
-import com.isitechproject.easycardwallet.model.LoyaltyCard
 import com.isitechproject.easycardwallet.model.service.AccountService
-import com.isitechproject.easycardwallet.model.service.LoyaltyCardService
 import com.isitechproject.easycardwallet.screens.EasyCardWalletAppViewModel
-import com.isitechproject.easycardwallet.utils.BarcodeBoxView
-import com.isitechproject.easycardwallet.utils.ImageAnalyzerWithBoxView
+import com.isitechproject.barcodescanner.utils.ImageAnalyzer
 import java.util.concurrent.ExecutorService
 import javax.inject.Inject
 
 class BarcodeScannerViewModel @Inject constructor(
     private val accountService: AccountService,
 ): EasyCardWalletAppViewModel(accountService) {
-    private fun openCreateCardScreen(createCard: () -> Unit) {
-        createCard()
-    }
-
     fun cameraListener(
         cameraExecutor: ExecutorService,
         cameraProviderFuture: ListenableFuture<ProcessCameraProvider>,
-        binding: BarcodeScannerBinding,
-        barcodeBoxView: BarcodeBoxView,
+        previewView: PreviewView,
         activity: AppCompatActivity,
-        createCard: () -> Unit
     ) {
         val cameraProvider = cameraProviderFuture.get()
 
@@ -39,7 +29,7 @@ class BarcodeScannerViewModel @Inject constructor(
         val preview = Preview.Builder()
             .build()
             .also {
-                it.setSurfaceProvider(binding.previewView.surfaceProvider)
+                it.setSurfaceProvider(previewView.surfaceProvider)
             }
 
         // Image analyzer
@@ -49,13 +39,12 @@ class BarcodeScannerViewModel @Inject constructor(
             .also {
                 it.setAnalyzer(
                     cameraExecutor,
-                    ImageAnalyzerWithBoxView(
-                        activity,
-                        barcodeBoxView,
-                        binding.previewView.width.toFloat(),
-                        binding.previewView.height.toFloat(),
-                    ) { barcode ->
-                        openCreateCardScreen(createCard)
+                    ImageAnalyzer(activity) { barcode ->
+                        Toast.makeText(
+                            activity,
+                            "Value: " + barcode.rawValue,
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 )
             }

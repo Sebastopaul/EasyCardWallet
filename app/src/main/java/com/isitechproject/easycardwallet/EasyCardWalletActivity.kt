@@ -7,6 +7,7 @@ import com.google.firebase.BuildConfig
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
+import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -15,7 +16,11 @@ class EasyCardWalletActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         configureFirebaseServices()
 
-        setContent { EasyCardWalletApp() }
+        setContent {
+            EasyCardWalletTheme {
+                EasyCardWalletApp()
+            }
+        }
     }
 
     private fun configureFirebaseServices() {

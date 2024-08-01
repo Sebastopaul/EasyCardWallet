@@ -1,5 +1,7 @@
-package com.isitechproject.easycardwallet.utils
+package com.isitechproject.barcodescanner.utils
 
+import android.content.Context
+import android.widget.Toast
 import androidx.annotation.OptIn
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis.Analyzer
@@ -9,7 +11,15 @@ import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
 
-class ImageAnalyzer : Analyzer {
+class ImageAnalyzer(
+    context: Context,
+    private val handleBarcode: (Barcode) -> Unit = { barcode ->
+        Toast.makeText(
+            context,
+            "Value: " + barcode.rawValue,
+            Toast.LENGTH_SHORT
+        ).show()
+}) : Analyzer {
     private val options = BarcodeScannerOptions.Builder()
         .setBarcodeFormats(
             Barcode.FORMAT_QR_CODE,

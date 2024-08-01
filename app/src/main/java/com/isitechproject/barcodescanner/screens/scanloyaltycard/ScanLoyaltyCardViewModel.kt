@@ -1,4 +1,4 @@
-package com.isitechproject.barcodescanner.screens
+package com.isitechproject.barcodescanner.screens.scanloyaltycard
 
 import android.util.Base64
 import com.google.mlkit.vision.barcode.common.Barcode
@@ -10,20 +10,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class CreateLoyaltyCardViewModel @Inject constructor(
+class ScanLoyaltyCardViewModel @Inject constructor(
     private val accountService: AccountService,
-    private val loyaltyCardService: LoyaltyCardService,
 ): EasyCardWalletAppViewModel(accountService) {
-    val loyaltyCards = loyaltyCardService.loyaltyCards
 
-    private fun handleBarcode(barcode: Barcode) {
-        launchCatching {
-            loyaltyCardService.create(
-                LoyaltyCard(
-                picture = Base64.encodeToString(barcode.rawBytes, Base64.DEFAULT),
-                uid = accountService.currentUserId
-            )
-            )
-        }
-    }
 }

@@ -2,11 +2,17 @@ package com.isitechproject.barcodescanner
 
 import android.content.pm.PackageManager
 import android.Manifest
+import android.graphics.Color
 import android.os.Bundle
-import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.widget.LinearLayout
+import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.view.PreviewView
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -17,27 +23,19 @@ import com.google.firebase.firestore.firestore
 import com.isitechproject.easycardwallet.AUTH_PORT
 import com.isitechproject.easycardwallet.FIRESTORE_PORT
 import com.isitechproject.easycardwallet.LOCALHOST
+import com.isitechproject.easycardwallet.R
 import com.isitechproject.easycardwallet.databinding.BarcodeScannerBinding
 import com.isitechproject.easycardwallet.model.service.impl.AccountServiceImpl
-import com.isitechproject.easycardwallet.model.service.impl.LoyaltyCardServiceImpl
-import com.isitechproject.easycardwallet.model.service.impl.UserServiceImpl
-import com.isitechproject.easycardwallet.utils.BarcodeBoxView
+import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 @AndroidEntryPoint
-class BarcodeScannerActivity(
-    private val createCard: () -> Unit
-) : AppCompatActivity() {
-    private val accountService = AccountServiceImpl()
-    private val viewModel = BarcodeScannerViewModel(
-        accountService,
-    )
+class BarcodeScannerActivity : AppCompatActivity() {
+    private val viewModel = BarcodeScannerViewModel(AccountServiceImpl())
 
     private lateinit var cameraExecutor: ExecutorService
-    private lateinit var barcodeBoxView: BarcodeBoxView
-    private lateinit var binding: BarcodeScannerBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,11 +43,11 @@ class BarcodeScannerActivity(
 
         cameraExecutor = Executors.newSingleThreadExecutor()
 
-        binding = BarcodeScannerBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        barcodeBoxView = BarcodeBoxView(this)
-        addContentView(barcodeBoxView, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
+        setContent {
+            EasyCardWalletTheme {
+                BarcodeScannerApp(this)
+            }
+        }
 
         checkCameraPermission()
     }
@@ -67,7 +65,7 @@ class BarcodeScannerActivity(
         }
     }
 
-    private fun checkCameraPermission() {
+    fun checkCameraPermission() {
         try {
             val requiredPermissions = arrayOf(Manifest.permission.CAMERA)
             ActivityCompat.requestPermissions(this, requiredPermissions, 0)
@@ -115,10 +113,8 @@ class BarcodeScannerActivity(
             viewModel.cameraListener(
                 cameraExecutor,
                 cameraProviderFuture,
-                binding,
-                barcodeBoxView,
+                findViewById(R.id.barcode_scanner),
                 this,
-                createCard,
             )
         }, ContextCompat.getMainExecutor(this))
     }
