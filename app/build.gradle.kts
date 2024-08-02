@@ -50,6 +50,7 @@ android {
 
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
+    implementation(platform(libs.firebase.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -65,20 +66,20 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.androidx.camera.view)
+    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.window)
     implementation(libs.barcode.scanning)
     implementation(libs.camera.camera2)
     implementation(libs.camera.lifecycle)
-    implementation(libs.material)
-
-    implementation(libs.hilt.android)
-    implementation(libs.androidx.hilt.navigation.compose)
-    kapt(libs.hilt.android.compiler)
-
-    implementation(platform(libs.firebase.bom))
+    implementation(libs.core)
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.firestore.ktx)
+    implementation(libs.hilt.android)
+    implementation(libs.material)
+    implementation(libs.zxing.android.embedded)
+
+    kapt(libs.hilt.android.compiler)
 
     testImplementation(libs.junit)
     testImplementation(libs.mockito.kotlin)

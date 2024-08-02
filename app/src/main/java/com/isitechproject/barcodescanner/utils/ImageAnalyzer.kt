@@ -1,11 +1,13 @@
 package com.isitechproject.barcodescanner.utils
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.OptIn
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis.Analyzer
 import androidx.camera.core.ImageProxy
+import androidx.compose.runtime.Composable
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
@@ -21,10 +23,8 @@ class ImageAnalyzer(
         ).show()
 }) : Analyzer {
     private val options = BarcodeScannerOptions.Builder()
-        .setBarcodeFormats(
-            Barcode.FORMAT_QR_CODE,
-            Barcode.FORMAT_AZTEC,
-        ).build()
+        .setBarcodeFormats(Barcode.FORMAT_ALL_FORMATS)
+        .build()
 
     private val scanner = BarcodeScanning.getClient(options)
 
@@ -41,7 +41,7 @@ class ImageAnalyzer(
         scanner.process(inputImage)
             .addOnSuccessListener { barcodes ->
                 for (barcode in barcodes) {
-
+                    handleBarcode(barcode)
                 }
             }
             .addOnFailureListener { }

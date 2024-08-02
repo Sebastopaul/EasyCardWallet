@@ -2,17 +2,10 @@ package com.isitechproject.barcodescanner
 
 import android.content.pm.PackageManager
 import android.Manifest
-import android.graphics.Color
 import android.os.Bundle
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.widget.LinearLayout
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.view.PreviewView
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -23,8 +16,6 @@ import com.google.firebase.firestore.firestore
 import com.isitechproject.easycardwallet.AUTH_PORT
 import com.isitechproject.easycardwallet.FIRESTORE_PORT
 import com.isitechproject.easycardwallet.LOCALHOST
-import com.isitechproject.easycardwallet.R
-import com.isitechproject.easycardwallet.databinding.BarcodeScannerBinding
 import com.isitechproject.easycardwallet.model.service.impl.AccountServiceImpl
 import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,21 +24,13 @@ import java.util.concurrent.Executors
 
 @AndroidEntryPoint
 class BarcodeScannerActivity : AppCompatActivity() {
-    private val viewModel = BarcodeScannerViewModel(AccountServiceImpl())
-
-    private lateinit var cameraExecutor: ExecutorService
+    lateinit var cameraExecutor: ExecutorService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         configureFirebaseServices()
 
         cameraExecutor = Executors.newSingleThreadExecutor()
-
-        setContent {
-            EasyCardWalletTheme {
-                BarcodeScannerApp(this)
-            }
-        }
 
         checkCameraPermission()
     }
@@ -65,7 +48,7 @@ class BarcodeScannerActivity : AppCompatActivity() {
         }
     }
 
-    fun checkCameraPermission() {
+    private fun checkCameraPermission() {
         try {
             val requiredPermissions = arrayOf(Manifest.permission.CAMERA)
             ActivityCompat.requestPermissions(this, requiredPermissions, 0)
@@ -77,7 +60,11 @@ class BarcodeScannerActivity : AppCompatActivity() {
     private fun checkIfCameraPermissionIsGranted() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             // Permission granted: start the preview
-            startCamera()
+            setContent {
+                EasyCardWalletTheme {
+                    BarcodeScannerApp(this)
+                }
+            }
         } else {
             // Permission denied
             MaterialAlertDialogBuilder(this)
@@ -106,22 +93,15 @@ class BarcodeScannerActivity : AppCompatActivity() {
         checkIfCameraPermissionIsGranted()
     }
 
-    private fun startCamera() {
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
-
-        cameraProviderFuture.addListener({
-            viewModel.cameraListener(
-                cameraExecutor,
-                cameraProviderFuture,
-                findViewById(R.id.barcode_scanner),
-                this,
-            )
-        }, ContextCompat.getMainExecutor(this))
+    fun shutdownCamera() {
+        if (!cameraExecutor.isShutdown && !cameraExecutor.isTerminated) {
+            cameraExecutor.shutdown()
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
 
-        cameraExecutor.shutdown()
+        shutdownCamera()
     }
 }
