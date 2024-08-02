@@ -80,7 +80,7 @@ fun NavGraphBuilder.barcodeScannerGraph(
     ) {
         activity.shutdownCamera()
         CreateLoyaltyCardScreen(
-            base64Barcode = Uri.decode(it.arguments?.getString(BASE64_BARCODE_ARG_NAME)) ?: BASE64_BARCODE_DEFAULT,
+            barcodeValue = Uri.decode(it.arguments?.getString(BASE64_BARCODE_ARG_NAME)) ?: BASE64_BARCODE_DEFAULT,
             barcodeFormat = it.arguments?.getInt(BARCODE_FORMAT) ?: BARCODE_FORMAT_DEFAULT,
             backToMain = { route -> appState.navigate(route) }
         )

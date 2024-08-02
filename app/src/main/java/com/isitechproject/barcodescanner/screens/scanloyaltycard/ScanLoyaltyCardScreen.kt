@@ -15,8 +15,10 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.LifecycleOwner
+import com.google.mlkit.vision.barcode.common.Barcode
 import com.isitechproject.barcodescanner.BARCODE_FORMAT
 import com.isitechproject.barcodescanner.BASE64_BARCODE_ARG_NAME
+import com.isitechproject.barcodescanner.BASE64_BARCODE_DEFAULT
 import com.isitechproject.barcodescanner.BarcodeScannerActivity
 import com.isitechproject.barcodescanner.CREATE_LOYALTY_CARD_SCREEN
 
@@ -75,13 +77,23 @@ fun CameraPreview(
                             this,
                             activity,
                         ) { barcode ->
-                            val base64Barcode = Base64.encodeToString(barcode.rawBytes, Base64.DEFAULT)
-
-                            openCreationScreen("$CREATE_LOYALTY_CARD_SCREEN?$BASE64_BARCODE_ARG_NAME=${Uri.encode(base64Barcode)}&$BARCODE_FORMAT=${barcode.format}")
+                            openCreationScreen(
+                                "$CREATE_LOYALTY_CARD_SCREEN?$BASE64_BARCODE_ARG_NAME=${Uri.encode(getBarcodeValue(barcode))}&$BARCODE_FORMAT=${barcode.format}"
+                            )
                         }
                     }, ContextCompat.getMainExecutor(context))
                 }
             }
         }
     )
+}
+
+fun getBarcodeValue(barcode: Barcode): String {
+    return when (barcode.valueType) {
+        Barcode.TYPE_URL -> barcode.url.toString()
+        Barcode.TYPE_EMAIL -> barcode.email.toString()
+        Barcode.TYPE_TEXT -> barcode.displayValue.toString()
+        Barcode.TYPE_PHONE -> barcode.phone.toString()
+        else -> BASE64_BARCODE_DEFAULT
+    }
 }
