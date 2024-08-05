@@ -32,8 +32,7 @@ class LoyaltyCardServiceImpl @Inject constructor(
     override val loyaltyCards: Flow<List<LoyaltyCard>>
         get() =
             userService.currentUser.flatMapLatest { user ->
-                Firebase.firestore
-                    .collection(LOYALTY_CARDS_COLLECTION)
+                loyaltyCardsPath
                     .whereEqualTo(UID_FIELD, user?.uid)
                     .dataObjects()
             }
@@ -46,7 +45,7 @@ class LoyaltyCardServiceImpl @Inject constructor(
         val response = loyaltyCardsPath.document(id).get().await()
 
         return response.toObject<LoyaltyCard>()
-            ?.withId<LoyaltyCard>(response.id)
+            ?.withId(response.id)
             ?: throw NotFoundException("Could not find loyalty card with id: $id")
     }
 

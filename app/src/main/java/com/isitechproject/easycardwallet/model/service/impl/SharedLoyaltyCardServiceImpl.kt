@@ -1,55 +1,59 @@
 package com.isitechproject.easycardwallet.model.service.impl
 
+import android.content.res.Resources.NotFoundException
+import android.util.Log
 import com.google.firebase.Firebase
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.Filter
+import com.google.firebase.firestore.dataObjects
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
-import com.isitechproject.easycardwallet.model.SharedLoyaltyCard
-import com.isitechproject.easycardwallet.model.service.GroupMemberService
-import com.isitechproject.easycardwallet.model.service.SharedLoyaltyCardService
+import com.isitechproject.easycardwallet.model.LoyaltyCard
+import com.isitechproject.easycardwallet.model.service.LoyaltyCardService
+import com.isitechproject.easycardwallet.model.service.UserService
+import com.isitechproject.easycardwallet.model.service.impl.exception.NotCreatedException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class SharedLoyaltyCardServiceImpl @Inject constructor(
-    private val groupMemberService: GroupMemberService
-): SharedLoyaltyCardService {
+    private val userService: UserService
+): LoyaltyCardService {
     private val db = Firebase.firestore
-    private val groupsPath = db.collection(GROUPS_COLLECTION)
+    private val sharedLoyaltyCardsPath = db.collection(SHARED_LOYALTY_CARDS_COLLECTION)
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override val sharedLoyaltyCards: Flow<List<SharedLoyaltyCard>>
+    override val loyaltyCards: Flow<List<LoyaltyCard>>
         get() =
-            groupMemberService.groupMembers.flatMapLatest { groupMembers ->
-                flow { groupMembers.map { it.sharedLoyaltyCards } }
+            userService.currentUser.flatMapLatest { user ->
+                sharedLoyaltyCardsPath
+                    .whereEqualTo(UID_FIELD, user?.uid)
+                    .dataObjects()
             }
 
-    override suspend fun create(groupId: String, groupMemberId: String, sharedLoyaltyCard: SharedLoyaltyCard) {
-        getSharedLoyaltyPath(groupId, groupMemberId).add(sharedLoyaltyCard).await()
+    override suspend fun create(loyaltyCard: LoyaltyCard) {
+        sharedLoyaltyCardsPath.add(loyaltyCard).await()
     }
 
-    override suspend fun getOne(groupId: String, groupMemberId: String, sharedLoyaltyCardId: String): SharedLoyaltyCard? {
-        return getSharedLoyaltyDocument(groupId, groupMemberId, sharedLoyaltyCardId).get().await().toObject()
+    override suspend fun getOne(id: String): LoyaltyCard {
+        val response = sharedLoyaltyCardsPath.document(id).get().await()
+
+        return response.toObject<LoyaltyCard>()
+            ?.withId(response.id)
+            ?: throw NotFoundException("Could not find loyalty card with id: $id")
     }
 
-    override suspend fun update(groupId: String, groupMemberId: String, sharedLoyaltyCard: SharedLoyaltyCard) {
-        getSharedLoyaltyDocument(groupId, groupMemberId, sharedLoyaltyCard.id).set(sharedLoyaltyCard).await()
+    override suspend fun update(loyaltyCard: LoyaltyCard) {
+        sharedLoyaltyCardsPath.document(loyaltyCard.id).set(loyaltyCard).await()
     }
 
-    override suspend fun delete(groupId: String, groupMemberId: String, sharedLoyaltyCardId: String) {
-        getSharedLoyaltyDocument(groupId, groupMemberId, sharedLoyaltyCardId).delete().await()
-    }
-
-    private fun getSharedLoyaltyPath(groupId: String, groupMemberId: String): CollectionReference {
-        return groupsPath.document(groupId).collection(GROUP_MEMBERS_COLLECTION)
-            .document(groupMemberId).collection(SHARED_LOYALTY_CARDS_COLLECTION)
-    }
-
-    private fun getSharedLoyaltyDocument(groupId: String, groupMemberId: String, sharedLoyaltyCardId: String): DocumentReference {
-        return getSharedLoyaltyPath(groupId, groupMemberId).document(sharedLoyaltyCardId)
+    override suspend fun delete(id: String) {
+        sharedLoyaltyCardsPath.document(id).delete().await()
     }
 }
