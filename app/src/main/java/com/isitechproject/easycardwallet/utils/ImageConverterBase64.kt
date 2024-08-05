@@ -9,15 +9,14 @@ import java.io.ByteArrayOutputStream
 class ImageConverterBase64 {
 
     companion object {
-        fun to(): String? {
-            val bitMap = BitmapFactory.decodeFile("/path/to/image.jpg")
+        fun to(bitmap: Bitmap): String? {
             val byteArrayOutputStream = ByteArrayOutputStream()
 
-            bitMap.compress(
+            bitmap.compress(
                 Bitmap.CompressFormat.JPEG,
                 100,
                 byteArrayOutputStream
-            ) // bm is the bitmap object
+            )
 
             val byteArray = byteArrayOutputStream.toByteArray()
 

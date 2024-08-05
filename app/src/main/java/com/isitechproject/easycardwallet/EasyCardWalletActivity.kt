@@ -1,21 +1,26 @@
 package com.isitechproject.easycardwallet
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.google.firebase.auth.auth
-import com.google.firebase.firestore.firestore
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.BuildConfig
 import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
+import com.google.firebase.firestore.firestore
+import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint()
-class EasyCardWalletActivity : ComponentActivity() {
+@AndroidEntryPoint
+class EasyCardWalletActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         configureFirebaseServices()
 
-        setContent { EasyCardWalletApp() }
+        setContent {
+            EasyCardWalletTheme {
+                EasyCardWalletApp()
+            }
+        }
     }
 
     private fun configureFirebaseServices() {

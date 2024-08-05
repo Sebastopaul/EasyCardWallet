@@ -8,12 +8,12 @@ plugins {
 
 android {
     namespace = "com.isitechproject.easycardwallet"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.isitechproject.easycardwallet"
         minSdk = 28
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -37,6 +37,7 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
+        viewBinding = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -44,28 +45,41 @@ android {
     packaging {
         resources.excludes.add("/META-INF/{AL2.0,LGPL2.1}")
     }
+    buildToolsVersion = "35.0.0"
 }
 
 dependencies {
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
     implementation(libs.androidx.ui.text.google.fonts)
-    implementation(libs.androidx.navigation.compose)
-
-    implementation(libs.hilt.android)
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.constraintlayout.compose)
+    implementation(libs.androidx.camera.view)
     implementation(libs.androidx.hilt.navigation.compose)
-    kapt(libs.hilt.android.compiler)
-
-    implementation(platform(libs.firebase.bom))
+    implementation(libs.androidx.window)
+    implementation(libs.barcode.scanning)
+    implementation(libs.camera.camera2)
+    implementation(libs.camera.lifecycle)
+    implementation(libs.core)
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.firestore.ktx)
+    implementation(libs.hilt.android)
+    implementation(libs.material)
+    implementation(libs.zxing.android.embedded)
+
+    kapt(libs.hilt.android.compiler)
 
     testImplementation(libs.junit)
     testImplementation(libs.mockito.kotlin)

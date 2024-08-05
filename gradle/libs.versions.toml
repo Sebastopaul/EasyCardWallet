@@ -1,28 +1,48 @@
 [versions]
-agp = "8.5.0"
-firebaseBom = "33.0.0"
+agp = "8.5.1"
+barcodeScanning = "17.2.0"
+cameraCamera2 = "1.3.4"
+cameraLifecycle = "1.3.4"
+cameraView = "1.3.4"
+constraintlayout = "2.2.0-alpha13"
+constraintlayoutCompose = "1.1.0-alpha13"
+core = "3.4.1"
+firebaseBom = "33.1.2"
 hiltAndroid = "2.51.1"
 hiltCompiler = "2.51.1"
 hiltNavigationCompose = "1.2.0"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
-junitVersion = "1.1.5"
-espressoCore = "3.5.1"
-lifecycleRuntimeKtx = "2.8.0"
-activityCompose = "1.9.0"
-composeBom = "2024.05.00"
-mockitoKotlin = "5.3.1"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+lifecycleRuntimeKtx = "2.8.4"
+activityCompose = "1.9.1"
+composeBom = "2024.06.00"
+material = "1.12.0"
+mockitoKotlin = "5.4.0"
 navigationCompose = "2.7.7"
-uiTextGoogleFonts = "1.6.7"
+uiTextGoogleFonts = "1.6.8"
 firebaseFirestoreKtx = "25.0.0"
+window = "1.3.0"
+zxingAndroidEmbedded = "4.3.0"
 
 [libraries]
+androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version = "1.3.4" }
+androidx-camera-lifecycle = { module = "androidx.camera:camera-lifecycle", version = "1.3.4" }
+androidx-camera-view = { module = "androidx.camera:camera-view", version.ref = "cameraView" }
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
+androidx-constraintlayout-compose = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "constraintlayoutCompose" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+androidx-window = { module = "androidx.window:window", version.ref = "window" }
+barcode-scanning = { module = "com.google.mlkit:barcode-scanning", version.ref = "barcodeScanning" }
+camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "cameraCamera2" }
+camera-lifecycle = { module = "androidx.camera:camera-lifecycle", version.ref = "cameraLifecycle" }
+core = { module = "com.google.zxing:core", version.ref = "core" }
 core-ktx = { module = "androidx.core:core-ktx" }
-firebase-analytics = { module = "com.google.firebase:firebase-analytics", version = "22.0.0" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics", version = "22.0.2" }
 firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx", version = "23.0.0" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
@@ -34,17 +54,19 @@ androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-co
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
-androidx-ui = { group = "androidx.compose.ui", name = "ui", version = "1.6.7" }
-androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics", version = "1.6.7" }
-androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version = "1.6.7" }
-androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version = "1.6.7" }
-androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version = "1.6.7" }
-androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4", version = "1.6.7" }
+androidx-ui = { group = "androidx.compose.ui", name = "ui", version = "1.6.8" }
+androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics", version = "1.6.8" }
+androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version = "1.6.8" }
+androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version = "1.6.8" }
+androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version = "1.6.8" }
+androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4", version = "1.6.8" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3", version = "1.2.1" }
 androidx-ui-text-google-fonts = { group = "androidx.compose.ui", name = "ui-text-google-fonts", version.ref = "uiTextGoogleFonts" }
 firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
-kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version = "1.8.1" }
+material = { module = "com.google.android.material:material", version.ref = "material" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
+zxing-android-embedded = { module = "com.journeyapps:zxing-android-embedded", version.ref = "zxingAndroidEmbedded" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
