@@ -18,8 +18,6 @@ import dagger.hilt.components.SingletonComponent
 abstract class ServiceModule {
     @Binds abstract fun provideAccountService(impl: AccountServiceImpl): AccountService
     @Binds abstract fun provideUserDataService(impl: UserServiceImpl): UserService
-    @Binds abstract fun provideGroupService(impl: GroupServiceImpl): GroupService
-    @Binds abstract fun provideGroupMemberService(impl: GroupMemberServiceImpl): GroupMemberService
     @Binds abstract fun provideLoyaltyCardService(impl: LoyaltyCardServiceImpl): LoyaltyCardService
     @Binds abstract fun provideSharedLoyaltyCardService(impl: SharedLoyaltyCardServiceImpl): SharedLoyaltyCardService
 }

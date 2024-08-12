@@ -29,7 +29,7 @@ import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 @Composable
 fun LoyaltyCardsListScreen(
     restartApp: (String) -> Unit,
-    openAddScreen: (String) -> Unit,
+    openScreen: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: LoyaltyCardsListViewModel = hiltViewModel()
 ) {
@@ -51,7 +51,7 @@ fun LoyaltyCardsListScreen(
 
                 Text(text = stringResource(id = R.string.loyalty_card_list))
 
-                IconButton(onClick = { viewModel.onAddClick(openAddScreen) }) {
+                IconButton(onClick = { viewModel.onAddClick(openScreen) }) {
                     Icon(
                         painter = painterResource(id = R.drawable.add_card_24),
                         contentDescription = stringResource(R.string.add_card),
@@ -68,7 +68,7 @@ fun LoyaltyCardsListScreen(
 
             CardListComponent(
                 cards = loyaltyCards,
-                onCardClick = {},
+                viewModel = viewModel,
             )
         }
     }
