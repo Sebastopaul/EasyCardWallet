@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -38,7 +39,9 @@ class LoyaltyCardServiceImpl @Inject constructor(
             }
 
     override suspend fun create(loyaltyCard: LoyaltyCard) {
-        loyaltyCardsPath.add(loyaltyCard).await()
+        val response = loyaltyCardsPath.add(loyaltyCard).await()
+
+        update(loyaltyCard.withId(response.id))
     }
 
     override suspend fun getOne(id: String): LoyaltyCard {

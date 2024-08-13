@@ -1,5 +1,6 @@
 package com.isitechproject.easycardwallet.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -45,11 +46,13 @@ fun Card(
                         .fillMaxHeight()
                 )
 
+                Log.d("TEST", "Before convert")
                 Image(
                     bitmap = ImageConverterBase64.from(card.picture).asImageBitmap(),
                     contentDescription = "",
                     modifier = Modifier.fillMaxWidth(),
                 )
+                Log.d("TEST", "After convert")
             }
         }
     }

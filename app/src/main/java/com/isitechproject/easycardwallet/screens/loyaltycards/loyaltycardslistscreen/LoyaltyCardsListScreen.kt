@@ -68,6 +68,7 @@ fun LoyaltyCardsListScreen(
 
             CardListComponent(
                 cards = loyaltyCards,
+                openScreen = openScreen,
                 viewModel = viewModel,
             )
         }

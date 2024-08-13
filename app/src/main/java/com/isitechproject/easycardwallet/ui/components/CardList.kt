@@ -29,6 +29,7 @@ import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 @Composable
 fun CardListComponent(
     cards: List<LoyaltyCard>,
+    openScreen: (String) -> Unit,
     viewModel: LoyaltyCardsListViewModel,
     modifier: Modifier = Modifier,
 ) {
@@ -42,7 +43,7 @@ fun CardListComponent(
         items(cards.size) { index ->
             Card(
                 card = cards[index],
-                onCardClick = viewModel.onLoyaltyCardClick(openScreen, cards[index])
+                onCardClick = { viewModel.onLoyaltyCardClick(openScreen, cards[index]) }
             )
         }
     }

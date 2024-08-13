@@ -1,13 +1,10 @@
 package com.isitechproject.easycardwallet.screens.loyaltycards.loyaltycardscreen
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -19,21 +16,18 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.isitechproject.easycardwallet.ui.components.CardListComponent
-import com.isitechproject.easycardwallet.R
+import com.isitechproject.easycardwallet.model.service.impl.AccountServiceImpl
+import com.isitechproject.easycardwallet.model.service.impl.LoyaltyCardServiceImpl
+import com.isitechproject.easycardwallet.model.service.impl.UserServiceImpl
 import com.isitechproject.easycardwallet.ui.components.BasicStructure
 import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 
@@ -64,10 +58,10 @@ fun LoyaltyCardScreen(
                 title = { Text(loyaltyCard.value.name) },
                 actions = {
                     IconButton(onClick = { viewModel.saveLoyaltyCard(popUpScreen) }) {
-                        Icon(Icons.Filled.Done, "Save loyaltyCard")
+                        Icon(Icons.Filled.Done, "Save loyalty card")
                     }
                     IconButton(onClick = { viewModel.deleteLoyaltyCard(popUpScreen) }) {
-                        Icon(Icons.Filled.Delete, "Save loyaltyCard")
+                        Icon(Icons.Filled.Delete, "Delete loyalty card")
                     }
                 }
             )
@@ -101,7 +95,9 @@ fun LoyaltyCardScreen(
 @Preview(showBackground = true, showSystemUi = true, apiLevel = 34)
 @Composable
 fun LoyaltyCardsListPreview() {
+    val accountService = AccountServiceImpl()
+
     EasyCardWalletTheme {
-        LoyaltyCardScreen("", { }, { })
+        LoyaltyCardScreen("", { }, { }, viewModel = LoyaltyCardViewModel(accountService, LoyaltyCardServiceImpl(UserServiceImpl(accountService))))
     }
 }
