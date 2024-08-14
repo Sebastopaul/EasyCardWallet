@@ -3,8 +3,11 @@ package com.isitechproject.easycardwallet.screens.loyaltycards.loyaltycardscreen
 import com.isitechproject.easycardwallet.LOYALTY_CARD_DEFAULT_ID
 import com.isitechproject.easycardwallet.SPLASH_SCREEN
 import com.isitechproject.easycardwallet.model.LoyaltyCard
+import com.isitechproject.easycardwallet.model.SharedLoyaltyCard
 import com.isitechproject.easycardwallet.model.service.AccountService
 import com.isitechproject.easycardwallet.model.service.LoyaltyCardService
+import com.isitechproject.easycardwallet.model.service.SharedLoyaltyCardService
+import com.isitechproject.easycardwallet.model.service.UserService
 import com.isitechproject.easycardwallet.screens.EasyCardWalletAppViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,9 +16,12 @@ import javax.inject.Inject
 @HiltViewModel
 class LoyaltyCardViewModel @Inject constructor(
     private val accountService: AccountService,
+    private val userService: UserService,
     private val loyaltyCardService: LoyaltyCardService,
+    private val sharedLoyaltyCardService: SharedLoyaltyCardService,
 ): EasyCardWalletAppViewModel(accountService) {
     val loyaltyCard = MutableStateFlow(DEFAULT_LOYALTY_CARD)
+    val emailToShare = MutableStateFlow("")
 
     fun initialize(loyaltyCardId: String, restartApp: (String) -> Unit) {
         launchCatching {
@@ -33,8 +39,10 @@ class LoyaltyCardViewModel @Inject constructor(
         }
     }
 
-    fun updateLoyaltyCard() {
-        loyaltyCard.value = loyaltyCard.value.copy()
+    fun updateLoyaltyCard(name: String) {
+        loyaltyCard.value = loyaltyCard.value.copy(
+            name = name
+        ).withId(loyaltyCard.value.id)
     }
 
     fun saveLoyaltyCard(popUpScreen: () -> Unit) {
@@ -57,8 +65,27 @@ class LoyaltyCardViewModel @Inject constructor(
         popUpScreen()
     }
 
+    fun updateEmailToShare(email: String) {
+        emailToShare.value = email
+    }
+
+    fun shareLoyaltyCard() {
+        launchCatching {
+            sharedLoyaltyCardService.create(SharedLoyaltyCard(
+                loyaltyCardId = loyaltyCard.value.id,
+                sharedUid = userService.getOneByEmail(emailToShare.value).uid,
+                uid = userService.currentUserId,
+            ))
+        }
+    }
+
     companion object {
-        private val DEFAULT_LOYALTY_CARD = LoyaltyCard(LOYALTY_CARD_DEFAULT_ID, "My LoyaltyCard")
+        private val DEFAULT_LOYALTY_CARD = LoyaltyCard(
+            "My LoyaltyCard",
+            "defaultData",
+            "picture",
+            "uid"
+        ).withId<LoyaltyCard>(LOYALTY_CARD_DEFAULT_ID)
     }
 
 }

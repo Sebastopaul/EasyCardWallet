@@ -5,6 +5,7 @@ import com.google.firebase.firestore.Filter
 import com.google.firebase.firestore.dataObjects
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
+import com.google.firebase.firestore.toObjects
 import com.isitechproject.easycardwallet.model.User
 import com.isitechproject.easycardwallet.model.service.AccountService
 import com.isitechproject.easycardwallet.model.service.UserService
@@ -31,6 +32,12 @@ class UserServiceImpl @Inject constructor(private val auth: AccountService): Use
             profilePicture = user.profilePicture,
         )
         usersPath.add(registeredUser).await()
+    }
+
+    override suspend fun getOneByEmail(email: String): User {
+        return usersPath.get().await().toObjects<User>().first { user ->
+            user.email == email
+        }
     }
 
     override suspend fun updateAuthUser(user: User) {

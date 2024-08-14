@@ -5,9 +5,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.firestore.dataObjects
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
-import com.isitechproject.easycardwallet.model.LoyaltyCard
 import com.isitechproject.easycardwallet.model.SharedLoyaltyCard
-import com.isitechproject.easycardwallet.model.service.LoyaltyCardService
 import com.isitechproject.easycardwallet.model.service.SharedLoyaltyCardService
 import com.isitechproject.easycardwallet.model.service.UserService
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -32,7 +30,9 @@ class SharedLoyaltyCardServiceImpl @Inject constructor(
             }
 
     override suspend fun create(sharedLoyaltyCard: SharedLoyaltyCard) {
-        sharedLoyaltyCardsPath.add(sharedLoyaltyCard).await()
+        val response = sharedLoyaltyCardsPath.add(sharedLoyaltyCard).await()
+
+        update(sharedLoyaltyCard.withId(response.id))
     }
 
     override suspend fun getOne(id: String): SharedLoyaltyCard {

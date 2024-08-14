@@ -43,16 +43,14 @@ fun Card(
                     text = card.name,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
-                        .fillMaxHeight()
+                        .fillMaxWidth()
                 )
 
-                Log.d("TEST", "Before convert")
                 Image(
                     bitmap = ImageConverterBase64.from(card.picture).asImageBitmap(),
                     contentDescription = "",
                     modifier = Modifier.fillMaxWidth(),
                 )
-                Log.d("TEST", "After convert")
             }
         }
     }
