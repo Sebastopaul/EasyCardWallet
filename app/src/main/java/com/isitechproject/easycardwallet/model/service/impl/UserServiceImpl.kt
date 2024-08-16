@@ -40,6 +40,12 @@ class UserServiceImpl @Inject constructor(private val auth: AccountService): Use
         }
     }
 
+    override suspend fun getOneById(id: String): User {
+        return usersPath.get().await().toObjects<User>().first { user ->
+            user.uid == id
+        }
+    }
+
     override suspend fun updateAuthUser(user: User) {
         if (!auth.hasUser() || user.uid != auth.currentUserId)
             throw NotAuthenticatedException()

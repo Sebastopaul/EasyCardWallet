@@ -36,6 +36,16 @@ class LoyaltyCardServiceImpl @Inject constructor(
             }
 
     @OptIn(ExperimentalCoroutinesApi::class)
+    override val userSharedLoyaltyCards: Flow<List<LoyaltyCard>>
+        get() =
+            sharedLoyaltyCardsService.currentUserSharedLoyaltyCards.flatMapLatest { sharedLoyaltyCardsList ->
+                val ids = sharedLoyaltyCardsList.map { it.loyaltyCardId }
+                loyaltyCardsPath
+                    .whereIn(ID_FIELD, ids)
+                    .dataObjects()
+            }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
     private val sharedLoyaltyCards: Flow<List<LoyaltyCard>>
         get() =
             sharedLoyaltyCardsService.sharedLoyaltyCards.flatMapLatest { sharedLoyaltyCardsList ->
@@ -48,8 +58,10 @@ class LoyaltyCardServiceImpl @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     override val loyaltyCards: Flow<List<LoyaltyCard>>
         get() =
-            userLoyaltyCards.flatMapMerge {
-                sharedLoyaltyCards
+            userLoyaltyCards.flatMapLatest { userLoyaltyCardsList ->
+                sharedLoyaltyCards.flatMapLatest { sharedLoyaltyCardsList ->
+                    flow { userLoyaltyCardsList + sharedLoyaltyCardsList }
+                }
             }
 
     override suspend fun create(loyaltyCard: LoyaltyCard) {

@@ -5,6 +5,7 @@ import com.isitechproject.easycardwallet.model.LoyaltyCard
 import kotlinx.coroutines.flow.Flow
 
 interface LoyaltyCardService {
+    val userSharedLoyaltyCards: Flow<List<LoyaltyCard>>
     val userLoyaltyCards: Flow<List<LoyaltyCard>>
     val loyaltyCards: Flow<List<LoyaltyCard>>
     suspend fun create(loyaltyCard: LoyaltyCard)

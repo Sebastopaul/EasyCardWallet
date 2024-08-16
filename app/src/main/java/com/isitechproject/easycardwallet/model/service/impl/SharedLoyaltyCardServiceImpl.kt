@@ -21,11 +21,20 @@ class SharedLoyaltyCardServiceImpl @Inject constructor(
     private val sharedLoyaltyCardsPath = db.collection(SHARED_LOYALTY_CARDS_COLLECTION)
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override val sharedLoyaltyCards: Flow<List<SharedLoyaltyCard>>
+    override val currentUserSharedLoyaltyCards: Flow<List<SharedLoyaltyCard>>
         get() =
             userService.currentUser.flatMapLatest { user ->
                 sharedLoyaltyCardsPath
                     .whereEqualTo(UID_FIELD, user?.uid)
+                    .dataObjects()
+            }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override val sharedLoyaltyCards: Flow<List<SharedLoyaltyCard>>
+        get() =
+            userService.currentUser.flatMapLatest { user ->
+                sharedLoyaltyCardsPath
+                    .whereEqualTo(SHARED_TO_UID_FIELD, user?.uid)
                     .dataObjects()
             }
 
@@ -49,5 +58,9 @@ class SharedLoyaltyCardServiceImpl @Inject constructor(
 
     override suspend fun delete(id: String) {
         sharedLoyaltyCardsPath.document(id).delete().await()
+    }
+
+    companion object {
+        private val SHARED_TO_UID_FIELD = "sharedUid"
     }
 }
