@@ -9,6 +9,7 @@ import com.isitechproject.easycardwallet.LOYALTY_CARD_ID
 import com.isitechproject.easycardwallet.LOYALTY_CARD_ID_ARG
 import com.isitechproject.easycardwallet.LOYALTY_CARD_SCREEN
 import com.isitechproject.easycardwallet.SCAN_LOYALTY_CARD_SCREEN
+import com.isitechproject.easycardwallet.SHARED_LOYALTY_CARDS_SCREEN
 import com.isitechproject.easycardwallet.model.LoyaltyCard
 import com.isitechproject.easycardwallet.model.service.AccountService
 import com.isitechproject.easycardwallet.model.service.LoyaltyCardService
@@ -29,5 +30,9 @@ class LoyaltyCardsListViewModel @Inject constructor(
 
     fun onLoyaltyCardClick(openScreen: (String) -> Unit, card: LoyaltyCard) {
         openScreen("$LOYALTY_CARD_SCREEN?$LOYALTY_CARD_ID=${card.id}")
+    }
+
+    fun onSharedClick(openScreen: (String) -> Unit) {
+        openScreen(SHARED_LOYALTY_CARDS_SCREEN)
     }
 }

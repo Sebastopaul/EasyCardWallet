@@ -7,9 +7,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -26,6 +30,7 @@ import com.isitechproject.easycardwallet.ui.components.BasicStructure
 import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoyaltyCardsListScreen(
     restartApp: (String) -> Unit,
@@ -48,16 +53,23 @@ fun LoyaltyCardsListScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.End,
             ) {
-
-                Text(text = stringResource(id = R.string.loyalty_card_list))
-
-                IconButton(onClick = { viewModel.onAddClick(openScreen) }) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.add_card_24),
-                        contentDescription = stringResource(R.string.add_card),
-                        modifier = Modifier.size(26.dp),
-                    )
-                }
+                TopAppBar(
+                    title = { Text(text = stringResource(id = R.string.loyalty_card_list)) },
+                    actions = {
+                        IconButton(onClick = { viewModel.onAddClick(openScreen) }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.add_card_24),
+                                contentDescription = stringResource(R.string.add_card),
+                            )
+                        }
+                        IconButton(onClick = { viewModel.onSharedClick(openScreen) }) {
+                            Icon(
+                                imageVector = Icons.Filled.Share,
+                                contentDescription = "Shared loyalty cards",
+                            )
+                        }
+                    }
+                )
             }
 
             Spacer(

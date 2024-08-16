@@ -21,6 +21,7 @@ import com.isitechproject.barcodescanner.BarcodeScannerActivity
 import com.isitechproject.barcodescanner.CREATE_LOYALTY_CARD_SCREEN
 import com.isitechproject.easycardwallet.screens.loyaltycards.loyaltycardscreen.LoyaltyCardScreen
 import com.isitechproject.easycardwallet.screens.loyaltycards.loyaltycardslistscreen.LoyaltyCardsListScreen
+import com.isitechproject.easycardwallet.screens.loyaltycards.sharedloyaltycardslist.SharedLoyaltyCardsListScreen
 import com.isitechproject.easycardwallet.screens.splash.SplashScreen
 import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 
@@ -52,6 +53,12 @@ fun rememberAppState(navController: NavHostController = rememberNavController())
 fun NavGraphBuilder.easyCardWalletGraph(appState: EasyCardWalletAppState) {
     activity(SCAN_LOYALTY_CARD_SCREEN) {
         activityClass = BarcodeScannerActivity::class
+    }
+
+    composable(SHARED_LOYALTY_CARDS_SCREEN) {
+        SharedLoyaltyCardsListScreen(
+            restartApp = { route -> appState.clearAndNavigate(route) }
+        )
     }
 
     composable(
