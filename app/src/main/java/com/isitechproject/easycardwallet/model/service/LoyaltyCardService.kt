@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface LoyaltyCardService {
     val userSharedLoyaltyCards: Flow<List<LoyaltyCard>>
     val userLoyaltyCards: Flow<List<LoyaltyCard>>
-    val loyaltyCards: Flow<List<LoyaltyCard>>
+    val sharedLoyaltyCards: Flow<List<LoyaltyCard>>
     suspend fun create(loyaltyCard: LoyaltyCard)
     suspend fun getOne(id: String): LoyaltyCard?
     suspend fun update(loyaltyCard: LoyaltyCard)

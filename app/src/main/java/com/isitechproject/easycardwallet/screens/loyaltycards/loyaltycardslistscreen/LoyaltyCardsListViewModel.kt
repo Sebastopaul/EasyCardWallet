@@ -22,7 +22,8 @@ class LoyaltyCardsListViewModel @Inject constructor(
     accountService: AccountService,
     loyaltyCardService: LoyaltyCardService,
 ): EasyCardWalletAppViewModel(accountService) {
-    val loyaltyCards = loyaltyCardService.loyaltyCards
+    val userLoyaltyCards = loyaltyCardService.userLoyaltyCards
+    val sharedLoyaltyCards = loyaltyCardService.sharedLoyaltyCards
 
     fun onAddClick(openScreen: (String) -> Unit) {
         openScreen(SCAN_LOYALTY_CARD_SCREEN)

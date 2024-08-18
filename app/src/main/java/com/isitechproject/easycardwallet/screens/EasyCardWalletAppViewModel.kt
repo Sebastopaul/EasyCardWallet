@@ -23,7 +23,7 @@ open class EasyCardWalletAppViewModel(
             block = block
         )
 
-    fun initialize(restartApp: (String) -> Unit) {
+    open fun initialize(restartApp: (String) -> Unit) {
         launchCatching {
             accountService.currentUser.collect {user ->
                 if (user == null) restartApp(SPLASH_SCREEN)

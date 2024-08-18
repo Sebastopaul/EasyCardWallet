@@ -46,6 +46,12 @@ class UserServiceImpl @Inject constructor(private val auth: AccountService): Use
         }
     }
 
+    override suspend fun getAllInIdList(ids: Iterable<String>): List<User> {
+        return usersPath.get().await().toObjects<User>().filter { user ->
+            ids.find { it == user.id }.toBoolean()
+        }
+    }
+
     override suspend fun updateAuthUser(user: User) {
         if (!auth.hasUser() || user.uid != auth.currentUserId)
             throw NotAuthenticatedException()
