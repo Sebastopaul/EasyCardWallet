@@ -22,7 +22,7 @@ import javax.inject.Inject
 class SharedLoyaltyCardsListViewModel @Inject constructor(
     accountService: AccountService,
     private val userService: UserService,
-    private val loyaltyCardService: LoyaltyCardService,
+    loyaltyCardService: LoyaltyCardService,
     private val sharedLoyaltyCardService: SharedLoyaltyCardService,
 ): EasyCardWalletAppViewModel(accountService) {
     val sharedLoyaltyCards = sharedLoyaltyCardService.currentUserSharedLoyaltyCards

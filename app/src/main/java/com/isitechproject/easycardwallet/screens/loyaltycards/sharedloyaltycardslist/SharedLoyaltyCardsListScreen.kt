@@ -40,6 +40,7 @@ fun SharedLoyaltyCardsListScreen(
     viewModel: SharedLoyaltyCardsListViewModel = hiltViewModel()
 ) {
     val sharedLoyaltyCards = viewModel.sharedLoyaltyCards.collectAsState(emptyList())
+    val loyaltyCards = viewModel.loyaltyCards.collectAsState(emptyList())
 
     BasicStructure(
         restartApp = restartApp,
@@ -62,7 +63,7 @@ fun SharedLoyaltyCardsListScreen(
                     ) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Column(horizontalAlignment = Alignment.Start) {
-                                Text(viewModel.getLoyaltyCardName(sharedLoyaltyCard.loyaltyCardId))
+                                Text(loyaltyCards.value.first { it.id == sharedLoyaltyCard.loyaltyCardId }.name)
 
                                 Spacer(modifier = Modifier.weight(1f))
 
