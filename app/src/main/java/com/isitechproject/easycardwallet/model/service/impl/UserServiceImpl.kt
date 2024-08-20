@@ -1,5 +1,6 @@
 package com.isitechproject.easycardwallet.model.service.impl
 
+import android.util.Log
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.Filter
 import com.google.firebase.firestore.dataObjects
@@ -35,21 +36,17 @@ class UserServiceImpl @Inject constructor(private val auth: AccountService): Use
     }
 
     override suspend fun getOneByEmail(email: String): User {
-        return usersPath.get().await().toObjects<User>().first { user ->
-            user.email == email
-        }
+        return usersPath
+            .where(Filter.equalTo("email", email))
+            .get().await().toObjects<User>()
+            .first()
     }
 
     override suspend fun getOneById(id: String): User {
-        return usersPath.get().await().toObjects<User>().first { user ->
-            user.uid == id
-        }
-    }
-
-    override suspend fun getAllInIdList(ids: Iterable<String>): List<User> {
-        return usersPath.get().await().toObjects<User>().filter { user ->
-            ids.find { it == user.id }.toBoolean()
-        }
+        return usersPath
+            .where(Filter.equalTo(UID_FIELD, id))
+            .get().await().toObjects<User>()
+            .first()
     }
 
     override suspend fun updateAuthUser(user: User) {

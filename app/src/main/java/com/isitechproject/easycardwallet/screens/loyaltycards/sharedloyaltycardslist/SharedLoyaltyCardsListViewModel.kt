@@ -2,6 +2,7 @@ package com.isitechproject.easycardwallet.screens.loyaltycards.sharedloyaltycard
 
 import android.util.Log
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.asLiveData
 import com.isitechproject.easycardwallet.model.LoyaltyCard
 import com.isitechproject.easycardwallet.model.SharedLoyaltyCard
@@ -13,9 +14,12 @@ import com.isitechproject.easycardwallet.model.service.UserService
 import com.isitechproject.easycardwallet.screens.EasyCardWalletAppViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,27 +33,17 @@ class SharedLoyaltyCardsListViewModel @Inject constructor(
     val loyaltyCards = loyaltyCardService.userLoyaltyCards
     private val users = mutableListOf<User>()
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    override fun initialize(restartApp: (String) -> Unit) {
-        val userIds = mutableListOf<String>()
-
-        Log.d("TEST_INIT", "PASS INIT")
-        sharedLoyaltyCards.flatMapLatest { list ->
-            list.forEach {
-                userIds.add(it.sharedUid)
+    fun initializeData() {
+        runBlocking {
+            sharedLoyaltyCards.first().forEach {
+                val user = userService.getOneById(it.sharedUid)
+                users.add(user)
             }
-            flow<SharedLoyaltyCard> { list }
         }
-
-        launchCatching {
-            userService.getAllInIdList(userIds).forEach { users.add(it) }
-        }
-
-        super.initialize(restartApp)
     }
 
     fun getUserEmail(id: String): String {
-        return users.first { it.id == id }.email
+        return users.first { it.uid == id }.email
     }
 
     fun stopSharing(id: String) {

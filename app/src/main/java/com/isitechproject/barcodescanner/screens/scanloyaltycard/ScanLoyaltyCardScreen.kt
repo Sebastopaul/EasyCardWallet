@@ -78,11 +78,6 @@ fun CameraPreview(
                             this,
                             activity,
                         ) { barcode ->
-                            Log.d("TEST", barcode.toString())
-                            barcode.displayValue?.let { Log.d("TEST", it) }
-                            barcode.rawValue?.let { Log.d("TEST", it) }
-                            Log.d("TEST", getBarcodeValue(barcode))
-                            Log.d("TEST", barcode.format.toString())
                             openCreationScreen(
                                 "$CREATE_LOYALTY_CARD_SCREEN?$BASE64_BARCODE_ARG_NAME=${Uri.encode(getBarcodeValue(barcode))}&$BARCODE_FORMAT=${barcode.format}"
                             )

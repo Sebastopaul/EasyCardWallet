@@ -1,5 +1,6 @@
 package com.isitechproject.easycardwallet.screens.loyaltycards.sharedloyaltycardslist
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.isitechproject.easycardwallet.ui.components.BasicStructure
+import kotlinx.coroutines.awaitAll
 
 
 @Composable
@@ -41,6 +43,8 @@ fun SharedLoyaltyCardsListScreen(
 ) {
     val sharedLoyaltyCards = viewModel.sharedLoyaltyCards.collectAsState(emptyList())
     val loyaltyCards = viewModel.loyaltyCards.collectAsState(emptyList())
+
+    viewModel.initializeData()
 
     BasicStructure(
         restartApp = restartApp,
@@ -63,11 +67,17 @@ fun SharedLoyaltyCardsListScreen(
                     ) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Column(horizontalAlignment = Alignment.Start) {
-                                Text(loyaltyCards.value.first { it.id == sharedLoyaltyCard.loyaltyCardId }.name)
+                                Text(
+                                    text = loyaltyCards.value.first { it.id == sharedLoyaltyCard.loyaltyCardId }.name,
+                                    modifier = Modifier.padding(start = 4.dp),
+                                )
 
                                 Spacer(modifier = Modifier.weight(1f))
 
-                                Text(viewModel.getUserEmail(sharedLoyaltyCard.sharedUid))
+                                Text(
+                                    text = viewModel.getUserEmail(sharedLoyaltyCard.sharedUid),
+                                    modifier = Modifier.padding(start = 4.dp),
+                                )
                             }
 
                             Spacer(modifier = Modifier.size(25.dp))

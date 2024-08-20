@@ -11,7 +11,6 @@ import com.journeyapps.barcodescanner.BarcodeEncoder
 fun generateBarcode(data: String, format: BarcodeFormat): Bitmap {
     val multiFormatWriter = MultiFormatWriter()
     return try {
-        Log.d("TEST", data)
         val bitMatrix: BitMatrix = multiFormatWriter.encode(data, format, 600, 300)
         val barcodeEncoder = BarcodeEncoder()
         barcodeEncoder.createBitmap(bitMatrix)

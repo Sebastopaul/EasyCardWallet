@@ -61,6 +61,6 @@ class SharedLoyaltyCardServiceImpl @Inject constructor(
     }
 
     companion object {
-        private val SHARED_TO_UID_FIELD = "sharedUid"
+        private const val SHARED_TO_UID_FIELD = "sharedUid"
     }
 }
