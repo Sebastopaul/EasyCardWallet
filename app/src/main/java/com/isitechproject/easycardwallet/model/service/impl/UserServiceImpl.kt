@@ -1,10 +1,12 @@
 package com.isitechproject.easycardwallet.model.service.impl
 
+import android.util.Log
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.Filter
 import com.google.firebase.firestore.dataObjects
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
+import com.google.firebase.firestore.toObjects
 import com.isitechproject.easycardwallet.model.User
 import com.isitechproject.easycardwallet.model.service.AccountService
 import com.isitechproject.easycardwallet.model.service.UserService
@@ -31,6 +33,20 @@ class UserServiceImpl @Inject constructor(private val auth: AccountService): Use
             profilePicture = user.profilePicture,
         )
         usersPath.add(registeredUser).await()
+    }
+
+    override suspend fun getOneByEmail(email: String): User {
+        return usersPath
+            .where(Filter.equalTo("email", email))
+            .get().await().toObjects<User>()
+            .first()
+    }
+
+    override suspend fun getOneById(id: String): User {
+        return usersPath
+            .where(Filter.equalTo(UID_FIELD, id))
+            .get().await().toObjects<User>()
+            .first()
     }
 
     override suspend fun updateAuthUser(user: User) {

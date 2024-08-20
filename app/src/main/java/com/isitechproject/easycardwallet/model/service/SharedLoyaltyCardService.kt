@@ -4,9 +4,10 @@ import com.isitechproject.easycardwallet.model.SharedLoyaltyCard
 import kotlinx.coroutines.flow.Flow
 
 interface SharedLoyaltyCardService {
+    val currentUserSharedLoyaltyCards: Flow<List<SharedLoyaltyCard>>
     val sharedLoyaltyCards: Flow<List<SharedLoyaltyCard>>
-    suspend fun create(groupId: String, groupMemberId: String, sharedLoyaltyCard: SharedLoyaltyCard)
-    suspend fun getOne(groupId: String, groupMemberId: String, sharedLoyaltyCardId: String): SharedLoyaltyCard?
-    suspend fun update(groupId: String, groupMemberId: String, sharedLoyaltyCard: SharedLoyaltyCard)
-    suspend fun delete(groupId: String, groupMemberId: String, sharedLoyaltyCardId: String)
+    suspend fun create(sharedLoyaltyCard: SharedLoyaltyCard)
+    suspend fun getOne(id: String): SharedLoyaltyCard?
+    suspend fun update(sharedLoyaltyCard: SharedLoyaltyCard)
+    suspend fun delete(id: String)
 }

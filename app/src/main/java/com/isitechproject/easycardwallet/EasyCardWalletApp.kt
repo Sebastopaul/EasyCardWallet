@@ -19,7 +19,9 @@ import com.isitechproject.easycardwallet.screens.auth.sign_in.SignInScreen
 import com.isitechproject.easycardwallet.screens.auth.sign_up.SignUpScreen
 import com.isitechproject.barcodescanner.BarcodeScannerActivity
 import com.isitechproject.barcodescanner.CREATE_LOYALTY_CARD_SCREEN
+import com.isitechproject.easycardwallet.screens.loyaltycards.loyaltycardscreen.LoyaltyCardScreen
 import com.isitechproject.easycardwallet.screens.loyaltycards.loyaltycardslistscreen.LoyaltyCardsListScreen
+import com.isitechproject.easycardwallet.screens.loyaltycards.sharedloyaltycardslist.SharedLoyaltyCardsListScreen
 import com.isitechproject.easycardwallet.screens.splash.SplashScreen
 import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 
@@ -53,16 +55,27 @@ fun NavGraphBuilder.easyCardWalletGraph(appState: EasyCardWalletAppState) {
         activityClass = BarcodeScannerActivity::class
     }
 
+    composable(SHARED_LOYALTY_CARDS_SCREEN) {
+        SharedLoyaltyCardsListScreen(
+            restartApp = { route -> appState.clearAndNavigate(route) }
+        )
+    }
+
     composable(
         route = "$LOYALTY_CARD_SCREEN$LOYALTY_CARD_ID_ARG",
         arguments = listOf(navArgument(LOYALTY_CARD_ID) { defaultValue = LOYALTY_CARD_DEFAULT_ID })
     ) {
+        LoyaltyCardScreen(
+            loyaltyCardId = it.arguments?.getString(LOYALTY_CARD_ID) ?: LOYALTY_CARD_DEFAULT_ID,
+            popUpScreen = { appState.popUp() },
+            restartApp = { route -> appState.clearAndNavigate(route) }
+        )
     }
 
     composable(LOYALTY_CARDS_LIST_SCREEN) {
         LoyaltyCardsListScreen(
             restartApp = { route -> appState.clearAndNavigate(route) },
-            openAddScreen = { route -> appState.navigate(route) }
+            openScreen = { route -> appState.navigate(route) }
         )
     }
 

@@ -8,6 +8,7 @@ const val SIGN_UP_SCREEN = "SignUpScreen"
 const val LOYALTY_CARDS_LIST_SCREEN = "LoyaltyCardsListScreen"
 const val LOYALTY_CARD_SCREEN = "LoyaltyCardScreen"
 const val SCAN_LOYALTY_CARD_SCREEN = "ScanLoyaltyCardScreen"
+const val SHARED_LOYALTY_CARDS_SCREEN = "SharedLoyaltyCardScreen"
 
 const val LOYALTY_CARD_ID = "loyaltyCardId"
 const val LOYALTY_CARD_DEFAULT_ID = "-1"
