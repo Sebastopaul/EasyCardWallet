@@ -6,6 +6,7 @@ import com.google.firebase.firestore.dataObjects
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
 import com.isitechproject.easycardwallet.model.AbstractSharedCard
+import com.isitechproject.easycardwallet.model.LoyaltyCard
 import com.isitechproject.easycardwallet.model.SharedLoyaltyCard
 import com.isitechproject.easycardwallet.model.service.SharedCardService
 import com.isitechproject.easycardwallet.model.service.UserService
@@ -27,7 +28,7 @@ class SharedLoyaltyCardService @Inject constructor(
             userService.currentUser.flatMapLatest { user ->
                 sharedLoyaltyCardsPath
                     .whereEqualTo(UID_FIELD, user?.uid)
-                    .dataObjects()
+                    .dataObjects<SharedLoyaltyCard>()
             }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -36,7 +37,7 @@ class SharedLoyaltyCardService @Inject constructor(
             userService.currentUser.flatMapLatest { user ->
                 sharedLoyaltyCardsPath
                     .whereEqualTo(SHARED_TO_UID_FIELD, user?.uid)
-                    .dataObjects()
+                    .dataObjects<SharedLoyaltyCard>()
             }
 
     override suspend fun create(sharedCard: AbstractSharedCard) {

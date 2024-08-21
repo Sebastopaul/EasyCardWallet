@@ -30,7 +30,7 @@ class LoyaltyCardService @Inject constructor(
             userService.currentUser.flatMapLatest { user ->
                 loyaltyCardsPath
                     .whereEqualTo(UID_FIELD, user?.uid)
-                    .dataObjects()
+                    .dataObjects<LoyaltyCard>()
             }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -41,7 +41,7 @@ class LoyaltyCardService @Inject constructor(
                 if (ids.isNotEmpty()) {
                     loyaltyCardsPath
                         .whereIn(ID_FIELD, ids)
-                        .dataObjects()
+                        .dataObjects<LoyaltyCard>()
                 } else {
                     flow { emptyList<LoyaltyCard>() }
                 }
@@ -55,7 +55,7 @@ class LoyaltyCardService @Inject constructor(
                 if (ids.isNotEmpty()) {
                     loyaltyCardsPath
                         .whereIn(ID_FIELD, ids)
-                        .dataObjects()
+                        .dataObjects<LoyaltyCard>()
                 } else {
                     flow { emptyList<AbstractCard>() }
                 }
