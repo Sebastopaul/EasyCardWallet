@@ -65,6 +65,18 @@ class LoyaltyCardViewModel @Inject constructor(
         popUpScreen()
     }
 
+    fun deleteSharedLoyaltyCard(popUpScreen: () -> Unit) {
+        launchCatching {
+            sharedLoyaltyCardService.delete(
+                sharedLoyaltyCardService
+                    .getOneBySharedId(loyaltyCard.value.id)
+                    .id
+            )
+        }
+
+        popUpScreen()
+    }
+
     fun updateEmailToShare(email: String) {
         emailToShare.value = email
     }
@@ -77,6 +89,10 @@ class LoyaltyCardViewModel @Inject constructor(
                 uid = userService.currentUserId,
             ))
         }
+    }
+
+    fun isUserProperty(): Boolean {
+        return loyaltyCard.value.uid == userService.currentUserId
     }
 
     companion object {

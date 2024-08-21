@@ -54,6 +54,16 @@ class SharedLoyaltyCardService @Inject constructor(
             ?: throw NotFoundException("Could not find loyalty card with id: $id")
     }
 
+    override suspend fun getOneBySharedId(id: String): AbstractSharedCard {
+        val response = sharedLoyaltyCardsPath.whereEqualTo("sharedId", id).get().await().first()
+
+        return sharedLoyaltyCardsPath
+            .whereEqualTo("sharedCardId", id)
+            .get().await().first()
+            .toObject<SharedLoyaltyCard>()
+            .withId(response.id)
+    }
+
     override suspend fun update(sharedCard: AbstractSharedCard) {
         sharedLoyaltyCardsPath.document(sharedCard.id).set(sharedCard).await()
     }
