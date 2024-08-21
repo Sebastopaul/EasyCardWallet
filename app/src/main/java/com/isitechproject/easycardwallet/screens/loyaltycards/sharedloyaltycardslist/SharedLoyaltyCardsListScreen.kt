@@ -68,7 +68,7 @@ fun SharedLoyaltyCardsListScreen(
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Column(horizontalAlignment = Alignment.Start) {
                                 Text(
-                                    text = loyaltyCards.value.first { it.id == sharedLoyaltyCard.loyaltyCardId }.name,
+                                    text = loyaltyCards.value.first { it.id == sharedLoyaltyCard.sharedCardId }.name,
                                     modifier = Modifier.padding(start = 4.dp),
                                 )
 

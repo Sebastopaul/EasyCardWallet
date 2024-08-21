@@ -22,13 +22,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.isitechproject.easycardwallet.R
+import com.isitechproject.easycardwallet.model.AbstractCard
 import com.isitechproject.easycardwallet.model.LoyaltyCard
 import com.isitechproject.easycardwallet.screens.loyaltycards.loyaltycardslistscreen.LoyaltyCardsListViewModel
 import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 
 @Composable
 fun CardListComponent(
-    cards: List<LoyaltyCard>,
+    cards: List<AbstractCard>,
     openScreen: (String) -> Unit,
     viewModel: LoyaltyCardsListViewModel,
     modifier: Modifier = Modifier,

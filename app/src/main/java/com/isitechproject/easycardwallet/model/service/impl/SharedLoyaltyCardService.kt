@@ -5,8 +5,9 @@ import com.google.firebase.Firebase
 import com.google.firebase.firestore.dataObjects
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
+import com.isitechproject.easycardwallet.model.AbstractSharedCard
 import com.isitechproject.easycardwallet.model.SharedLoyaltyCard
-import com.isitechproject.easycardwallet.model.service.SharedLoyaltyCardService
+import com.isitechproject.easycardwallet.model.service.SharedCardService
 import com.isitechproject.easycardwallet.model.service.UserService
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -14,14 +15,14 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class SharedLoyaltyCardServiceImpl @Inject constructor(
+class SharedLoyaltyCardService @Inject constructor(
     private val userService: UserService
-): SharedLoyaltyCardService {
+): SharedCardService {
     private val db = Firebase.firestore
     private val sharedLoyaltyCardsPath = db.collection(SHARED_LOYALTY_CARDS_COLLECTION)
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override val currentUserSharedLoyaltyCards: Flow<List<SharedLoyaltyCard>>
+    override val currentUserSharedCards: Flow<List<AbstractSharedCard>>
         get() =
             userService.currentUser.flatMapLatest { user ->
                 sharedLoyaltyCardsPath
@@ -30,7 +31,7 @@ class SharedLoyaltyCardServiceImpl @Inject constructor(
             }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override val sharedLoyaltyCards: Flow<List<SharedLoyaltyCard>>
+    override val sharedCards: Flow<List<AbstractSharedCard>>
         get() =
             userService.currentUser.flatMapLatest { user ->
                 sharedLoyaltyCardsPath
@@ -38,13 +39,13 @@ class SharedLoyaltyCardServiceImpl @Inject constructor(
                     .dataObjects()
             }
 
-    override suspend fun create(sharedLoyaltyCard: SharedLoyaltyCard) {
-        val response = sharedLoyaltyCardsPath.add(sharedLoyaltyCard).await()
+    override suspend fun create(sharedCard: AbstractSharedCard) {
+        val response = sharedLoyaltyCardsPath.add(sharedCard).await()
 
-        update(sharedLoyaltyCard.withId(response.id))
+        update(sharedCard.withId(response.id))
     }
 
-    override suspend fun getOne(id: String): SharedLoyaltyCard {
+    override suspend fun getOne(id: String): AbstractSharedCard {
         val response = sharedLoyaltyCardsPath.document(id).get().await()
 
         return response.toObject<SharedLoyaltyCard>()
@@ -52,8 +53,8 @@ class SharedLoyaltyCardServiceImpl @Inject constructor(
             ?: throw NotFoundException("Could not find loyalty card with id: $id")
     }
 
-    override suspend fun update(sharedLoyaltyCard: SharedLoyaltyCard) {
-        sharedLoyaltyCardsPath.document(sharedLoyaltyCard.id).set(sharedLoyaltyCard).await()
+    override suspend fun update(sharedCard: AbstractSharedCard) {
+        sharedLoyaltyCardsPath.document(sharedCard.id).set(sharedCard).await()
     }
 
     override suspend fun delete(id: String) {

@@ -17,13 +17,14 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.isitechproject.easycardwallet.model.AbstractCard
 import com.isitechproject.easycardwallet.model.LoyaltyCard
 import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 import com.isitechproject.easycardwallet.utils.ImageConverterBase64
 
 @Composable
 fun Card(
-    card: LoyaltyCard,
+    card: AbstractCard,
     modifier: Modifier = Modifier,
     onCardClick: () -> Unit = {},
 ) {

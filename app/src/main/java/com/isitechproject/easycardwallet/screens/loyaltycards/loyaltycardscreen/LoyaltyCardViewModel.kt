@@ -5,8 +5,8 @@ import com.isitechproject.easycardwallet.SPLASH_SCREEN
 import com.isitechproject.easycardwallet.model.LoyaltyCard
 import com.isitechproject.easycardwallet.model.SharedLoyaltyCard
 import com.isitechproject.easycardwallet.model.service.AccountService
-import com.isitechproject.easycardwallet.model.service.LoyaltyCardService
-import com.isitechproject.easycardwallet.model.service.SharedLoyaltyCardService
+import com.isitechproject.easycardwallet.model.service.CardService
+import com.isitechproject.easycardwallet.model.service.SharedCardService
 import com.isitechproject.easycardwallet.model.service.UserService
 import com.isitechproject.easycardwallet.screens.EasyCardWalletAppViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,15 +17,15 @@ import javax.inject.Inject
 class LoyaltyCardViewModel @Inject constructor(
     private val accountService: AccountService,
     private val userService: UserService,
-    private val loyaltyCardService: LoyaltyCardService,
-    private val sharedLoyaltyCardService: SharedLoyaltyCardService,
+    private val loyaltyCardService: CardService,
+    private val sharedLoyaltyCardService: SharedCardService,
 ): EasyCardWalletAppViewModel(accountService) {
     val loyaltyCard = MutableStateFlow(DEFAULT_LOYALTY_CARD)
     val emailToShare = MutableStateFlow("")
 
     fun initialize(loyaltyCardId: String, restartApp: (String) -> Unit) {
         launchCatching {
-            loyaltyCard.value = loyaltyCardService.getOne(loyaltyCardId) ?: DEFAULT_LOYALTY_CARD
+            loyaltyCard.value = (loyaltyCardService.getOne(loyaltyCardId) ?: DEFAULT_LOYALTY_CARD) as LoyaltyCard
         }
 
         observeAuthenticationState(restartApp)
@@ -72,7 +72,7 @@ class LoyaltyCardViewModel @Inject constructor(
     fun shareLoyaltyCard() {
         launchCatching {
             sharedLoyaltyCardService.create(SharedLoyaltyCard(
-                loyaltyCardId = loyaltyCard.value.id,
+                sharedCardId = loyaltyCard.value.id,
                 sharedUid = userService.getOneByEmail(emailToShare.value).uid,
                 uid = userService.currentUserId,
             ))

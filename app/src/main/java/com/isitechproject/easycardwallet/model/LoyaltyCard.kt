@@ -1,8 +1,8 @@
 package com.isitechproject.easycardwallet.model
 
 data class LoyaltyCard(
-    val name: String = "",
+    override val name: String = "",
     val data: String = "",
-    val picture: String = "",
-    val uid: String = "",
-) : Model()
+    override val picture: String = "",
+    override val uid: String = "",
+) : AbstractCard(name, picture, uid)

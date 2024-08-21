@@ -1,7 +1,7 @@
 package com.isitechproject.easycardwallet.model
 
 data class SharedLoyaltyCard(
-    val loyaltyCardId: String = "",
-    val sharedUid: String = "",
-    val uid: String = "",
-) : Model()
+    override val sharedCardId: String = "",
+    override val sharedUid: String = "",
+    override val uid: String = "",
+) : AbstractSharedCard(sharedCardId, sharedUid, uid)

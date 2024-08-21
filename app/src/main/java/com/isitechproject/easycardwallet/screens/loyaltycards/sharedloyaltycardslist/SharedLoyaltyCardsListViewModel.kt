@@ -1,24 +1,13 @@
 package com.isitechproject.easycardwallet.screens.loyaltycards.sharedloyaltycardslist
 
-import android.util.Log
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateListOf
-import androidx.lifecycle.asLiveData
-import com.isitechproject.easycardwallet.model.LoyaltyCard
-import com.isitechproject.easycardwallet.model.SharedLoyaltyCard
 import com.isitechproject.easycardwallet.model.User
 import com.isitechproject.easycardwallet.model.service.AccountService
-import com.isitechproject.easycardwallet.model.service.LoyaltyCardService
-import com.isitechproject.easycardwallet.model.service.SharedLoyaltyCardService
+import com.isitechproject.easycardwallet.model.service.CardService
+import com.isitechproject.easycardwallet.model.service.SharedCardService
 import com.isitechproject.easycardwallet.model.service.UserService
 import com.isitechproject.easycardwallet.screens.EasyCardWalletAppViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
@@ -26,11 +15,11 @@ import javax.inject.Inject
 class SharedLoyaltyCardsListViewModel @Inject constructor(
     accountService: AccountService,
     private val userService: UserService,
-    loyaltyCardService: LoyaltyCardService,
-    private val sharedLoyaltyCardService: SharedLoyaltyCardService,
+    loyaltyCardService: CardService,
+    private val sharedLoyaltyCardService: SharedCardService,
 ): EasyCardWalletAppViewModel(accountService) {
-    val sharedLoyaltyCards = sharedLoyaltyCardService.currentUserSharedLoyaltyCards
-    val loyaltyCards = loyaltyCardService.userLoyaltyCards
+    val sharedLoyaltyCards = sharedLoyaltyCardService.currentUserSharedCards
+    val loyaltyCards = loyaltyCardService.userCards
     private val users = mutableListOf<User>()
 
     fun initializeData() {
