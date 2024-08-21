@@ -32,6 +32,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.isitechproject.easycardwallet.ui.components.BasicStructure
+import com.isitechproject.easycardwallet.ui.components.SharedCard
+import com.isitechproject.easycardwallet.ui.components.SharedCardList
 import kotlinx.coroutines.awaitAll
 
 
@@ -56,36 +58,22 @@ fun SharedLoyaltyCardsListScreen(
                 .fillMaxSize()
                 .padding(10.dp)
         ) {
+            SharedCardList(
+                sharedCardsList = sharedLoyaltyCards.value,
+                cardsList = loyaltyCards.value,
+                getUserEmail = { viewModel.getUserEmail(it) }
+            ) {
+                viewModel.stopSharing(it)
+            }
             LazyColumn(
                 contentPadding = PaddingValues(vertical = 10.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp),
             ) {
                 items(sharedLoyaltyCards.value) { sharedLoyaltyCard ->
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = ShapeDefaults.Medium
-                    ) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Column(horizontalAlignment = Alignment.Start) {
-                                Text(
-                                    text = loyaltyCards.value.first { it.id == sharedLoyaltyCard.sharedCardId }.name,
-                                    modifier = Modifier.padding(start = 4.dp),
-                                )
-
-                                Spacer(modifier = Modifier.weight(1f))
-
-                                Text(
-                                    text = viewModel.getUserEmail(sharedLoyaltyCard.sharedUid),
-                                    modifier = Modifier.padding(start = 4.dp),
-                                )
-                            }
-
-                            Spacer(modifier = Modifier.size(25.dp))
-
-                            IconButton(onClick = { viewModel.stopSharing(sharedLoyaltyCard.id) }) {
-                                Icon(Icons.Filled.Delete, "Stop this share")
-                            }
-                        }
+                    SharedCard(
+                        cardName = loyaltyCards.value.first { it.id == sharedLoyaltyCard.sharedCardId }.name,
+                        userEmail = viewModel.getUserEmail(sharedLoyaltyCard.sharedUid)) {
+                        viewModel.stopSharing(sharedLoyaltyCard.id)
                     }
                 }
             }

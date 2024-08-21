@@ -24,8 +24,8 @@ class LoyaltyCardsListViewModel @Inject constructor(
         openScreen(SCAN_LOYALTY_CARD_SCREEN)
     }
 
-    fun onLoyaltyCardClick(openScreen: (String) -> Unit, card: AbstractCard) {
-        openScreen("$LOYALTY_CARD_SCREEN?$LOYALTY_CARD_ID=${card.id}")
+    fun onLoyaltyCardClick(openScreen: (String) -> Unit, cardId: String) {
+        openScreen("$LOYALTY_CARD_SCREEN?$LOYALTY_CARD_ID=${cardId}")
     }
 
     fun onSharedClick(openScreen: (String) -> Unit) {

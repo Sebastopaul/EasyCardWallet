@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.isitechproject.easycardwallet.R
 import com.isitechproject.easycardwallet.ui.components.BasicStructure
-import com.isitechproject.easycardwallet.ui.components.CardListComponent
+import com.isitechproject.easycardwallet.ui.components.CardList
 import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 
 
@@ -78,10 +78,9 @@ fun LoyaltyCardsListScreen(
                     .padding(15.dp),
             )
 
-            CardListComponent(
+            CardList(
                 cards = userLoyaltyCards + sharedLoyaltyCards,
-                openScreen = openScreen,
-                viewModel = viewModel,
+                onCardClick = { viewModel.onLoyaltyCardClick(openScreen, it.id) },
             )
         }
     }
