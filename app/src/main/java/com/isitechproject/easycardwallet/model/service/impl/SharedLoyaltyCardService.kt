@@ -1,6 +1,7 @@
 package com.isitechproject.easycardwallet.model.service.impl
 
 import android.content.res.Resources.NotFoundException
+import android.util.Log
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.dataObjects
 import com.google.firebase.firestore.firestore
@@ -51,17 +52,25 @@ class SharedLoyaltyCardService @Inject constructor(
 
         return response.toObject<SharedLoyaltyCard>()
             ?.withId(response.id)
-            ?: throw NotFoundException("Could not find loyalty card with id: $id")
+            ?: throw NotFoundException("Could not find shared card with id: $id")
     }
 
     override suspend fun getOneBySharedId(id: String): AbstractSharedCard {
-        val response = sharedLoyaltyCardsPath.whereEqualTo("sharedId", id).get().await().first()
 
-        return sharedLoyaltyCardsPath
-            .whereEqualTo("sharedCardId", id)
-            .get().await().first()
-            .toObject<SharedLoyaltyCard>()
-            .withId(response.id)
+        Log.d("TEST", id);
+        val response = sharedLoyaltyCardsPath
+            .whereEqualTo(SHARED_CARD_ID_FIELD, id)
+            .get().await()
+
+        if (!response.isEmpty) {
+            val sharedLoyaltyCard = response.first()
+            Log.d("TEST_IF", sharedLoyaltyCard.id);
+
+            return sharedLoyaltyCard
+                .toObject<SharedLoyaltyCard>()
+                .withId(sharedLoyaltyCard.id)
+        }
+        throw NotFoundException("Could not find shared card with id: $id")
     }
 
     override suspend fun update(sharedCard: AbstractSharedCard) {
@@ -74,5 +83,6 @@ class SharedLoyaltyCardService @Inject constructor(
 
     companion object {
         private const val SHARED_TO_UID_FIELD = "sharedUid"
+        private const val SHARED_CARD_ID_FIELD = "sharedCardId"
     }
 }

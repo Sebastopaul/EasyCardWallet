@@ -1,5 +1,6 @@
 package com.isitechproject.easycardwallet.screens.loyaltycards.loyaltycardscreen
 
+import android.util.Log
 import com.isitechproject.easycardwallet.LOYALTY_CARD_DEFAULT_ID
 import com.isitechproject.easycardwallet.SPLASH_SCREEN
 import com.isitechproject.easycardwallet.model.LoyaltyCard
@@ -67,11 +68,11 @@ class LoyaltyCardViewModel @Inject constructor(
 
     fun deleteSharedLoyaltyCard(popUpScreen: () -> Unit) {
         launchCatching {
-            sharedLoyaltyCardService.delete(
-                sharedLoyaltyCardService
-                    .getOneBySharedId(loyaltyCard.value.id)
-                    .id
-            )
+            val sharedLoyaltyCardToDestroy = sharedLoyaltyCardService.getOneBySharedId(loyaltyCard.value.id)
+            Log.d("TEST_CATCHING", sharedLoyaltyCardToDestroy.id)
+            Log.d("TEST_CATCHING", sharedLoyaltyCardToDestroy.sharedCardId)
+
+            sharedLoyaltyCardService.delete(sharedLoyaltyCardToDestroy.id)
         }
 
         popUpScreen()
