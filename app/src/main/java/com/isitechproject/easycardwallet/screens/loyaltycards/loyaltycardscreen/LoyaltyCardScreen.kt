@@ -63,14 +63,20 @@ fun LoyaltyCardScreen(
                     )
                 },
                 actions = {
-                    IconButton(onClick = { showShareCardDialog = true }) {
-                        Icon(Icons.Filled.Share, "Share loyalty card")
-                    }
-                    IconButton(onClick = { viewModel.saveLoyaltyCard(popUpScreen) }) {
-                        Icon(Icons.Filled.Done, "Save loyalty card")
-                    }
-                    IconButton(onClick = { viewModel.deleteLoyaltyCard(popUpScreen) }) {
-                        Icon(Icons.Filled.Delete, "Delete loyalty card")
+                    if (viewModel.isUserProperty()) {
+                        IconButton(onClick = { showShareCardDialog = true }) {
+                            Icon(Icons.Filled.Share, "Share loyalty card")
+                        }
+                        IconButton(onClick = { viewModel.saveLoyaltyCard(popUpScreen) }) {
+                            Icon(Icons.Filled.Done, "Save loyalty card")
+                        }
+                        IconButton(onClick = { viewModel.deleteLoyaltyCard(popUpScreen) }) {
+                            Icon(Icons.Filled.Delete, "Delete loyalty card")
+                        }
+                    } else {
+                        IconButton(onClick = { viewModel.deleteSharedLoyaltyCard(popUpScreen) }) {
+                            Icon(Icons.Filled.Delete, "Delete shared loyalty card")
+                        }
                     }
                 }
             )

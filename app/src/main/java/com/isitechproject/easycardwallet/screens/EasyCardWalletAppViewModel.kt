@@ -35,9 +35,10 @@ open class EasyCardWalletAppViewModel(
         isDrawerOpen.value = !(isDrawerOpen.value ?: false)
     }
 
-    fun onSignOutClick() {
+    fun onSignOutClick(restartApp: (String) -> Unit) {
         launchCatching {
             accountService.signOut()
+            restartApp(SPLASH_SCREEN)
         }
     }
 

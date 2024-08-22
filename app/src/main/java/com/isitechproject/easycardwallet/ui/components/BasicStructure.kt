@@ -65,7 +65,7 @@ fun BasicStructure(
                         } },
                     confirmButton = {
                         Button(onClick = {
-                            viewModel.onSignOutClick()
+                            viewModel.onSignOutClick(restartApp)
                             showExitAppDialog = false
                         }) {
                             Text(text = stringResource(R.string.sign_out))
