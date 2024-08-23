@@ -1,4 +1,4 @@
-package com.isitechproject.easycardwallet.screens.loyaltycards.loyaltycardslistscreen
+package com.isitechproject.easycardwallet.screens.visitcards.visitcardslistscreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,12 +31,12 @@ import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoyaltyCardsListScreen(
+fun VisitCardsListScreen(
     restartApp: (String) -> Unit,
     switchScreen: (String) -> Unit,
     openScreen: (String) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: LoyaltyCardsListViewModel = hiltViewModel()
+    viewModel: VisitCardsListViewModel = hiltViewModel()
 ) {
     BasicStructure(
         restartApp = restartApp,
@@ -44,8 +44,8 @@ fun LoyaltyCardsListScreen(
         viewModel = viewModel,
         modifier = modifier,
     ) {
-        val userLoyaltyCards by viewModel.userLoyaltyCards.collectAsState(emptyList())
-        val sharedLoyaltyCards by viewModel.sharedLoyaltyCards.collectAsState(emptyList())
+        val userVisitCards by viewModel.userVisitCards.collectAsState(emptyList())
+        val sharedVisitCards by viewModel.sharedVisitCards.collectAsState(emptyList())
 
         Column {
             Row(
@@ -56,7 +56,7 @@ fun LoyaltyCardsListScreen(
                 horizontalArrangement = Arrangement.End,
             ) {
                 TopAppBar(
-                    title = { Text(text = stringResource(id = R.string.loyalty_card_list)) },
+                    title = { Text(text = stringResource(id = R.string.visit_card_list)) },
                     actions = {
                         IconButton(onClick = { viewModel.onAddClick(openScreen) }) {
                             Icon(
@@ -67,7 +67,7 @@ fun LoyaltyCardsListScreen(
                         IconButton(onClick = { viewModel.onSharedClick(openScreen) }) {
                             Icon(
                                 imageVector = Icons.Filled.Share,
-                                contentDescription = "Shared loyalty cards",
+                                contentDescription = "Shared visit cards",
                             )
                         }
                     }
@@ -81,8 +81,8 @@ fun LoyaltyCardsListScreen(
             )
 
             CardList(
-                cards = userLoyaltyCards + sharedLoyaltyCards,
-                onCardClick = { viewModel.onLoyaltyCardClick(openScreen, it.id) },
+                cards = userVisitCards + sharedVisitCards,
+                onCardClick = { viewModel.onVisitCardClick(openScreen, it.id) },
             )
         }
     }

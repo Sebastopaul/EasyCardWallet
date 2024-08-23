@@ -17,4 +17,5 @@
     <string name="loyalty_card_list">My Loyalty Cards</string>
     <string name="register_loyalty_card">Register Loyalty Card</string>
     <string name="add_card">Add card</string>
+    <string name="visit_card_list">My Visit Cards</string>
 </resources>

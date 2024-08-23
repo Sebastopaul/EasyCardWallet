@@ -6,10 +6,12 @@ import com.google.firebase.firestore.dataObjects
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
 import com.isitechproject.easycardwallet.model.AbstractCard
-import com.isitechproject.easycardwallet.model.LoyaltyCard
+import com.isitechproject.easycardwallet.model.VisitCard
 import com.isitechproject.easycardwallet.model.service.CardService
 import com.isitechproject.easycardwallet.model.service.SharedCardService
+import com.isitechproject.easycardwallet.model.service.SharedVisitCardService
 import com.isitechproject.easycardwallet.model.service.UserService
+import com.isitechproject.easycardwallet.model.service.VisitCardService
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -17,69 +19,69 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class LoyaltyCardService @Inject constructor(
+class VisitCardServiceImpl @Inject constructor(
     private val userService: UserService,
-    private val sharedLoyaltyCardsService: SharedCardService,
-): CardService {
+    private val sharedVisitCardsService: SharedVisitCardService,
+): VisitCardService {
     private val db = Firebase.firestore
-    private val loyaltyCardsPath = db.collection(LOYALTY_CARDS_COLLECTION)
+    private val visitCardsPath = db.collection(VISIT_CARDS_COLLECTION)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     override val userCards: Flow<List<AbstractCard>>
         get() =
             userService.currentUser.flatMapLatest { user ->
-                loyaltyCardsPath
+                visitCardsPath
                     .whereEqualTo(UID_FIELD, user?.uid)
-                    .dataObjects<LoyaltyCard>()
+                    .dataObjects<VisitCard>()
             }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     override val userSharedCards: Flow<List<AbstractCard>>
         get() =
-            sharedLoyaltyCardsService.currentUserSharedCards.flatMapLatest { sharedLoyaltyCardsList ->
-                val ids = sharedLoyaltyCardsList.map { it.sharedCardId }
+            sharedVisitCardsService.currentUserSharedCards.flatMapLatest { sharedVisitCardsList ->
+                val ids = sharedVisitCardsList.map { it.sharedCardId }
                 if (ids.isNotEmpty()) {
-                    loyaltyCardsPath
+                    visitCardsPath
                         .whereIn(ID_FIELD, ids)
-                        .dataObjects<LoyaltyCard>()
+                        .dataObjects<VisitCard>()
                 } else {
-                    flow { emptyList<LoyaltyCard>() }
+                    flow { emptyList<VisitCard>() }
                 }
             }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     override val sharedCards: Flow<List<AbstractCard>>
         get() =
-            sharedLoyaltyCardsService.sharedCards.flatMapLatest { sharedLoyaltyCardsList ->
-                val ids = sharedLoyaltyCardsList.map { it.sharedCardId }
+            sharedVisitCardsService.sharedCards.flatMapLatest { sharedVisitCardsList ->
+                val ids = sharedVisitCardsList.map { it.sharedCardId }
                 if (ids.isNotEmpty()) {
-                    loyaltyCardsPath
+                    visitCardsPath
                         .whereIn(ID_FIELD, ids)
-                        .dataObjects<LoyaltyCard>()
+                        .dataObjects<VisitCard>()
                 } else {
                     flow { emptyList<AbstractCard>() }
                 }
             }
 
     override suspend fun create(card: AbstractCard) {
-        val response = loyaltyCardsPath.add(card).await()
+        val response = visitCardsPath.add(card).await()
 
         update(card.withId(response.id))
     }
 
     override suspend fun getOne(id: String): AbstractCard {
-        val response = loyaltyCardsPath.document(id).get().await()
+        val response = visitCardsPath.document(id).get().await()
 
-        return response.toObject<LoyaltyCard>()
+        return response.toObject<VisitCard>()
             ?.withId(response.id)
-            ?: throw NotFoundException("Could not find loyalty card with id: $id")
+            ?: throw NotFoundException("Could not find visit card with id: $id")
     }
 
     override suspend fun update(card: AbstractCard) {
-        loyaltyCardsPath.document(card.id).set(card).await()
+        visitCardsPath.document(card.id).set(card).await()
     }
 
     override suspend fun delete(id: String) {
-        loyaltyCardsPath.document(id).delete().await()
+        visitCardsPath.document(id).delete().await()
     }
 }

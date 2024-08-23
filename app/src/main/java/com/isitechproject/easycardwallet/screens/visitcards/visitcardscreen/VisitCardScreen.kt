@@ -1,4 +1,4 @@
-package com.isitechproject.easycardwallet.screens.loyaltycards.loyaltycardscreen
+package com.isitechproject.easycardwallet.screens.visitcards.visitcardscreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -35,18 +35,18 @@ import com.isitechproject.easycardwallet.utils.ImageConverterBase64
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoyaltyCardScreen(
-    loyaltyCardId: String,
+fun VisitCardScreen(
+    visitCardId: String,
     popUpScreen: () -> Unit,
     restartApp: (String) -> Unit,
     switchScreen: (String) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: LoyaltyCardViewModel = hiltViewModel()
+    viewModel: VisitCardViewModel = hiltViewModel()
 ) {
-    val loyaltyCard = viewModel.loyaltyCard.collectAsState()
+    val visitCard = viewModel.visitCard.collectAsState()
     var showShareCardDialog by remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) { viewModel.initialize(loyaltyCardId, restartApp) }
+    LaunchedEffect(Unit) { viewModel.initialize(visitCardId, restartApp) }
 
     BasicStructure(
         restartApp = restartApp,
@@ -60,31 +60,31 @@ fun LoyaltyCardScreen(
             TopAppBar(
                 title = {
                     TextField(
-                        value = loyaltyCard.value.name,
-                        onValueChange = { viewModel.updateLoyaltyCard(it) },
+                        value = visitCard.value.name,
+                        onValueChange = { viewModel.updateVisitCard(it) },
                     )
                 },
                 actions = {
                     if (viewModel.isUserProperty()) {
                         IconButton(onClick = { showShareCardDialog = true }) {
-                            Icon(Icons.Filled.Share, "Share loyalty card")
+                            Icon(Icons.Filled.Share, "Share visit card")
                         }
-                        IconButton(onClick = { viewModel.saveLoyaltyCard(popUpScreen) }) {
-                            Icon(Icons.Filled.Done, "Save loyalty card")
+                        IconButton(onClick = { viewModel.saveVisitCard(popUpScreen) }) {
+                            Icon(Icons.Filled.Done, "Save visit card")
                         }
-                        IconButton(onClick = { viewModel.deleteLoyaltyCard(popUpScreen) }) {
-                            Icon(Icons.Filled.Delete, "Delete loyalty card")
+                        IconButton(onClick = { viewModel.deleteVisitCard(popUpScreen) }) {
+                            Icon(Icons.Filled.Delete, "Delete visit card")
                         }
                     } else {
-                        IconButton(onClick = { viewModel.deleteSharedLoyaltyCard(popUpScreen) }) {
-                            Icon(Icons.Filled.Delete, "Delete shared loyalty card")
+                        IconButton(onClick = { viewModel.deleteSharedVisitCard(popUpScreen) }) {
+                            Icon(Icons.Filled.Delete, "Delete shared visit card")
                         }
                     }
                 }
             )
 
             Image(
-                bitmap = ImageConverterBase64.from(loyaltyCard.value.picture).asImageBitmap(),
+                bitmap = ImageConverterBase64.from(visitCard.value.picture).asImageBitmap(),
                 contentDescription = "QR Code",
                 modifier = Modifier.fillMaxSize()
             )
@@ -110,7 +110,7 @@ fun LoyaltyCardScreen(
                         } },
                     confirmButton = {
                         Button(onClick = {
-                            viewModel.shareLoyaltyCard()
+                            viewModel.shareVisitCard()
                             viewModel.updateEmailToShare("")
                             showShareCardDialog = false
                         }) {

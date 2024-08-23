@@ -1,13 +1,19 @@
 package com.isitechproject.easycardwallet.ui.components
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,15 +23,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.isitechproject.easycardwallet.LOYALTY_CARDS_LIST_SCREEN
 import com.isitechproject.easycardwallet.R
+import com.isitechproject.easycardwallet.VISIT_CARDS_LIST_SCREEN
 import com.isitechproject.easycardwallet.screens.EasyCardWalletAppViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun BasicStructure(
     restartApp: (String) -> Unit,
+    switchScreen: (String) -> Unit,
     viewModel: EasyCardWalletAppViewModel,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
@@ -34,7 +44,29 @@ fun BasicStructure(
 
     LaunchedEffect(Unit) { viewModel.initialize(restartApp) }
 
-    Scaffold(modifier = modifier) {
+    Scaffold(
+        bottomBar = {
+            if (switchScreen != {}) {
+                BottomAppBar(modifier = Modifier.fillMaxWidth()) {
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        IconButton(onClick = { viewModel.toLoyaltyCardsList(switchScreen) }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.loyalty_card_icon_0),
+                                contentDescription = "Loyalty cards list",
+                            )
+                        }
+                        IconButton(onClick = { viewModel.toVisitCardsList(switchScreen) }) {
+                            Icon(painter = painterResource(id = R.drawable.visit_card_icon), contentDescription = "Visit cards list")
+                        }
+                    }
+                }
+            }
+        },
+        modifier = modifier.fillMaxSize()
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()

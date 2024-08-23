@@ -5,6 +5,7 @@ import com.isitechproject.barcodescanner.EASY_CARD_WALLET_MAIN_SCREEN
 import com.isitechproject.easycardwallet.model.LoyaltyCard
 import com.isitechproject.easycardwallet.model.service.AccountService
 import com.isitechproject.easycardwallet.model.service.CardService
+import com.isitechproject.easycardwallet.model.service.LoyaltyCardService
 import com.isitechproject.easycardwallet.screens.EasyCardWalletAppViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CreateLoyaltyCardViewModel @Inject constructor(
     private val accountService: AccountService,
-    private val loyaltyCardService: CardService,
+    private val loyaltyCardService: LoyaltyCardService,
 ): EasyCardWalletAppViewModel(accountService) {
     val loyaltyCardName = MutableStateFlow(BASE64_BARCODE_DEFAULT)
 
