@@ -39,6 +39,7 @@ fun LoyaltyCardScreen(
     loyaltyCardId: String,
     popUpScreen: () -> Unit,
     restartApp: (String) -> Unit,
+    switchScreen: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: LoyaltyCardViewModel = hiltViewModel()
 ) {
@@ -49,6 +50,7 @@ fun LoyaltyCardScreen(
 
     BasicStructure(
         restartApp = restartApp,
+        switchScreen = switchScreen,
         viewModel = viewModel,
         modifier = modifier,
     ) {

@@ -20,6 +20,7 @@ import com.isitechproject.easycardwallet.ui.components.SharedCardList
 @Composable
 fun SharedVisitCardsListScreen(
     restartApp: (String) -> Unit,
+    switchScreen: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SharedVisitCardsListViewModel = hiltViewModel()
 ) {
@@ -30,6 +31,7 @@ fun SharedVisitCardsListScreen(
 
     BasicStructure(
         restartApp = restartApp,
+        switchScreen = switchScreen,
         viewModel = viewModel,
         modifier = modifier,
     ) {

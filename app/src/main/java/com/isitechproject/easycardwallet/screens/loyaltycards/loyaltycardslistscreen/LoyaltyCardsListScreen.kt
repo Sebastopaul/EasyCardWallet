@@ -33,12 +33,14 @@ import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 @Composable
 fun LoyaltyCardsListScreen(
     restartApp: (String) -> Unit,
+    switchScreen: (String) -> Unit,
     openScreen: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: LoyaltyCardsListViewModel = hiltViewModel()
 ) {
     BasicStructure(
         restartApp = restartApp,
+        switchScreen = switchScreen,
         viewModel = viewModel,
         modifier = modifier,
     ) {
@@ -83,14 +85,5 @@ fun LoyaltyCardsListScreen(
                 onCardClick = { viewModel.onLoyaltyCardClick(openScreen, it.id) },
             )
         }
-    }
-}
-
-
-@Preview(showBackground = true, showSystemUi = true, apiLevel = 34)
-@Composable
-fun LoyaltyCardsListPreview() {
-    EasyCardWalletTheme {
-        LoyaltyCardsListScreen({ }, { })
     }
 }

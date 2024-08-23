@@ -39,6 +39,7 @@ fun VisitCardScreen(
     visitCardId: String,
     popUpScreen: () -> Unit,
     restartApp: (String) -> Unit,
+    switchScreen: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: VisitCardViewModel = hiltViewModel()
 ) {
@@ -49,6 +50,7 @@ fun VisitCardScreen(
 
     BasicStructure(
         restartApp = restartApp,
+        switchScreen = switchScreen,
         viewModel = viewModel,
         modifier = modifier,
     ) {

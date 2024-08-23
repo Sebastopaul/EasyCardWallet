@@ -48,6 +48,7 @@ fun CreateLoyaltyCardScreen(
 
     BasicStructure(
         restartApp = {},
+        switchScreen = {},
         viewModel = viewModel,
         modifier = modifier,
     ) {

@@ -21,7 +21,7 @@ class SharedVisitCardServiceImpl @Inject constructor(
     private val userService: UserService
 ): SharedVisitCardService {
     private val db = Firebase.firestore
-    private val sharedVisitCardsPath = db.collection(SHARED_LOYALTY_CARDS_COLLECTION)
+    private val sharedVisitCardsPath = db.collection(SHARED_VISIT_CARDS_COLLECTION)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     override val currentUserSharedCards: Flow<List<AbstractSharedCard>>

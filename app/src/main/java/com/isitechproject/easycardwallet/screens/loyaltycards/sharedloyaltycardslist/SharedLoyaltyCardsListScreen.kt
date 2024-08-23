@@ -40,6 +40,7 @@ import kotlinx.coroutines.awaitAll
 @Composable
 fun SharedLoyaltyCardsListScreen(
     restartApp: (String) -> Unit,
+    switchScreen: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SharedLoyaltyCardsListViewModel = hiltViewModel()
 ) {
@@ -50,6 +51,7 @@ fun SharedLoyaltyCardsListScreen(
 
     BasicStructure(
         restartApp = restartApp,
+        switchScreen = switchScreen,
         viewModel = viewModel,
         modifier = modifier,
     ) {

@@ -33,12 +33,14 @@ import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 @Composable
 fun VisitCardsListScreen(
     restartApp: (String) -> Unit,
+    switchScreen: (String) -> Unit,
     openScreen: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: VisitCardsListViewModel = hiltViewModel()
 ) {
     BasicStructure(
         restartApp = restartApp,
+        switchScreen = switchScreen,
         viewModel = viewModel,
         modifier = modifier,
     ) {
