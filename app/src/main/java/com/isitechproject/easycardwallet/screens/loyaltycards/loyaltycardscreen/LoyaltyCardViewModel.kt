@@ -7,7 +7,9 @@ import com.isitechproject.easycardwallet.model.LoyaltyCard
 import com.isitechproject.easycardwallet.model.SharedLoyaltyCard
 import com.isitechproject.easycardwallet.model.service.AccountService
 import com.isitechproject.easycardwallet.model.service.CardService
+import com.isitechproject.easycardwallet.model.service.LoyaltyCardService
 import com.isitechproject.easycardwallet.model.service.SharedCardService
+import com.isitechproject.easycardwallet.model.service.SharedLoyaltyCardService
 import com.isitechproject.easycardwallet.model.service.UserService
 import com.isitechproject.easycardwallet.screens.EasyCardWalletAppViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,8 +20,8 @@ import javax.inject.Inject
 class LoyaltyCardViewModel @Inject constructor(
     private val accountService: AccountService,
     private val userService: UserService,
-    private val loyaltyCardService: CardService,
-    private val sharedLoyaltyCardService: SharedCardService,
+    private val loyaltyCardService: LoyaltyCardService,
+    private val sharedLoyaltyCardService: SharedLoyaltyCardService,
 ): EasyCardWalletAppViewModel(accountService) {
     val loyaltyCard = MutableStateFlow(DEFAULT_LOYALTY_CARD)
     val emailToShare = MutableStateFlow("")

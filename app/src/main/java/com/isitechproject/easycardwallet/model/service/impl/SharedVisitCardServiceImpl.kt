@@ -7,9 +7,9 @@ import com.google.firebase.firestore.dataObjects
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
 import com.isitechproject.easycardwallet.model.AbstractSharedCard
-import com.isitechproject.easycardwallet.model.LoyaltyCard
-import com.isitechproject.easycardwallet.model.SharedLoyaltyCard
+import com.isitechproject.easycardwallet.model.SharedVisitCard
 import com.isitechproject.easycardwallet.model.service.SharedCardService
+import com.isitechproject.easycardwallet.model.service.SharedVisitCardService
 import com.isitechproject.easycardwallet.model.service.UserService
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -17,40 +17,40 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class SharedLoyaltyCardService @Inject constructor(
+class SharedVisitCardServiceImpl @Inject constructor(
     private val userService: UserService
-): SharedCardService {
+): SharedVisitCardService {
     private val db = Firebase.firestore
-    private val sharedLoyaltyCardsPath = db.collection(SHARED_LOYALTY_CARDS_COLLECTION)
+    private val sharedVisitCardsPath = db.collection(SHARED_LOYALTY_CARDS_COLLECTION)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     override val currentUserSharedCards: Flow<List<AbstractSharedCard>>
         get() =
             userService.currentUser.flatMapLatest { user ->
-                sharedLoyaltyCardsPath
+                sharedVisitCardsPath
                     .whereEqualTo(UID_FIELD, user?.uid)
-                    .dataObjects<SharedLoyaltyCard>()
+                    .dataObjects<SharedVisitCard>()
             }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     override val sharedCards: Flow<List<AbstractSharedCard>>
         get() =
             userService.currentUser.flatMapLatest { user ->
-                sharedLoyaltyCardsPath
+                sharedVisitCardsPath
                     .whereEqualTo(SHARED_TO_UID_FIELD, user?.uid)
-                    .dataObjects<SharedLoyaltyCard>()
+                    .dataObjects<SharedVisitCard>()
             }
 
     override suspend fun create(sharedCard: AbstractSharedCard) {
-        val response = sharedLoyaltyCardsPath.add(sharedCard).await()
+        val response = sharedVisitCardsPath.add(sharedCard).await()
 
         update(sharedCard.withId(response.id))
     }
 
     override suspend fun getOne(id: String): AbstractSharedCard {
-        val response = sharedLoyaltyCardsPath.document(id).get().await()
+        val response = sharedVisitCardsPath.document(id).get().await()
 
-        return response.toObject<SharedLoyaltyCard>()
+        return response.toObject<SharedVisitCard>()
             ?.withId(response.id)
             ?: throw NotFoundException("Could not find shared card with id: $id")
     }
@@ -58,27 +58,27 @@ class SharedLoyaltyCardService @Inject constructor(
     override suspend fun getOneBySharedId(id: String): AbstractSharedCard {
 
         Log.d("TEST", id);
-        val response = sharedLoyaltyCardsPath
+        val response = sharedVisitCardsPath
             .whereEqualTo(SHARED_CARD_ID_FIELD, id)
             .get().await()
 
         if (!response.isEmpty) {
-            val sharedLoyaltyCard = response.first()
-            Log.d("TEST_IF", sharedLoyaltyCard.id);
+            val sharedVisitCard = response.first()
+            Log.d("TEST_IF", sharedVisitCard.id);
 
-            return sharedLoyaltyCard
-                .toObject<SharedLoyaltyCard>()
-                .withId(sharedLoyaltyCard.id)
+            return sharedVisitCard
+                .toObject<SharedVisitCard>()
+                .withId(sharedVisitCard.id)
         }
         throw NotFoundException("Could not find shared card with id: $id")
     }
 
     override suspend fun update(sharedCard: AbstractSharedCard) {
-        sharedLoyaltyCardsPath.document(sharedCard.id).set(sharedCard).await()
+        sharedVisitCardsPath.document(sharedCard.id).set(sharedCard).await()
     }
 
     override suspend fun delete(id: String) {
-        sharedLoyaltyCardsPath.document(id).delete().await()
+        sharedVisitCardsPath.document(id).delete().await()
     }
 
     companion object {
