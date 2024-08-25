@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.isitechproject.easycardwallet"
-    compileSdk = 35
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.isitechproject.easycardwallet"

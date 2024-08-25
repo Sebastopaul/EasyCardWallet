@@ -16,11 +16,26 @@ class SignUpViewModel @Inject constructor(
     private val userService: UserService
 ) : EasyCardWalletAppViewModel(accountService) {
     val email = MutableStateFlow("")
+    val firstname = MutableStateFlow("")
+    val lastname = MutableStateFlow("")
+    val profilePicture = MutableStateFlow("")
     val password = MutableStateFlow("")
     val confirmPassword = MutableStateFlow("")
 
     fun updateEmail(newEmail: String) {
         email.value = newEmail
+    }
+
+    fun updateFirstname(newFirstname: String) {
+        firstname.value = newFirstname
+    }
+
+    fun updateLastname(newLastname: String) {
+        lastname.value = newLastname
+    }
+
+    fun updateProfilePicture(newProfilePicture: String) {
+        profilePicture.value = newProfilePicture
     }
 
     fun updatePassword(newPassword: String) {
@@ -37,7 +52,12 @@ class SignUpViewModel @Inject constructor(
                 throw Exception("Passwords do not match")
             }
 
-            userService.create(User(email = email.value), password.value)
+            userService.create(User(
+                email = email.value,
+                firstname = firstname.value,
+                lastname = lastname.value,
+                profilePicture = profilePicture.value,
+            ), password.value)
             openAndPopUp(LOYALTY_CARDS_LIST_SCREEN, SIGN_UP_SCREEN)
         }
     }
