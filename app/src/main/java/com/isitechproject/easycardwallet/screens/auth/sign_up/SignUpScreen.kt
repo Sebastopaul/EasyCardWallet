@@ -19,6 +19,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -48,7 +49,6 @@ import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-@OptIn(ExperimentalMaterial3Api::class)
 fun SignUpScreen(
     openAndPopUp: (String, String) -> Unit,
     modifier: Modifier = Modifier,
@@ -110,7 +110,7 @@ fun SignUpScreen(
                 value = firstname.value,
                 onValueChange = { viewModel.updateFirstname(it) },
                 placeholder = { Text("First name") },
-                leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "Email") },
+                leadingIcon = { Icon(imageVector = Icons.Default.Person, contentDescription = "First name") },
             )
 
             OutlinedTextField(
@@ -132,7 +132,7 @@ fun SignUpScreen(
                 value = lastname.value,
                 onValueChange = { viewModel.updateLastname(it) },
                 placeholder = { Text("Last name") },
-                leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "Email") },
+                leadingIcon = { Icon(imageVector = Icons.Default.Person, contentDescription = "Last name") },
             )
 
             Spacer(modifier = Modifier
