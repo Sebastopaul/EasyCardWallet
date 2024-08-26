@@ -27,15 +27,6 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31"
         android:name = ".EasyCardWalletHiltApp">
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="@string/fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/filepaths"/>
-        </provider>
         <activity
             android:name=".EasyCardWalletActivity"
             android:exported="true"

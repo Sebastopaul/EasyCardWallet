@@ -8,12 +8,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import com.isitechproject.easycardwallet.model.AbstractCard
 import com.isitechproject.easycardwallet.model.AbstractSharedCard
+import com.isitechproject.easycardwallet.model.User
 
 @Composable
 fun SharedCardList(
     sharedCardsList: List<AbstractSharedCard>,
     cardsList: List<AbstractCard>,
-    getUserEmail: (String) -> String,
+    getUser: (String) -> User,
     stopSharing: (String) -> Unit,
 ) {
     LazyColumn(
@@ -23,7 +24,8 @@ fun SharedCardList(
         items(sharedCardsList) { sharedCard ->
             SharedCard(
                 cardName = cardsList.first { it.id == sharedCard.sharedCardId }.name,
-                userEmail = getUserEmail(sharedCard.sharedUid),
+                userId = sharedCard.sharedUid,
+                getUser = getUser,
                 stopSharing = { stopSharing(sharedCard.id) }
             )
         }

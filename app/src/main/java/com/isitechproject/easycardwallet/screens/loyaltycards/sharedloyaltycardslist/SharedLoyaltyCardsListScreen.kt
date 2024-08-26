@@ -47,8 +47,6 @@ fun SharedLoyaltyCardsListScreen(
     val sharedLoyaltyCards = viewModel.sharedLoyaltyCards.collectAsState(emptyList())
     val loyaltyCards = viewModel.loyaltyCards.collectAsState(emptyList())
 
-    viewModel.initializeData()
-
     BasicStructure(
         restartApp = restartApp,
         switchScreen = switchScreen,
@@ -63,21 +61,9 @@ fun SharedLoyaltyCardsListScreen(
             SharedCardList(
                 sharedCardsList = sharedLoyaltyCards.value,
                 cardsList = loyaltyCards.value,
-                getUserEmail = { viewModel.getUserEmail(it) }
+                getUser = { viewModel.getUser(it) }
             ) {
                 viewModel.stopSharing(it)
-            }
-            LazyColumn(
-                contentPadding = PaddingValues(vertical = 10.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp),
-            ) {
-                items(sharedLoyaltyCards.value) { sharedLoyaltyCard ->
-                    SharedCard(
-                        cardName = loyaltyCards.value.first { it.id == sharedLoyaltyCard.sharedCardId }.name,
-                        userEmail = viewModel.getUserEmail(sharedLoyaltyCard.sharedUid)) {
-                        viewModel.stopSharing(sharedLoyaltyCard.id)
-                    }
-                }
             }
         }
     }

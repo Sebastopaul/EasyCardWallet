@@ -1,11 +1,13 @@
 package com.isitechproject.easycardwallet.screens.auth.sign_up
 
+import android.graphics.Bitmap
 import com.isitechproject.easycardwallet.LOYALTY_CARDS_LIST_SCREEN
 import com.isitechproject.easycardwallet.SIGN_UP_SCREEN
 import com.isitechproject.easycardwallet.model.User
 import com.isitechproject.easycardwallet.model.service.AccountService
 import com.isitechproject.easycardwallet.model.service.UserService
 import com.isitechproject.easycardwallet.screens.EasyCardWalletAppViewModel
+import com.isitechproject.easycardwallet.utils.ImageConverterBase64
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
@@ -34,8 +36,8 @@ class SignUpViewModel @Inject constructor(
         lastname.value = newLastname
     }
 
-    fun updateProfilePicture(newProfilePicture: String) {
-        profilePicture.value = newProfilePicture
+    fun updateProfilePicture(newProfilePicture: Bitmap) {
+        profilePicture.value = ImageConverterBase64.to(newProfilePicture) ?: ""
     }
 
     fun updatePassword(newPassword: String) {

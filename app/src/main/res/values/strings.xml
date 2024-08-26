@@ -18,5 +18,4 @@
     <string name="register_loyalty_card">Register Loyalty Card</string>
     <string name="add_card">Add card</string>
     <string name="visit_card_list">My Visit Cards</string>
-    <string name="fileprovider">com.isitechproject.easycardwallet.components.fileprovider</string>
 </resources>

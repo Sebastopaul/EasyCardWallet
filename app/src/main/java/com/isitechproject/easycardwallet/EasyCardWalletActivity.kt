@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
@@ -26,7 +27,7 @@ class EasyCardWalletActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         configureFirebaseServices()
 
-        checkStoragePermission()
+        checkIfStoragePermissionIsGranted()
     }
 
     private fun checkStoragePermission() {
