@@ -1,5 +1,6 @@
 package com.isitechproject.easycardwallet.screens.visitcards.sharedvisitcardslist
 
+import androidx.compose.runtime.mutableStateOf
 import com.isitechproject.easycardwallet.model.User
 import com.isitechproject.easycardwallet.model.service.AccountService
 import com.isitechproject.easycardwallet.model.service.SharedCardService
@@ -21,19 +22,15 @@ class SharedVisitCardsListViewModel @Inject constructor(
 ): EasyCardWalletAppViewModel(accountService) {
     val sharedVisitCards = sharedVisitCardService.currentUserSharedCards
     val visitCards = visitCardService.userCards
-    private val users = mutableListOf<User>()
 
-    fun initializeData() {
+    fun getUser(id: String): User {
+        val user = mutableStateOf(User())
+
         runBlocking {
-            sharedVisitCards.first().forEach {
-                val user = userService.getOneById(it.sharedUid)
-                users.add(user)
-            }
+            user.value = userService.getOneById(id)
         }
-    }
 
-    fun getUserEmail(id: String): String {
-        return users.first { it.uid == id }.email
+        return user.value
     }
 
     fun stopSharing(id: String) {

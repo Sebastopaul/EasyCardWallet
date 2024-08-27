@@ -14,6 +14,8 @@ import com.isitechproject.easycardwallet.model.AbstractCard
 fun CardList(
     cards: List<AbstractCard>,
     onCardClick: (AbstractCard) -> Unit,
+    currentUserId: String,
+    getUserPicture: (String) -> String,
     modifier: Modifier = Modifier,
 ) {
     LazyVerticalGrid(
@@ -28,6 +30,7 @@ fun CardList(
                 cardName = cards[index].name,
                 cardPicture = cards[index].picture,
                 onCardClick = { onCardClick(cards[index]) },
+                userPicture = if (cards[index].uid === currentUserId) { "" } else getUserPicture(cards[index].uid)
             )
         }
     }

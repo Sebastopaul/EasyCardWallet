@@ -8,14 +8,14 @@ plugins {
 
 android {
     namespace = "com.isitechproject.easycardwallet"
-    compileSdk = 35
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.isitechproject.easycardwallet"
         minSdk = 28
         targetSdk = 35
         versionCode = 1
-        versionName = "1.2"
+        versionName = "1.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -51,6 +51,7 @@ android {
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(platform(libs.firebase.bom))
+    implementation(libs.android.image.cropper)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.camera.camera2)
     implementation(libs.androidx.camera.lifecycle)
@@ -66,6 +67,7 @@ dependencies {
     implementation(libs.androidx.ui.text.google.fonts)
     implementation(libs.androidx.window)
     implementation(libs.barcode.scanning)
+    implementation(libs.coil.compose)
     implementation(libs.core)
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.auth.ktx)

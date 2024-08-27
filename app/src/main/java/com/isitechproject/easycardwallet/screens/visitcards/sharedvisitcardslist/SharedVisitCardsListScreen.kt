@@ -27,8 +27,6 @@ fun SharedVisitCardsListScreen(
     val sharedVisitCards = viewModel.sharedVisitCards.collectAsState(emptyList())
     val visitCards = viewModel.visitCards.collectAsState(emptyList())
 
-    viewModel.initializeData()
-
     BasicStructure(
         restartApp = restartApp,
         switchScreen = switchScreen,
@@ -43,21 +41,9 @@ fun SharedVisitCardsListScreen(
             SharedCardList(
                 sharedCardsList = sharedVisitCards.value,
                 cardsList = visitCards.value,
-                getUserEmail = { viewModel.getUserEmail(it) }
+                getUser = { viewModel.getUser(it) }
             ) {
                 viewModel.stopSharing(it)
-            }
-            LazyColumn(
-                contentPadding = PaddingValues(vertical = 10.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp),
-            ) {
-                items(sharedVisitCards.value) { sharedLoyaltyCard ->
-                    SharedCard(
-                        cardName = visitCards.value.first { it.id == sharedLoyaltyCard.sharedCardId }.name,
-                        userEmail = viewModel.getUserEmail(sharedLoyaltyCard.sharedUid)) {
-                        viewModel.stopSharing(sharedLoyaltyCard.id)
-                    }
-                }
             }
         }
     }
