@@ -1,5 +1,6 @@
 package com.isitechproject.easycardwallet.ui.components
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.graphics.Bitmap
 import android.net.Uri
@@ -30,7 +31,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.canhub.cropper.CropImageOptions
 import com.canhub.cropper.CropImageView
+import com.isitechproject.easycardwallet.R
 
+@SuppressLint("InflateParams")
 @Composable
 fun ImageSelector(
     registerImage: (Bitmap) -> Unit,
@@ -38,7 +41,6 @@ fun ImageSelector(
     onSetUri : (Uri) -> Unit = {}, // selected / taken uri
 ) {
     val context = LocalContext.current as Activity
-    val cropImageView = CropImageView(context)
     var selectImage by remember { mutableStateOf(false) }
     var bitmap: Bitmap? by remember { mutableStateOf(null) }
     val imagePicker = rememberLauncherForActivityResult(
@@ -61,6 +63,8 @@ fun ImageSelector(
 
     Column(modifier = Modifier.fillMaxWidth()) {
         if (uri != null && bitmap == null) {
+            val cropImageView = CropImageView(context)
+
             cropImageView.setImageCropOptions(
                 CropImageOptions(
                     imageSourceIncludeCamera = false,
@@ -75,7 +79,9 @@ fun ImageSelector(
                 bitmap?.let { registerImage(it) }
             }
 
-            AndroidView(factory = { cropImageView })
+            SideEffect {
+                context.setContentView(cropImageView)
+            }
         } else if (bitmap != null) {
             Box {
                 Image(bitmap = bitmap!!.asImageBitmap(), contentDescription = "Selected image")
