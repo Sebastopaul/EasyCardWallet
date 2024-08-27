@@ -84,7 +84,7 @@ fun LoyaltyCardScreen(
             )
 
             Image(
-                bitmap = ImageConverterBase64.from(loyaltyCard.value.picture).asImageBitmap(),
+                bitmap = ImageConverterBase64.fromBase64String(loyaltyCard.value.picture).asImageBitmap(),
                 contentDescription = "QR Code",
                 modifier = Modifier.fillMaxSize()
             )

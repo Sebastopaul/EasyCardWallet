@@ -71,6 +71,7 @@ dependencies {
     implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.hilt.android)
+    implementation(libs.text.recognition)
     implementation(libs.material)
     implementation(libs.zxing.android.embedded)
 

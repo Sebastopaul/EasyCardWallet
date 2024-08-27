@@ -1,4 +1,4 @@
-package com.isitechproject.barcodescanner.screens.scanloyaltycard
+package com.isitechproject.businesscardscanner.screens.scanbusinesscard
 
 import android.net.Uri
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
@@ -18,14 +18,16 @@ import com.google.mlkit.vision.barcode.common.Barcode
 import com.isitechproject.barcodescanner.BARCODE_FORMAT
 import com.isitechproject.barcodescanner.BARCODE_ARG_NAME
 import com.isitechproject.barcodescanner.BARCODE_DEFAULT
-import com.isitechproject.barcodescanner.BarcodeScannerActivity
 import com.isitechproject.barcodescanner.CREATE_LOYALTY_CARD_SCREEN
+import com.isitechproject.businesscardscanner.ANALYZED_TEXT_ARG
+import com.isitechproject.businesscardscanner.BusinessCardScannerActivity
+import com.isitechproject.businesscardscanner.CREATE_BUSINESS_CARD_SCREEN
 
 @Composable
-fun ScanLoyaltyCardScreen(
-    activity: BarcodeScannerActivity,
+fun ScanBusinessCardScreen(
+    activity: BusinessCardScannerActivity,
     openCreationScreen: (String) -> Unit,
-    viewModel: ScanLoyaltyCardViewModel = hiltViewModel()
+    viewModel: ScanBusinessCardViewModel = hiltViewModel()
 ) {
 
     Surface(color = MaterialTheme.colorScheme.background) {
@@ -56,9 +58,9 @@ fun bindPreview(
 
 @Composable
 fun CameraPreview(
-    activity: BarcodeScannerActivity,
+    activity: BusinessCardScannerActivity,
     openCreationScreen: (String) -> Unit,
-    viewModel: ScanLoyaltyCardViewModel,
+    viewModel: ScanBusinessCardViewModel,
 ) {
     val cameraProviderFuture = ProcessCameraProvider.getInstance(activity)
 
@@ -75,9 +77,9 @@ fun CameraPreview(
                             cameraProviderFuture,
                             this,
                             activity,
-                        ) { barcode ->
+                        ) { text, picture ->
                             openCreationScreen(
-                                "$CREATE_LOYALTY_CARD_SCREEN?$BARCODE_ARG_NAME=${Uri.encode(getBarcodeValue(barcode))}&$BARCODE_FORMAT=${barcode.format}"
+                                "$CREATE_BUSINESS_CARD_SCREEN?$ANALYZED_TEXT_ARG=${Uri.encode(text.text)}&${Uri.encode(picture)}"
                             )
                         }
                     }, ContextCompat.getMainExecutor(context))

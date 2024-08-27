@@ -1,19 +1,17 @@
 package com.isitechproject.barcodescanner.utils
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.annotation.OptIn
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis.Analyzer
 import androidx.camera.core.ImageProxy
-import androidx.compose.runtime.Composable
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
 
-class ImageAnalyzer(
+class ImageAnalyzerForBarcodes(
     context: Context,
     private val handleBarcode: (Barcode) -> Unit = { barcode ->
         Toast.makeText(

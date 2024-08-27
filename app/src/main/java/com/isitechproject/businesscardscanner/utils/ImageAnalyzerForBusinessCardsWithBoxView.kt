@@ -1,4 +1,4 @@
-package com.isitechproject.barcodescanner.utils
+package com.isitechproject.businesscardscanner.utils
 
 import android.content.Context
 import android.graphics.Rect
@@ -8,31 +8,25 @@ import androidx.annotation.OptIn
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
-import com.google.mlkit.vision.barcode.BarcodeScannerOptions
-import com.google.mlkit.vision.barcode.BarcodeScanning
-import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.text.Text
+import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 
-class ImageAnalyzerWithBoxView(
+class ImageAnalyzerForBusinessCardsWithBoxView(
     private val context: Context,
-    private val barcodeBoxView: BarcodeBoxView,
+    private val boxView: BoxView,
     private val previewViewWidth: Float,
     private val previewViewHeight: Float,
-    private val handleBarcode: (Barcode) -> Unit = { barcode ->
+    private val handleText: (Text, String) -> Unit = { visionText, _ ->
         Toast.makeText(
             context,
-            "Value: " + barcode.rawValue,
-            Toast.LENGTH_SHORT
+            "Value: " + visionText.text,
+            Toast.LENGTH_LONG
         ).show()
     }
 ) : ImageAnalysis.Analyzer {
-    private val options = BarcodeScannerOptions.Builder()
-        .setBarcodeFormats(
-            Barcode.FORMAT_QR_CODE,
-            Barcode.FORMAT_AZTEC,
-        ).build()
-
-    private val scanner = BarcodeScanning.getClient(options)
+    private val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
 
     /**
      * This parameters will handle preview box scaling
@@ -53,22 +47,19 @@ class ImageAnalyzerWithBoxView(
     @OptIn(ExperimentalGetImage::class)
     override fun analyze(image: ImageProxy) {
         val img = image.image
+
         if (img != null) {
-            // Update scale factors
             scaleX = previewViewWidth / img.height.toFloat()
             scaleY = previewViewHeight / img.width.toFloat()
 
             val inputImage = InputImage.fromMediaImage(img, image.imageInfo.rotationDegrees)
 
-            scanner.process(inputImage)
-                .addOnSuccessListener { barcodes ->
-                    if (barcodes.isNotEmpty()) {
-                        for (barcode in barcodes) {
-                            // Handle received barcodes...
-                            handleBarcode(barcode)
-                            // Update bounding rect
-                            barcode.boundingBox?.let { rect ->
-                                barcodeBoxView.setRect(
+            recognizer.process(inputImage)
+                .addOnSuccessListener { text ->
+                    if (text.text.isNotEmpty()) {
+                        for (textBlock in text.textBlocks) {
+                            textBlock.boundingBox?.let { rect ->
+                                boxView.setRect(
                                     adjustBoundingRect(
                                         rect
                                     )
@@ -76,13 +67,11 @@ class ImageAnalyzerWithBoxView(
                             }
                         }
                     } else {
-                        // Remove bounding rect
-                        barcodeBoxView.setRect(RectF())
+                        boxView.setRect(RectF())
                     }
                 }
                 .addOnFailureListener { }
         }
-
         image.close()
     }
 }

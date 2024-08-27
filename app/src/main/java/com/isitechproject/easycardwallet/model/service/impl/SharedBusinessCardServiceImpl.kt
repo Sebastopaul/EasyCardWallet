@@ -7,9 +7,8 @@ import com.google.firebase.firestore.dataObjects
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
 import com.isitechproject.easycardwallet.model.AbstractSharedCard
-import com.isitechproject.easycardwallet.model.SharedVisitCard
-import com.isitechproject.easycardwallet.model.service.SharedCardService
-import com.isitechproject.easycardwallet.model.service.SharedVisitCardService
+import com.isitechproject.easycardwallet.model.SharedBusinessCard
+import com.isitechproject.easycardwallet.model.service.SharedBusinessCardService
 import com.isitechproject.easycardwallet.model.service.UserService
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -17,9 +16,9 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class SharedVisitCardServiceImpl @Inject constructor(
+class SharedBusinessCardServiceImpl @Inject constructor(
     private val userService: UserService
-): SharedVisitCardService {
+): SharedBusinessCardService {
     private val db = Firebase.firestore
     private val sharedVisitCardsPath = db.collection(SHARED_VISIT_CARDS_COLLECTION)
 
@@ -29,7 +28,7 @@ class SharedVisitCardServiceImpl @Inject constructor(
             userService.currentUser.flatMapLatest { user ->
                 sharedVisitCardsPath
                     .whereEqualTo(UID_FIELD, user?.uid)
-                    .dataObjects<SharedVisitCard>()
+                    .dataObjects<SharedBusinessCard>()
             }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -38,7 +37,7 @@ class SharedVisitCardServiceImpl @Inject constructor(
             userService.currentUser.flatMapLatest { user ->
                 sharedVisitCardsPath
                     .whereEqualTo(SHARED_TO_UID_FIELD, user?.uid)
-                    .dataObjects<SharedVisitCard>()
+                    .dataObjects<SharedBusinessCard>()
             }
 
     override suspend fun create(sharedCard: AbstractSharedCard) {
@@ -50,7 +49,7 @@ class SharedVisitCardServiceImpl @Inject constructor(
     override suspend fun getOne(id: String): AbstractSharedCard {
         val response = sharedVisitCardsPath.document(id).get().await()
 
-        return response.toObject<SharedVisitCard>()
+        return response.toObject<SharedBusinessCard>()
             ?.withId(response.id)
             ?: throw NotFoundException("Could not find shared card with id: $id")
     }
@@ -67,7 +66,7 @@ class SharedVisitCardServiceImpl @Inject constructor(
             Log.d("TEST_IF", sharedVisitCard.id);
 
             return sharedVisitCard
-                .toObject<SharedVisitCard>()
+                .toObject<SharedBusinessCard>()
                 .withId(sharedVisitCard.id)
         }
         throw NotFoundException("Could not find shared card with id: $id")

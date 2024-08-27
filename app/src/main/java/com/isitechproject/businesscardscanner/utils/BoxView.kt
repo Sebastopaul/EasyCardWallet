@@ -1,4 +1,4 @@
-package com.isitechproject.barcodescanner.utils
+package com.isitechproject.businesscardscanner.utils
 
 import android.content.Context
 import android.graphics.Canvas
@@ -7,7 +7,7 @@ import android.graphics.RectF
 import android.view.View
 import android.graphics.Paint
 
-class BarcodeBoxView(
+class BoxView(
     context: Context
 ) : View(context) {
 

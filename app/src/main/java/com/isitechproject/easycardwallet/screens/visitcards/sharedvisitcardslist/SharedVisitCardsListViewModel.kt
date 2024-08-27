@@ -2,10 +2,9 @@ package com.isitechproject.easycardwallet.screens.visitcards.sharedvisitcardslis
 
 import com.isitechproject.easycardwallet.model.User
 import com.isitechproject.easycardwallet.model.service.AccountService
-import com.isitechproject.easycardwallet.model.service.SharedCardService
-import com.isitechproject.easycardwallet.model.service.SharedVisitCardService
+import com.isitechproject.easycardwallet.model.service.SharedBusinessCardService
 import com.isitechproject.easycardwallet.model.service.UserService
-import com.isitechproject.easycardwallet.model.service.VisitCardService
+import com.isitechproject.easycardwallet.model.service.BusinessCardService
 import com.isitechproject.easycardwallet.screens.EasyCardWalletAppViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
@@ -16,11 +15,11 @@ import javax.inject.Inject
 class SharedVisitCardsListViewModel @Inject constructor(
     accountService: AccountService,
     private val userService: UserService,
-    visitCardService: VisitCardService,
-    private val sharedVisitCardService: SharedVisitCardService,
+    businessCardService: BusinessCardService,
+    private val sharedBusinessCardService: SharedBusinessCardService,
 ): EasyCardWalletAppViewModel(accountService) {
-    val sharedVisitCards = sharedVisitCardService.currentUserSharedCards
-    val visitCards = visitCardService.userCards
+    val sharedVisitCards = sharedBusinessCardService.currentUserSharedCards
+    val visitCards = businessCardService.userCards
     private val users = mutableListOf<User>()
 
     fun initializeData() {
@@ -38,7 +37,7 @@ class SharedVisitCardsListViewModel @Inject constructor(
 
     fun stopSharing(id: String) {
         launchCatching {
-            sharedVisitCardService.delete(id)
+            sharedBusinessCardService.delete(id)
         }
     }
 }

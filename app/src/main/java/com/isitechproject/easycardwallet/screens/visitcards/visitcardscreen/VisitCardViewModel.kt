@@ -3,14 +3,12 @@ package com.isitechproject.easycardwallet.screens.visitcards.visitcardscreen
 import android.util.Log
 import com.isitechproject.easycardwallet.LOYALTY_CARD_DEFAULT_ID
 import com.isitechproject.easycardwallet.SPLASH_SCREEN
-import com.isitechproject.easycardwallet.model.VisitCard
-import com.isitechproject.easycardwallet.model.SharedVisitCard
+import com.isitechproject.easycardwallet.model.BusinessCard
+import com.isitechproject.easycardwallet.model.SharedBusinessCard
 import com.isitechproject.easycardwallet.model.service.AccountService
-import com.isitechproject.easycardwallet.model.service.CardService
-import com.isitechproject.easycardwallet.model.service.SharedCardService
-import com.isitechproject.easycardwallet.model.service.SharedVisitCardService
+import com.isitechproject.easycardwallet.model.service.SharedBusinessCardService
 import com.isitechproject.easycardwallet.model.service.UserService
-import com.isitechproject.easycardwallet.model.service.VisitCardService
+import com.isitechproject.easycardwallet.model.service.BusinessCardService
 import com.isitechproject.easycardwallet.screens.EasyCardWalletAppViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,15 +18,15 @@ import javax.inject.Inject
 class VisitCardViewModel @Inject constructor(
     private val accountService: AccountService,
     private val userService: UserService,
-    private val visitCardService: VisitCardService,
-    private val sharedVisitCardService: SharedVisitCardService,
+    private val businessCardService: BusinessCardService,
+    private val sharedBusinessCardService: SharedBusinessCardService,
 ): EasyCardWalletAppViewModel(accountService) {
     val visitCard = MutableStateFlow(DEFAULT_LOYALTY_CARD)
     val emailToShare = MutableStateFlow("")
 
     fun initialize(visitCardId: String, restartApp: (String) -> Unit) {
         launchCatching {
-            visitCard.value = (visitCardService.getOne(visitCardId) ?: DEFAULT_LOYALTY_CARD) as VisitCard
+            visitCard.value = (businessCardService.getOne(visitCardId) ?: DEFAULT_LOYALTY_CARD) as BusinessCard
         }
 
         observeAuthenticationState(restartApp)
@@ -51,9 +49,9 @@ class VisitCardViewModel @Inject constructor(
     fun saveVisitCard(popUpScreen: () -> Unit) {
         launchCatching {
             if (visitCard.value.id == LOYALTY_CARD_DEFAULT_ID) {
-                visitCardService.create(visitCard.value)
+                businessCardService.create(visitCard.value)
             } else {
-                visitCardService.update(visitCard.value)
+                businessCardService.update(visitCard.value)
             }
         }
 
@@ -62,7 +60,7 @@ class VisitCardViewModel @Inject constructor(
 
     fun deleteVisitCard(popUpScreen: () -> Unit) {
         launchCatching {
-            visitCardService.delete(visitCard.value.id)
+            businessCardService.delete(visitCard.value.id)
         }
 
         popUpScreen()
@@ -70,11 +68,11 @@ class VisitCardViewModel @Inject constructor(
 
     fun deleteSharedVisitCard(popUpScreen: () -> Unit) {
         launchCatching {
-            val sharedVisitCardToDestroy = sharedVisitCardService.getOneBySharedId(visitCard.value.id)
+            val sharedVisitCardToDestroy = sharedBusinessCardService.getOneBySharedId(visitCard.value.id)
             Log.d("TEST_CATCHING", sharedVisitCardToDestroy.id)
             Log.d("TEST_CATCHING", sharedVisitCardToDestroy.sharedCardId)
 
-            sharedVisitCardService.delete(sharedVisitCardToDestroy.id)
+            sharedBusinessCardService.delete(sharedVisitCardToDestroy.id)
         }
 
         popUpScreen()
@@ -86,7 +84,7 @@ class VisitCardViewModel @Inject constructor(
 
     fun shareVisitCard() {
         launchCatching {
-            sharedVisitCardService.create(SharedVisitCard(
+            sharedBusinessCardService.create(SharedBusinessCard(
                 sharedCardId = visitCard.value.id,
                 sharedUid = userService.getOneByEmail(emailToShare.value).uid,
                 uid = userService.currentUserId,
@@ -99,11 +97,11 @@ class VisitCardViewModel @Inject constructor(
     }
 
     companion object {
-        private val DEFAULT_LOYALTY_CARD = VisitCard(
-            "My VisitCard",
+        private val DEFAULT_LOYALTY_CARD = BusinessCard(
+            "My BusinessCard",
             "picture",
             "uid",
-        ).withId<VisitCard>(LOYALTY_CARD_DEFAULT_ID)
+        ).withId<BusinessCard>(LOYALTY_CARD_DEFAULT_ID)
     }
 
 }

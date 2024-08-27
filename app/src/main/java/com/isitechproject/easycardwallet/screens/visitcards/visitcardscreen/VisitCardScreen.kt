@@ -84,7 +84,7 @@ fun VisitCardScreen(
             )
 
             Image(
-                bitmap = ImageConverterBase64.from(visitCard.value.picture).asImageBitmap(),
+                bitmap = ImageConverterBase64.fromBase64String(visitCard.value.picture).asImageBitmap(),
                 contentDescription = "QR Code",
                 modifier = Modifier.fillMaxSize()
             )

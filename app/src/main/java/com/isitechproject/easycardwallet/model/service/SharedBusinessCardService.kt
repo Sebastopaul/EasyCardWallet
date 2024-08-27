@@ -1,3 +1,3 @@
 package com.isitechproject.easycardwallet.model.service
 
-interface SharedVisitCardService: SharedCardService
+interface SharedBusinessCardService: SharedCardService

@@ -1,4 +1,4 @@
-package com.isitechproject.barcodescanner
+package com.isitechproject.businesscardscanner
 
 import android.net.Uri
 import androidx.compose.foundation.layout.padding
@@ -16,15 +16,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.isitechproject.barcodescanner.screens.createloyaltycard.CreateLoyaltyCardScreen
-import com.isitechproject.barcodescanner.screens.scanloyaltycard.ScanLoyaltyCardScreen
+import com.isitechproject.barcodescanner.BARCODE_FORMAT
+import com.isitechproject.barcodescanner.BARCODE_FORMAT_DEFAULT
+import com.isitechproject.businesscardscanner.screens.createbusinesscard.CreateBusinessCardScreen
+import com.isitechproject.businesscardscanner.screens.scanbusinesscard.ScanBusinessCardScreen
 import com.isitechproject.easycardwallet.EasyCardWalletActivity
 import com.isitechproject.easycardwallet.EasyCardWalletAppState
 import com.isitechproject.easycardwallet.SCAN_LOYALTY_CARD_SCREEN
 import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 
 @Composable
-fun BarcodeScannerApp(activity: BarcodeScannerActivity) {
+fun BarcodeScannerApp(activity: BusinessCardScannerActivity) {
     EasyCardWalletTheme {
         Surface(color = MaterialTheme.colorScheme.background) {
             val appState = rememberAppState()
@@ -50,34 +52,31 @@ fun rememberAppState(navController: NavHostController = rememberNavController())
 
 fun NavGraphBuilder.barcodeScannerGraph(
     appState: EasyCardWalletAppState,
-    activity: BarcodeScannerActivity
+    activity: BusinessCardScannerActivity
 ) {
      activity(EASY_CARD_WALLET_MAIN_SCREEN){
         activityClass = EasyCardWalletActivity::class
     }
 
     composable(SCAN_LOYALTY_CARD_SCREEN) {
-        ScanLoyaltyCardScreen(
+        ScanBusinessCardScreen(
             activity,
             { route -> appState.navigate(route) },
         )
     }
 
     composable(
-        route = "$CREATE_LOYALTY_CARD_SCREEN$BARCODE_ARG",
+        route = "$CREATE_BUSINESS_CARD_SCREEN$ANALYZED_TEXT_ARG",
         arguments = listOf(
-            navArgument(BARCODE_ARG_NAME) { defaultValue = BARCODE_DEFAULT },
-            navArgument(BARCODE_FORMAT) {
-                defaultValue = BARCODE_FORMAT_DEFAULT
-                type = NavType.IntType
-            },
-        )
+            navArgument(ANALYZED_TEXT) { defaultValue = BUSINESS_CARD_DEFAULT },
+            navArgument(BUSINESS_CARD_PICTURE) { defaultValue = BUSINESS_CARD_DEFAULT },
+        ),
     ) {
         activity.shutdownCamera()
-        CreateLoyaltyCardScreen(
-            barcodeValue = Uri.decode(it.arguments?.getString(BARCODE_ARG_NAME)) ?: BARCODE_DEFAULT,
-            barcodeFormat = it.arguments?.getInt(BARCODE_FORMAT) ?: BARCODE_FORMAT_DEFAULT,
-            backToMain = { route -> appState.navigate(route) }
+        CreateBusinessCardScreen(
+            analyzedText = Uri.decode(it.arguments?.getString(ANALYZED_TEXT)) ?: BUSINESS_CARD_DEFAULT,
+            cardPicture = Uri.decode(it.arguments?.getString(BUSINESS_CARD_PICTURE)) ?: BUSINESS_CARD_DEFAULT,
+            backToMain = { route -> appState.navigate(route) },
         )
     }
 }

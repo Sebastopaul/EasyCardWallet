@@ -6,12 +6,10 @@ import com.google.firebase.firestore.dataObjects
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
 import com.isitechproject.easycardwallet.model.AbstractCard
-import com.isitechproject.easycardwallet.model.VisitCard
-import com.isitechproject.easycardwallet.model.service.CardService
-import com.isitechproject.easycardwallet.model.service.SharedCardService
-import com.isitechproject.easycardwallet.model.service.SharedVisitCardService
+import com.isitechproject.easycardwallet.model.BusinessCard
+import com.isitechproject.easycardwallet.model.service.SharedBusinessCardService
 import com.isitechproject.easycardwallet.model.service.UserService
-import com.isitechproject.easycardwallet.model.service.VisitCardService
+import com.isitechproject.easycardwallet.model.service.BusinessCardService
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -19,10 +17,10 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class VisitCardServiceImpl @Inject constructor(
+class BusinessCardServiceImpl @Inject constructor(
     private val userService: UserService,
-    private val sharedVisitCardsService: SharedVisitCardService,
-): VisitCardService {
+    private val sharedVisitCardsService: SharedBusinessCardService,
+): BusinessCardService {
     private val db = Firebase.firestore
     private val visitCardsPath = db.collection(VISIT_CARDS_COLLECTION)
 
@@ -32,7 +30,7 @@ class VisitCardServiceImpl @Inject constructor(
             userService.currentUser.flatMapLatest { user ->
                 visitCardsPath
                     .whereEqualTo(UID_FIELD, user?.uid)
-                    .dataObjects<VisitCard>()
+                    .dataObjects<BusinessCard>()
             }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -43,9 +41,9 @@ class VisitCardServiceImpl @Inject constructor(
                 if (ids.isNotEmpty()) {
                     visitCardsPath
                         .whereIn(ID_FIELD, ids)
-                        .dataObjects<VisitCard>()
+                        .dataObjects<BusinessCard>()
                 } else {
-                    flow { emptyList<VisitCard>() }
+                    flow { emptyList<BusinessCard>() }
                 }
             }
 
@@ -57,7 +55,7 @@ class VisitCardServiceImpl @Inject constructor(
                 if (ids.isNotEmpty()) {
                     visitCardsPath
                         .whereIn(ID_FIELD, ids)
-                        .dataObjects<VisitCard>()
+                        .dataObjects<BusinessCard>()
                 } else {
                     flow { emptyList<AbstractCard>() }
                 }
@@ -72,7 +70,7 @@ class VisitCardServiceImpl @Inject constructor(
     override suspend fun getOne(id: String): AbstractCard {
         val response = visitCardsPath.document(id).get().await()
 
-        return response.toObject<VisitCard>()
+        return response.toObject<BusinessCard>()
             ?.withId(response.id)
             ?: throw NotFoundException("Could not find visit card with id: $id")
     }

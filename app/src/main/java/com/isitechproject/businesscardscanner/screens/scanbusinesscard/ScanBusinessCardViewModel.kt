@@ -1,4 +1,4 @@
-package com.isitechproject.barcodescanner.screens.scanloyaltycard
+package com.isitechproject.businesscardscanner.screens.scanbusinesscard
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
@@ -8,7 +8,8 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.mlkit.vision.barcode.common.Barcode
-import com.isitechproject.barcodescanner.utils.ImageAnalyzerForBarcodes
+import com.google.mlkit.vision.text.Text
+import com.isitechproject.businesscardscanner.utils.ImageAnalyzerForBusinessCards
 import com.isitechproject.easycardwallet.model.service.AccountService
 import com.isitechproject.easycardwallet.screens.EasyCardWalletAppViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,15 +17,15 @@ import java.util.concurrent.ExecutorService
 import javax.inject.Inject
 
 @HiltViewModel
-class ScanLoyaltyCardViewModel @Inject constructor(
-    private val accountService: AccountService,
+class ScanBusinessCardViewModel @Inject constructor(
+    accountService: AccountService,
 ): EasyCardWalletAppViewModel(accountService) {
     fun cameraListener(
         cameraExecutor: ExecutorService,
         cameraProviderFuture: ListenableFuture<ProcessCameraProvider>,
         previewView: PreviewView,
         activity: AppCompatActivity,
-        handleBarcode: (Barcode) -> Unit,
+        handleText: (Text, String) -> Unit,
     ) {
         val cameraProvider = cameraProviderFuture.get()
 
@@ -42,9 +43,9 @@ class ScanLoyaltyCardViewModel @Inject constructor(
             .also {
                 it.setAnalyzer(
                     cameraExecutor,
-                    ImageAnalyzerForBarcodes(
+                    ImageAnalyzerForBusinessCards(
                         activity,
-                        handleBarcode,
+                        handleText,
                     )
                 )
             }
