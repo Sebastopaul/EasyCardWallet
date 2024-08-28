@@ -37,23 +37,6 @@ fun ScanLoyaltyCardScreen(
     }
 }
 
-fun bindPreview(
-    cameraProvider: ProcessCameraProvider,
-    lifecycleOwner: LifecycleOwner,
-    previewView: PreviewView,
-) {
-    val preview: Preview = Preview.Builder()
-        .build()
-
-    val cameraSelector: CameraSelector = CameraSelector.Builder()
-        .requireLensFacing(CameraSelector.LENS_FACING_BACK)
-        .build()
-
-    preview.setSurfaceProvider(previewView.surfaceProvider)
-
-    cameraProvider.bindToLifecycle(lifecycleOwner, cameraSelector, preview)
-}
-
 @Composable
 fun CameraPreview(
     activity: BarcodeScannerActivity,

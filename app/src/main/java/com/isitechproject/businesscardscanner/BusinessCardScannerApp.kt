@@ -8,6 +8,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -26,7 +27,7 @@ import com.isitechproject.easycardwallet.SCAN_LOYALTY_CARD_SCREEN
 import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 
 @Composable
-fun BarcodeScannerApp(activity: BusinessCardScannerActivity) {
+fun BusinessCardScannerApp(route: String = SCAN_LOYALTY_CARD_SCREEN) {
     EasyCardWalletTheme {
         Surface(color = MaterialTheme.colorScheme.background) {
             val appState = rememberAppState()
@@ -34,10 +35,10 @@ fun BarcodeScannerApp(activity: BusinessCardScannerActivity) {
             Scaffold { innerPaddingModifier ->
                 NavHost(
                     navController = appState.navController,
-                    startDestination = SCAN_LOYALTY_CARD_SCREEN,
+                    startDestination = route,
                     modifier = Modifier.padding(innerPaddingModifier)
                 ) {
-                    barcodeScannerGraph(appState, activity)
+                    barcodeScannerGraph(appState)
                 }
             }
         }
@@ -50,17 +51,13 @@ fun rememberAppState(navController: NavHostController = rememberNavController())
         EasyCardWalletAppState(navController)
     }
 
-fun NavGraphBuilder.barcodeScannerGraph(
-    appState: EasyCardWalletAppState,
-    activity: BusinessCardScannerActivity
-) {
+fun NavGraphBuilder.barcodeScannerGraph(appState: EasyCardWalletAppState, ) {
      activity(EASY_CARD_WALLET_MAIN_SCREEN){
         activityClass = EasyCardWalletActivity::class
     }
 
     composable(SCAN_LOYALTY_CARD_SCREEN) {
         ScanBusinessCardScreen(
-            activity,
             { route -> appState.navigate(route) },
         )
     }
@@ -72,7 +69,9 @@ fun NavGraphBuilder.barcodeScannerGraph(
             navArgument(BUSINESS_CARD_PICTURE) { defaultValue = BUSINESS_CARD_DEFAULT },
         ),
     ) {
-        activity.shutdownCamera()
+        val context = LocalContext.current as BusinessCardScannerActivity
+        context.shutdownCamera()
+
         CreateBusinessCardScreen(
             analyzedText = Uri.decode(it.arguments?.getString(ANALYZED_TEXT)) ?: BUSINESS_CARD_DEFAULT,
             cardPicture = Uri.decode(it.arguments?.getString(BUSINESS_CARD_PICTURE)) ?: BUSINESS_CARD_DEFAULT,

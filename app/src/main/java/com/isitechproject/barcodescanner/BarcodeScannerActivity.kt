@@ -13,6 +13,7 @@ import com.google.firebase.BuildConfig
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
+import com.isitechproject.businesscardscanner.BusinessCardScannerApp
 import com.isitechproject.easycardwallet.AUTH_PORT
 import com.isitechproject.easycardwallet.FIRESTORE_PORT
 import com.isitechproject.easycardwallet.LOCALHOST
@@ -62,7 +63,7 @@ class BarcodeScannerActivity : AppCompatActivity() {
             // Permission granted: start the preview
             setContent {
                 EasyCardWalletTheme {
-                    BarcodeScannerApp(this)
+                    BarcodeScannerApp()
                 }
             }
         } else {
@@ -74,10 +75,15 @@ class BarcodeScannerActivity : AppCompatActivity() {
                     // Keep asking for permission until granted
                     checkCameraPermission()
                 }
-                .setCancelable(false)
+                .setCancelable(true)
+                .setOnCancelListener {
+                    setContent {
+                        BarcodeScannerApp(EASY_CARD_WALLET_MAIN_SCREEN)
+                    }
+                }
                 .create()
                 .apply {
-                    setCanceledOnTouchOutside(false)
+                    setCanceledOnTouchOutside(true)
                     show()
                 }
         }

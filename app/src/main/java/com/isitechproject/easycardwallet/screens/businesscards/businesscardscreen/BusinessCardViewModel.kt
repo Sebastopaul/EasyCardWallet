@@ -1,4 +1,4 @@
-package com.isitechproject.easycardwallet.screens.visitcards.visitcardscreen
+package com.isitechproject.easycardwallet.screens.businesscards.businesscardscreen
 
 import android.util.Log
 import com.isitechproject.easycardwallet.LOYALTY_CARD_DEFAULT_ID
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class VisitCardViewModel @Inject constructor(
+class BusinessCardViewModel @Inject constructor(
     private val accountService: AccountService,
     private val userService: UserService,
     private val businessCardService: BusinessCardService,

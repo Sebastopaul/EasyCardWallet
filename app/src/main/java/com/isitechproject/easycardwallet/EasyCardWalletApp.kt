@@ -1,6 +1,5 @@
 package com.isitechproject.easycardwallet
 
-import android.util.Log
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -18,14 +17,14 @@ import androidx.navigation.navArgument
 import com.isitechproject.easycardwallet.screens.auth.sign_in.SignInScreen
 import com.isitechproject.easycardwallet.screens.auth.sign_up.SignUpScreen
 import com.isitechproject.barcodescanner.BarcodeScannerActivity
-import com.isitechproject.barcodescanner.CREATE_LOYALTY_CARD_SCREEN
+import com.isitechproject.businesscardscanner.BusinessCardScannerActivity
 import com.isitechproject.easycardwallet.screens.loyaltycards.loyaltycardscreen.LoyaltyCardScreen
 import com.isitechproject.easycardwallet.screens.loyaltycards.loyaltycardslistscreen.LoyaltyCardsListScreen
 import com.isitechproject.easycardwallet.screens.loyaltycards.sharedloyaltycardslist.SharedLoyaltyCardsListScreen
 import com.isitechproject.easycardwallet.screens.splash.SplashScreen
-import com.isitechproject.easycardwallet.screens.visitcards.sharedvisitcardslist.SharedVisitCardsListScreen
-import com.isitechproject.easycardwallet.screens.visitcards.visitcardscreen.VisitCardScreen
-import com.isitechproject.easycardwallet.screens.visitcards.visitcardslistscreen.VisitCardsListScreen
+import com.isitechproject.easycardwallet.screens.businesscards.sharedbusinesscardslist.SharedBusinessCardsListScreen
+import com.isitechproject.easycardwallet.screens.businesscards.businesscardscreen.BusinessCardScreen
+import com.isitechproject.easycardwallet.screens.businesscards.businesscardslistscreen.BusinessCardsListScreen
 import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 
 @Composable
@@ -85,34 +84,34 @@ fun NavGraphBuilder.easyCardWalletGraph(appState: EasyCardWalletAppState) {
         )
     }
 
-    activity(SCAN_VISIT_CARD_SCREEN) {
-        activityClass = BarcodeScannerActivity::class
+    activity(SCAN_BUSINESS_CARD_SCREEN) {
+        activityClass = BusinessCardScannerActivity::class
     }
 
-    composable(SHARED_VISIT_CARDS_SCREEN) {
-        SharedVisitCardsListScreen(
+    composable(SHARED_BUSINESS_CARDS_SCREEN) {
+        SharedBusinessCardsListScreen(
             restartApp = { route -> appState.clearAndNavigate(route) },
             switchScreen = { route -> appState.navigate(route) }
         )
     }
 
     composable(
-        route = "$VISIT_CARD_SCREEN$VISIT_CARD_ID_ARG",
-        arguments = listOf(navArgument(VISIT_CARD_ID) { defaultValue = VISIT_CARD_DEFAULT_ID })
+        route = "$BUSINESS_CARD_SCREEN$BUSINESS_CARD_ID_ARG",
+        arguments = listOf(navArgument(BUSINESS_CARD_ID) { defaultValue = BUSINESS_CARD_DEFAULT_ID })
     ) {
-        VisitCardScreen(
-            visitCardId = it.arguments?.getString(VISIT_CARD_ID) ?: VISIT_CARD_DEFAULT_ID,
+        BusinessCardScreen(
+            visitCardId = it.arguments?.getString(BUSINESS_CARD_ID) ?: BUSINESS_CARD_DEFAULT_ID,
             popUpScreen = { appState.popUp() },
             restartApp = { route -> appState.clearAndNavigate(route) },
             switchScreen = { route -> appState.navigate(route) }
         )
     }
 
-    composable(VISIT_CARDS_LIST_SCREEN) {
-        VisitCardsListScreen(
+    composable(BUSINESS_CARDS_LIST_SCREEN) {
+        BusinessCardsListScreen(
             restartApp = { route -> appState.clearAndNavigate(route) },
             openScreen = { route -> appState.navigate(route) },
-            switchScreen = { route -> if (route != VISIT_CARDS_LIST_SCREEN) appState.navigate(route) }
+            switchScreen = { route -> if (route != BUSINESS_CARDS_LIST_SCREEN) appState.navigate(route) }
         )
     }
 

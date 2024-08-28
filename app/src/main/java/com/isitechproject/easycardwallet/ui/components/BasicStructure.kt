@@ -26,9 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.isitechproject.easycardwallet.LOYALTY_CARDS_LIST_SCREEN
 import com.isitechproject.easycardwallet.R
-import com.isitechproject.easycardwallet.VISIT_CARDS_LIST_SCREEN
 import com.isitechproject.easycardwallet.screens.EasyCardWalletAppViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")

@@ -1,4 +1,4 @@
-package com.isitechproject.easycardwallet.screens.visitcards.sharedvisitcardslist
+package com.isitechproject.easycardwallet.screens.businesscards.sharedbusinesscardslist
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,11 +18,11 @@ import com.isitechproject.easycardwallet.ui.components.SharedCardList
 
 
 @Composable
-fun SharedVisitCardsListScreen(
+fun SharedBusinessCardsListScreen(
     restartApp: (String) -> Unit,
     switchScreen: (String) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: SharedVisitCardsListViewModel = hiltViewModel()
+    viewModel: SharedBusinessCardsListViewModel = hiltViewModel()
 ) {
     val sharedVisitCards = viewModel.sharedVisitCards.collectAsState(emptyList())
     val visitCards = viewModel.visitCards.collectAsState(emptyList())

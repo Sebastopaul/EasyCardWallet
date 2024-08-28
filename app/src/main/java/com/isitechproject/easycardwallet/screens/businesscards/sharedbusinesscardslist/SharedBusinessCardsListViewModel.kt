@@ -1,4 +1,4 @@
-package com.isitechproject.easycardwallet.screens.visitcards.sharedvisitcardslist
+package com.isitechproject.easycardwallet.screens.businesscards.sharedbusinesscardslist
 
 import com.isitechproject.easycardwallet.model.User
 import com.isitechproject.easycardwallet.model.service.AccountService
@@ -12,7 +12,7 @@ import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
-class SharedVisitCardsListViewModel @Inject constructor(
+class SharedBusinessCardsListViewModel @Inject constructor(
     accountService: AccountService,
     private val userService: UserService,
     businessCardService: BusinessCardService,

@@ -1,4 +1,4 @@
-package com.isitechproject.easycardwallet.screens.visitcards.visitcardscreen
+package com.isitechproject.easycardwallet.screens.businesscards.businesscardscreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -35,13 +35,13 @@ import com.isitechproject.easycardwallet.utils.ImageConverterBase64
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VisitCardScreen(
+fun BusinessCardScreen(
     visitCardId: String,
     popUpScreen: () -> Unit,
     restartApp: (String) -> Unit,
     switchScreen: (String) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: VisitCardViewModel = hiltViewModel()
+    viewModel: BusinessCardViewModel = hiltViewModel()
 ) {
     val visitCard = viewModel.visitCard.collectAsState()
     var showShareCardDialog by remember { mutableStateOf(false) }

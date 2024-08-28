@@ -8,6 +8,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -24,7 +25,9 @@ import com.isitechproject.easycardwallet.SCAN_LOYALTY_CARD_SCREEN
 import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 
 @Composable
-fun BarcodeScannerApp(activity: BarcodeScannerActivity) {
+fun BarcodeScannerApp(route: String = SCAN_LOYALTY_CARD_SCREEN) {
+    val activity = LocalContext.current as BarcodeScannerActivity
+
     EasyCardWalletTheme {
         Surface(color = MaterialTheme.colorScheme.background) {
             val appState = rememberAppState()
@@ -32,7 +35,7 @@ fun BarcodeScannerApp(activity: BarcodeScannerActivity) {
             Scaffold { innerPaddingModifier ->
                 NavHost(
                     navController = appState.navController,
-                    startDestination = SCAN_LOYALTY_CARD_SCREEN,
+                    startDestination = route,
                     modifier = Modifier.padding(innerPaddingModifier)
                 ) {
                     barcodeScannerGraph(appState, activity)

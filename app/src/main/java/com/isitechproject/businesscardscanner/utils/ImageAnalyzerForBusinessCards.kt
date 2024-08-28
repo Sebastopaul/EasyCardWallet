@@ -1,14 +1,12 @@
 package com.isitechproject.businesscardscanner.utils
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.OptIn
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis.Analyzer
 import androidx.camera.core.ImageProxy
-import com.google.mlkit.vision.barcode.BarcodeScannerOptions
-import com.google.mlkit.vision.barcode.BarcodeScanning
-import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
@@ -23,7 +21,7 @@ class ImageAnalyzerForBusinessCards(
             "Value: " + visionText.text,
             Toast.LENGTH_LONG
         ).show()
-}) : Analyzer {
+    }) : Analyzer {
     private val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
 
     @OptIn(ExperimentalGetImage::class)
@@ -33,6 +31,8 @@ class ImageAnalyzerForBusinessCards(
             image.close()
             return
         }
+
+        Log.d("TEST", "ANALYZE")
 
         val inputImage = InputImage.fromMediaImage(img, image.imageInfo.rotationDegrees)
 

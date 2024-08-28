@@ -1,4 +1,4 @@
-package com.isitechproject.easycardwallet.screens.visitcards.visitcardslistscreen
+package com.isitechproject.easycardwallet.screens.businesscards.businesscardslistscreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,23 +20,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.isitechproject.easycardwallet.R
 import com.isitechproject.easycardwallet.ui.components.BasicStructure
 import com.isitechproject.easycardwallet.ui.components.CardList
-import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VisitCardsListScreen(
+fun BusinessCardsListScreen(
     restartApp: (String) -> Unit,
     switchScreen: (String) -> Unit,
     openScreen: (String) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: VisitCardsListViewModel = hiltViewModel()
+    viewModel: BusinessCardsListViewModel = hiltViewModel()
 ) {
     BasicStructure(
         restartApp = restartApp,
