@@ -36,6 +36,15 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.isitechproject.businesscardscanner.BusinessCardScannerActivity"
+            android:exported="true"
+            android:theme="@style/EasyCardWalletBaseTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

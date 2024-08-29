@@ -32,8 +32,6 @@ class ImageAnalyzerForBusinessCards(
             return
         }
 
-        Log.d("TEST", "ANALYZE")
-
         val inputImage = InputImage.fromMediaImage(img, image.imageInfo.rotationDegrees)
 
         recognizer.process(inputImage)
@@ -41,14 +39,6 @@ class ImageAnalyzerForBusinessCards(
                 val bitmapConverted = inputImage.bitmapInternal?.let { ImageConverterBase64.toBase64String(it) } ?: ""
                 handleText(visionText, bitmapConverted)
             }
-            .addOnFailureListener { e ->
-                Toast.makeText(
-                    context,
-                    "Error: " + e.message,
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-
         image.close()
     }
 }

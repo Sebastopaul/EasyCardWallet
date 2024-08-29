@@ -12,7 +12,10 @@ import androidx.camera.core.resolutionselector.ResolutionStrategy
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import com.google.common.util.concurrent.ListenableFuture
+import com.google.mlkit.vision.text.Text
 import com.isitechproject.businesscardscanner.utils.ImageAnalyzerForBusinessCards
+import com.isitechproject.businesscardscanner.utils.TextParser
+import com.isitechproject.easycardwallet.model.BusinessCard
 import com.isitechproject.easycardwallet.model.service.AccountService
 import com.isitechproject.easycardwallet.screens.EasyCardWalletAppViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -81,5 +84,12 @@ class ScanBusinessCardViewModel @Inject constructor(
         } catch (exc: Exception) {
             exc.printStackTrace()
         }
+    }
+
+    fun parseText(text: Text): Map<String, String> {
+        if (text.textBlocks.count() > 1) {
+            return TextParser().parseBlocks(text.textBlocks)
+        }
+        return mapOf(Pair(BusinessCard.NAME_FIELD, text.text))
     }
 }
