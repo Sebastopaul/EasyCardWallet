@@ -56,8 +56,11 @@ fun BasicStructure(
                                 contentDescription = "Loyalty cards list",
                             )
                         }
-                        IconButton(onClick = { viewModel.toVisitCardsList(switchScreen) }) {
-                            Icon(painter = painterResource(id = R.drawable.visit_card_icon), contentDescription = "Visit cards list")
+                        IconButton(onClick = { viewModel.toBusinessCardsList(switchScreen) }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.business_card_icon),
+                                contentDescription = "Business cards list",
+                            )
                         }
                     }
                 }

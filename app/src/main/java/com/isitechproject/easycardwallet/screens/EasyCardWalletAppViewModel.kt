@@ -37,7 +37,7 @@ open class EasyCardWalletAppViewModel(
         switchScreen(LOYALTY_CARDS_LIST_SCREEN)
     }
 
-    fun toVisitCardsList(switchScreen: (String) -> Unit) {
+    fun toBusinessCardsList(switchScreen: (String) -> Unit) {
         switchScreen(BUSINESS_CARDS_LIST_SCREEN)
     }
 

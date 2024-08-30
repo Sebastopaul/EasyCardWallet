@@ -19,14 +19,14 @@ class BusinessCardsListViewModel @Inject constructor(
     accountService: AccountService,
     businessCardService: BusinessCardService,
 ): EasyCardWalletAppViewModel(accountService) {
-    val userVisitCards = businessCardService.userCards
-    val sharedVisitCards = businessCardService.sharedCards
+    val userBusinessCards = businessCardService.userCards
+    val sharedBusinessCards = businessCardService.sharedCards
 
     fun onAddClick(openScreen: (String) -> Unit) {
         openScreen(SCAN_BUSINESS_CARD_SCREEN)
     }
 
-    fun onVisitCardClick(openScreen: (String) -> Unit, cardId: String) {
+    fun onBusinessCardClick(openScreen: (String) -> Unit, cardId: String) {
         openScreen("$BUSINESS_CARD_SCREEN?$BUSINESS_CARD_ID=${cardId}")
     }
 

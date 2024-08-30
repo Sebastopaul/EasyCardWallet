@@ -20,13 +20,13 @@ class SharedBusinessCardServiceImpl @Inject constructor(
     private val userService: UserService
 ): SharedBusinessCardService {
     private val db = Firebase.firestore
-    private val sharedVisitCardsPath = db.collection(SHARED_VISIT_CARDS_COLLECTION)
+    private val sharedBusinessCardsPath = db.collection(SHARED_BUSINESS_CARDS_COLLECTION)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     override val currentUserSharedCards: Flow<List<AbstractSharedCard>>
         get() =
             userService.currentUser.flatMapLatest { user ->
-                sharedVisitCardsPath
+                sharedBusinessCardsPath
                     .whereEqualTo(UID_FIELD, user?.uid)
                     .dataObjects<SharedBusinessCard>()
             }
@@ -35,19 +35,19 @@ class SharedBusinessCardServiceImpl @Inject constructor(
     override val sharedCards: Flow<List<AbstractSharedCard>>
         get() =
             userService.currentUser.flatMapLatest { user ->
-                sharedVisitCardsPath
+                sharedBusinessCardsPath
                     .whereEqualTo(SHARED_TO_UID_FIELD, user?.uid)
                     .dataObjects<SharedBusinessCard>()
             }
 
     override suspend fun create(sharedCard: AbstractSharedCard) {
-        val response = sharedVisitCardsPath.add(sharedCard).await()
+        val response = sharedBusinessCardsPath.add(sharedCard).await()
 
         update(sharedCard.withId(response.id))
     }
 
     override suspend fun getOne(id: String): AbstractSharedCard {
-        val response = sharedVisitCardsPath.document(id).get().await()
+        val response = sharedBusinessCardsPath.document(id).get().await()
 
         return response.toObject<SharedBusinessCard>()
             ?.withId(response.id)
@@ -57,27 +57,27 @@ class SharedBusinessCardServiceImpl @Inject constructor(
     override suspend fun getOneBySharedId(id: String): AbstractSharedCard {
 
         Log.d("TEST", id);
-        val response = sharedVisitCardsPath
+        val response = sharedBusinessCardsPath
             .whereEqualTo(SHARED_CARD_ID_FIELD, id)
             .get().await()
 
         if (!response.isEmpty) {
-            val sharedVisitCard = response.first()
-            Log.d("TEST_IF", sharedVisitCard.id);
+            val sharedBusinessCard = response.first()
+            Log.d("TEST_IF", sharedBusinessCard.id);
 
-            return sharedVisitCard
+            return sharedBusinessCard
                 .toObject<SharedBusinessCard>()
-                .withId(sharedVisitCard.id)
+                .withId(sharedBusinessCard.id)
         }
         throw NotFoundException("Could not find shared card with id: $id")
     }
 
     override suspend fun update(sharedCard: AbstractSharedCard) {
-        sharedVisitCardsPath.document(sharedCard.id).set(sharedCard).await()
+        sharedBusinessCardsPath.document(sharedCard.id).set(sharedCard).await()
     }
 
     override suspend fun delete(id: String) {
-        sharedVisitCardsPath.document(id).delete().await()
+        sharedBusinessCardsPath.document(id).delete().await()
     }
 
     companion object {

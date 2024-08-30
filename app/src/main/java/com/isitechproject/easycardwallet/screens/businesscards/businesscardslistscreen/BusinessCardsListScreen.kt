@@ -42,8 +42,8 @@ fun BusinessCardsListScreen(
         viewModel = viewModel,
         modifier = modifier,
     ) {
-        val userVisitCards by viewModel.userVisitCards.collectAsState(emptyList())
-        val sharedVisitCards by viewModel.sharedVisitCards.collectAsState(emptyList())
+        val userBusinessCards by viewModel.userBusinessCards.collectAsState(emptyList())
+        val sharedBusinessCards by viewModel.sharedBusinessCards.collectAsState(emptyList())
 
         Column {
             Row(
@@ -54,7 +54,7 @@ fun BusinessCardsListScreen(
                 horizontalArrangement = Arrangement.End,
             ) {
                 TopAppBar(
-                    title = { Text(text = stringResource(id = R.string.visit_card_list)) },
+                    title = { Text(text = stringResource(id = R.string.business_card_list)) },
                     actions = {
                         IconButton(onClick = { viewModel.onAddClick(openScreen) }) {
                             Icon(
@@ -65,7 +65,7 @@ fun BusinessCardsListScreen(
                         IconButton(onClick = { viewModel.onSharedClick(openScreen) }) {
                             Icon(
                                 imageVector = Icons.Filled.Share,
-                                contentDescription = "Shared visit cards",
+                                contentDescription = "Shared business cards",
                             )
                         }
                     }
@@ -79,8 +79,8 @@ fun BusinessCardsListScreen(
             )
 
             CardList(
-                cards = userVisitCards + sharedVisitCards,
-                onCardClick = { viewModel.onVisitCardClick(openScreen, it.id) },
+                cards = userBusinessCards + sharedBusinessCards,
+                onCardClick = { viewModel.onBusinessCardClick(openScreen, it.id) },
             )
         }
     }

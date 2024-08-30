@@ -21,12 +21,12 @@ class BusinessCardViewModel @Inject constructor(
     private val businessCardService: BusinessCardService,
     private val sharedBusinessCardService: SharedBusinessCardService,
 ): EasyCardWalletAppViewModel(accountService) {
-    val visitCard = MutableStateFlow(DEFAULT_LOYALTY_CARD)
+    val businessCard = MutableStateFlow(DEFAULT_LOYALTY_CARD)
     val emailToShare = MutableStateFlow("")
 
-    fun initialize(visitCardId: String, restartApp: (String) -> Unit) {
+    fun initialize(businessCardId: String, restartApp: (String) -> Unit) {
         launchCatching {
-            visitCard.value = (businessCardService.getOne(visitCardId) ?: DEFAULT_LOYALTY_CARD) as BusinessCard
+            businessCard.value = (businessCardService.getOne(businessCardId) ?: DEFAULT_LOYALTY_CARD) as BusinessCard
         }
 
         observeAuthenticationState(restartApp)
@@ -40,39 +40,39 @@ class BusinessCardViewModel @Inject constructor(
         }
     }
 
-    fun updateVisitCard(name: String) {
-        visitCard.value = visitCard.value.copy(
+    fun updateBusinessCard(name: String) {
+        businessCard.value = businessCard.value.copy(
             name = name
-        ).withId(visitCard.value.id)
+        ).withId(businessCard.value.id)
     }
 
-    fun saveVisitCard(popUpScreen: () -> Unit) {
+    fun saveBusinessCard(popUpScreen: () -> Unit) {
         launchCatching {
-            if (visitCard.value.id == LOYALTY_CARD_DEFAULT_ID) {
-                businessCardService.create(visitCard.value)
+            if (businessCard.value.id == LOYALTY_CARD_DEFAULT_ID) {
+                businessCardService.create(businessCard.value)
             } else {
-                businessCardService.update(visitCard.value)
+                businessCardService.update(businessCard.value)
             }
         }
 
         popUpScreen()
     }
 
-    fun deleteVisitCard(popUpScreen: () -> Unit) {
+    fun deleteBusinessCard(popUpScreen: () -> Unit) {
         launchCatching {
-            businessCardService.delete(visitCard.value.id)
+            businessCardService.delete(businessCard.value.id)
         }
 
         popUpScreen()
     }
 
-    fun deleteSharedVisitCard(popUpScreen: () -> Unit) {
+    fun deleteSharedBusinessCard(popUpScreen: () -> Unit) {
         launchCatching {
-            val sharedVisitCardToDestroy = sharedBusinessCardService.getOneBySharedId(visitCard.value.id)
-            Log.d("TEST_CATCHING", sharedVisitCardToDestroy.id)
-            Log.d("TEST_CATCHING", sharedVisitCardToDestroy.sharedCardId)
+            val sharedBusinessCardToDestroy = sharedBusinessCardService.getOneBySharedId(businessCard.value.id)
+            Log.d("TEST_CATCHING", sharedBusinessCardToDestroy.id)
+            Log.d("TEST_CATCHING", sharedBusinessCardToDestroy.sharedCardId)
 
-            sharedBusinessCardService.delete(sharedVisitCardToDestroy.id)
+            sharedBusinessCardService.delete(sharedBusinessCardToDestroy.id)
         }
 
         popUpScreen()
@@ -82,10 +82,10 @@ class BusinessCardViewModel @Inject constructor(
         emailToShare.value = email
     }
 
-    fun shareVisitCard() {
+    fun shareBusinessCard() {
         launchCatching {
             sharedBusinessCardService.create(SharedBusinessCard(
-                sharedCardId = visitCard.value.id,
+                sharedCardId = businessCard.value.id,
                 sharedUid = userService.getOneByEmail(emailToShare.value).uid,
                 uid = userService.currentUserId,
             ))
@@ -93,7 +93,7 @@ class BusinessCardViewModel @Inject constructor(
     }
 
     fun isUserProperty(): Boolean {
-        return visitCard.value.uid == userService.currentUserId
+        return businessCard.value.uid == userService.currentUserId
     }
 
     companion object {

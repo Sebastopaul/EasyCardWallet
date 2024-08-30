@@ -100,7 +100,7 @@ fun NavGraphBuilder.easyCardWalletGraph(appState: EasyCardWalletAppState) {
         arguments = listOf(navArgument(BUSINESS_CARD_ID) { defaultValue = BUSINESS_CARD_DEFAULT_ID })
     ) {
         BusinessCardScreen(
-            visitCardId = it.arguments?.getString(BUSINESS_CARD_ID) ?: BUSINESS_CARD_DEFAULT_ID,
+            businessCardId = it.arguments?.getString(BUSINESS_CARD_ID) ?: BUSINESS_CARD_DEFAULT_ID,
             popUpScreen = { appState.popUp() },
             restartApp = { route -> appState.clearAndNavigate(route) },
             switchScreen = { route -> appState.navigate(route) }

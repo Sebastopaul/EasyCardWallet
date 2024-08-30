@@ -19,16 +19,16 @@ import javax.inject.Inject
 
 class BusinessCardServiceImpl @Inject constructor(
     private val userService: UserService,
-    private val sharedVisitCardsService: SharedBusinessCardService,
+    private val sharedBusinessCardsService: SharedBusinessCardService,
 ): BusinessCardService {
     private val db = Firebase.firestore
-    private val visitCardsPath = db.collection(VISIT_CARDS_COLLECTION)
+    private val businessCardsPath = db.collection(BUSINESS_CARDS_COLLECTION)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     override val userCards: Flow<List<AbstractCard>>
         get() =
             userService.currentUser.flatMapLatest { user ->
-                visitCardsPath
+                businessCardsPath
                     .whereEqualTo(UID_FIELD, user?.uid)
                     .dataObjects<BusinessCard>()
             }
@@ -36,10 +36,10 @@ class BusinessCardServiceImpl @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     override val userSharedCards: Flow<List<AbstractCard>>
         get() =
-            sharedVisitCardsService.currentUserSharedCards.flatMapLatest { sharedVisitCardsList ->
-                val ids = sharedVisitCardsList.map { it.sharedCardId }
+            sharedBusinessCardsService.currentUserSharedCards.flatMapLatest { sharedBusinessCardsList ->
+                val ids = sharedBusinessCardsList.map { it.sharedCardId }
                 if (ids.isNotEmpty()) {
-                    visitCardsPath
+                    businessCardsPath
                         .whereIn(ID_FIELD, ids)
                         .dataObjects<BusinessCard>()
                 } else {
@@ -50,10 +50,10 @@ class BusinessCardServiceImpl @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     override val sharedCards: Flow<List<AbstractCard>>
         get() =
-            sharedVisitCardsService.sharedCards.flatMapLatest { sharedVisitCardsList ->
-                val ids = sharedVisitCardsList.map { it.sharedCardId }
+            sharedBusinessCardsService.sharedCards.flatMapLatest { sharedBusinessCardsList ->
+                val ids = sharedBusinessCardsList.map { it.sharedCardId }
                 if (ids.isNotEmpty()) {
-                    visitCardsPath
+                    businessCardsPath
                         .whereIn(ID_FIELD, ids)
                         .dataObjects<BusinessCard>()
                 } else {
@@ -61,25 +61,27 @@ class BusinessCardServiceImpl @Inject constructor(
                 }
             }
 
-    override suspend fun create(card: AbstractCard) {
-        val response = visitCardsPath.add(card).await()
+    override suspend fun create(card: AbstractCard): String {
+        val response = businessCardsPath.add(card).await()
 
         update(card.withId(response.id))
+
+        return response.id
     }
 
     override suspend fun getOne(id: String): AbstractCard {
-        val response = visitCardsPath.document(id).get().await()
+        val response = businessCardsPath.document(id).get().await()
 
         return response.toObject<BusinessCard>()
             ?.withId(response.id)
-            ?: throw NotFoundException("Could not find visit card with id: $id")
+            ?: throw NotFoundException("Could not find business card with id: $id")
     }
 
     override suspend fun update(card: AbstractCard) {
-        visitCardsPath.document(card.id).set(card).await()
+        businessCardsPath.document(card.id).set(card).await()
     }
 
     override suspend fun delete(id: String) {
-        visitCardsPath.document(id).delete().await()
+        businessCardsPath.document(id).delete().await()
     }
 }

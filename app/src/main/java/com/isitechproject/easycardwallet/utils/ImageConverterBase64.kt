@@ -3,7 +3,9 @@ package com.isitechproject.easycardwallet.utils
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
+import okio.ByteString.Companion.toByteString
 import java.io.ByteArrayOutputStream
+import java.nio.ByteBuffer
 
 class ImageConverterBase64 {
 
@@ -18,6 +20,12 @@ class ImageConverterBase64 {
             )
 
             val byteArray = byteArrayOutputStream.toByteArray()
+
+            return Base64.encodeToString(byteArray, Base64.DEFAULT)
+        }
+
+        fun toBase64String(byteBuffer: ByteBuffer): String? {
+            val byteArray = byteBuffer.toByteString().toByteArray()
 
             return Base64.encodeToString(byteArray, Base64.DEFAULT)
         }

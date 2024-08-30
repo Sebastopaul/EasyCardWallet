@@ -18,13 +18,13 @@ class SharedBusinessCardsListViewModel @Inject constructor(
     businessCardService: BusinessCardService,
     private val sharedBusinessCardService: SharedBusinessCardService,
 ): EasyCardWalletAppViewModel(accountService) {
-    val sharedVisitCards = sharedBusinessCardService.currentUserSharedCards
-    val visitCards = businessCardService.userCards
+    val sharedBusinessCards = sharedBusinessCardService.currentUserSharedCards
+    val businessCards = businessCardService.userCards
     private val users = mutableListOf<User>()
 
     fun initializeData() {
         runBlocking {
-            sharedVisitCards.first().forEach {
+            sharedBusinessCards.first().forEach {
                 val user = userService.getOneById(it.sharedUid)
                 users.add(user)
             }

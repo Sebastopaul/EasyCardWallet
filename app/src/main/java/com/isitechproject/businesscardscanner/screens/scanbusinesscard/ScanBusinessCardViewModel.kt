@@ -11,26 +11,41 @@ import androidx.camera.core.resolutionselector.ResolutionSelector
 import androidx.camera.core.resolutionselector.ResolutionStrategy
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
+import androidx.compose.runtime.mutableStateOf
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.mlkit.vision.text.Text
+import com.isitechproject.businesscardscanner.BusinessCardScannerActivity
 import com.isitechproject.businesscardscanner.utils.ImageAnalyzerForBusinessCards
 import com.isitechproject.businesscardscanner.utils.TextParser
 import com.isitechproject.easycardwallet.model.BusinessCard
 import com.isitechproject.easycardwallet.model.service.AccountService
+import com.isitechproject.easycardwallet.model.service.BusinessCardService
 import com.isitechproject.easycardwallet.screens.EasyCardWalletAppViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.runBlocking
 import java.util.concurrent.ExecutorService
 import javax.inject.Inject
 
 @HiltViewModel
 class ScanBusinessCardViewModel @Inject constructor(
-    accountService: AccountService,
+    private val accountService: AccountService,
+    private val businessCardService: BusinessCardService
 ): EasyCardWalletAppViewModel(accountService) {
+    val cardId = mutableStateOf("")
+
+    fun saveBusinessCardTemplate(businessCard: BusinessCard) {
+        val businessCardToSave = businessCard.copy(uid = accountService.currentUserId)
+        runBlocking {
+            cardId.value = businessCardService.create(businessCardToSave)
+        }
+    }
+
     fun cameraListener(
         cameraExecutor: ExecutorService,
         cameraProviderFuture: ListenableFuture<ProcessCameraProvider>,
         previewView: PreviewView,
         activity: AppCompatActivity,
+        handleText: (Text, String) -> Unit = { _, _ -> }
     ) {
         val cameraProvider = cameraProviderFuture.get()
 
@@ -58,11 +73,8 @@ class ScanBusinessCardViewModel @Inject constructor(
                     cameraExecutor,
                     ImageAnalyzerForBusinessCards(
                         activity,
-                    ) { text, picture ->
-                        Log.d("TEST", "PASS_HANDLER")
-                        Log.d("TEST", text.text)
-                        Toast.makeText(activity, text.text, Toast.LENGTH_LONG).show()
-                    }
+                        handleText,
+                    )
                 )
             }
 

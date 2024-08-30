@@ -63,10 +63,12 @@ class LoyaltyCardServiceImpl @Inject constructor(
                 }
             }
 
-    override suspend fun create(card: AbstractCard) {
+    override suspend fun create(card: AbstractCard): String {
         val response = loyaltyCardsPath.add(card).await()
 
         update(card.withId(response.id))
+
+        return response.id
     }
 
     override suspend fun getOne(id: String): AbstractCard {

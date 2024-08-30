@@ -24,8 +24,8 @@ fun SharedBusinessCardsListScreen(
     modifier: Modifier = Modifier,
     viewModel: SharedBusinessCardsListViewModel = hiltViewModel()
 ) {
-    val sharedVisitCards = viewModel.sharedVisitCards.collectAsState(emptyList())
-    val visitCards = viewModel.visitCards.collectAsState(emptyList())
+    val sharedBusinessCards = viewModel.sharedBusinessCards.collectAsState(emptyList())
+    val businessCards = viewModel.businessCards.collectAsState(emptyList())
 
     viewModel.initializeData()
 
@@ -41,8 +41,8 @@ fun SharedBusinessCardsListScreen(
                 .padding(10.dp)
         ) {
             SharedCardList(
-                sharedCardsList = sharedVisitCards.value,
-                cardsList = visitCards.value,
+                sharedCardsList = sharedBusinessCards.value,
+                cardsList = businessCards.value,
                 getUserEmail = { viewModel.getUserEmail(it) }
             ) {
                 viewModel.stopSharing(it)
@@ -51,9 +51,9 @@ fun SharedBusinessCardsListScreen(
                 contentPadding = PaddingValues(vertical = 10.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp),
             ) {
-                items(sharedVisitCards.value) { sharedLoyaltyCard ->
+                items(sharedBusinessCards.value) { sharedLoyaltyCard ->
                     SharedCard(
-                        cardName = visitCards.value.first { it.id == sharedLoyaltyCard.sharedCardId }.name,
+                        cardName = businessCards.value.first { it.id == sharedLoyaltyCard.sharedCardId }.name,
                         userEmail = viewModel.getUserEmail(sharedLoyaltyCard.sharedUid)) {
                         viewModel.stopSharing(sharedLoyaltyCard.id)
                     }

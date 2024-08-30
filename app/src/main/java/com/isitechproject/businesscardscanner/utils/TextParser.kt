@@ -58,8 +58,15 @@ class TextParser {
     fun parseBlocks(textBlocks: List<TextBlock>): Map<String, String> {
         var map = mutableMapOf<String, String>()
         for (block in textBlocks) {
+            val pair = parseString(block.text, map)
             if (block.lines.count() > 1) {
                 map = parseLines(block.lines, map)
+            } else if (pair.first == BusinessCard.COMPANY_NAME_FIELD && pair.second.split(" ").count() > 1) {
+                val split = pair.second.split(" ")
+                map[BusinessCard.CONTACT_FIRSTNAME_FIELD] = split.first()
+                map[BusinessCard.CONTACT_LASTNAME_FIELD] = split.last()
+            } else {
+                map[pair.first] = pair.second
             }
         }
 
@@ -78,14 +85,16 @@ class TextParser {
         )
 
         val PHONE_REGEX = Regex(
-            // sdd = space, dot, or dash
-            "(\\+[0-9]+[\\- \\.]*)?" // +<digits><sdd>*
-                + "(\\([0-9]+\\)[\\- \\.]*)?" // (<digits>)<sdd>*
+            "(\\+[0-9]+[\\- \\.]*)?"
+                + "(\\([0-9]+\\)[\\- \\.]*)?"
                 + "([0-9][0-9\\- \\.]+[0-9])"
         )
 
         val ADDRESS_REGEX = Regex(
-            "(?:^\\s*\\d{0,3} +(rue|avenue|boulevard|impasse|route)|\\G(?<!^))[\\s\\p{P}]+(\\p{Latin}+)"
+            "(([a-zA-Z-éÉèÈàÀùÙâÂêÊîÎôÔûÛïÏëËüÜçÇæœ'.]*\\s)\\d*" +
+                "(\\s[a-zA-Z-éÉèÈàÀùÙâÂêÊîÎôÔûÛïÏëËüÜçÇæœ']*)*,)*\\d*" +
+                "(\\s[a-zA-Z-éÉèÈàÀùÙâÂêÊîÎôÔûÛïÏëËüÜçÇæœ']*)+," +
+                "\\s([\\d]{5})\\s[a-zA-Z-éÉèÈàÀùÙâÂêÊîÎôÔûÛïÏëËüÜçÇæœ']+"
         )
 
         val ZIPCODE_REGEX = Regex(
@@ -93,7 +102,7 @@ class TextParser {
         )
 
         val CITY_REGEX = Regex(
-            "[[:alpha:]]([-' ]?[[:alpha:]])*"
+            "([A-Z]+[-' ]?[A-Z]+)*"
         )
 
         val NAME_REGEX = Regex(

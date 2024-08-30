@@ -23,7 +23,7 @@ abstract class ServiceModule {
     @Binds abstract fun provideAccountService(impl: AccountServiceImpl): AccountService
     @Binds abstract fun provideUserDataService(impl: UserServiceImpl): UserService
     @Binds abstract fun provideLoyaltyCardService(impl: LoyaltyCardServiceImpl): LoyaltyCardService
-    @Binds abstract fun provideVisitCardService(impl: BusinessCardServiceImpl): BusinessCardService
+    @Binds abstract fun provideBusinessCardService(impl: BusinessCardServiceImpl): BusinessCardService
     @Binds abstract fun provideSharedLoyaltyCardService(impl: SharedLoyaltyCardServiceImpl): SharedLoyaltyCardService
-    @Binds abstract fun provideSharedVisitCardService(impl: SharedBusinessCardServiceImpl): SharedBusinessCardService
+    @Binds abstract fun provideSharedBusinessCardService(impl: SharedBusinessCardServiceImpl): SharedBusinessCardService
 }

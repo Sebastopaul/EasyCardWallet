@@ -19,7 +19,7 @@ const val LOYALTY_CARD_ID = "loyaltyCardId"
 const val LOYALTY_CARD_DEFAULT_ID = "-1"
 const val LOYALTY_CARD_ID_ARG = "?$LOYALTY_CARD_ID={$LOYALTY_CARD_ID}"
 
-const val BUSINESS_CARD_ID = "visitCardId"
+const val BUSINESS_CARD_ID = "businessCardId"
 const val BUSINESS_CARD_DEFAULT_ID = "-1"
 const val BUSINESS_CARD_ID_ARG = "?$BUSINESS_CARD_ID={$BUSINESS_CARD_ID}"
 

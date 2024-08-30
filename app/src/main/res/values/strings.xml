@@ -9,13 +9,13 @@
     <string name="sign_up_description">Don\'t have an account? Click here to Sign Up!</string>
     <string name="sign_out">Sign out</string>
     <string name="sign_out_title">Sign out?</string>
-    <string name="sign_out_description">You will have to sign in again to see your visit cards.</string>
+    <string name="sign_out_description">You will have to sign in again to see your business cards.</string>
     <string name="delete_account">Delete account</string>
     <string name="delete_account_title">Delete account?</string>
-    <string name="delete_account_description">You will lose all your visit cards and your account will be deleted. This action is irreversible.</string>
+    <string name="delete_account_description">You will lose all your business cards and your account will be deleted. This action is irreversible.</string>
     <string name="cancel">Cancel</string>
     <string name="loyalty_card_list">My Loyalty Cards</string>
     <string name="register_loyalty_card">Register Loyalty Card</string>
     <string name="add_card">Add card</string>
-    <string name="visit_card_list">My Visit Cards</string>
+    <string name="business_card_list">My Business Cards</string>
 </resources>

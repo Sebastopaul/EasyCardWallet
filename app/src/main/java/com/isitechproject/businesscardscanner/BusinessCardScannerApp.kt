@@ -11,19 +11,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.activity
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.isitechproject.barcodescanner.BARCODE_FORMAT
-import com.isitechproject.barcodescanner.BARCODE_FORMAT_DEFAULT
 import com.isitechproject.businesscardscanner.screens.createbusinesscard.CreateBusinessCardScreen
 import com.isitechproject.businesscardscanner.screens.scanbusinesscard.ScanBusinessCardScreen
 import com.isitechproject.easycardwallet.EasyCardWalletActivity
 import com.isitechproject.easycardwallet.EasyCardWalletAppState
 import com.isitechproject.easycardwallet.SCAN_LOYALTY_CARD_SCREEN
+import com.isitechproject.easycardwallet.model.BusinessCard
+import com.isitechproject.easycardwallet.model.service.impl.ID_FIELD
 import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 
 @Composable
@@ -63,18 +62,14 @@ fun NavGraphBuilder.barcodeScannerGraph(appState: EasyCardWalletAppState, ) {
     }
 
     composable(
-        route = "$CREATE_BUSINESS_CARD_SCREEN$ANALYZED_TEXT_ARG",
-        arguments = listOf(
-            navArgument(ANALYZED_TEXT) { defaultValue = BUSINESS_CARD_DEFAULT },
-            navArgument(BUSINESS_CARD_PICTURE) { defaultValue = BUSINESS_CARD_DEFAULT },
-        ),
+        route = "$CREATE_BUSINESS_CARD_SCREEN$BUSINESS_CARD_ARG",
+        arguments = listOf(navArgument(ID_FIELD) { defaultValue = BUSINESS_CARD_DEFAULT }),
     ) {
         val context = LocalContext.current as BusinessCardScannerActivity
         context.shutdownCamera()
 
         CreateBusinessCardScreen(
-            analyzedText = Uri.decode(it.arguments?.getString(ANALYZED_TEXT)) ?: BUSINESS_CARD_DEFAULT,
-            cardPicture = Uri.decode(it.arguments?.getString(BUSINESS_CARD_PICTURE)) ?: BUSINESS_CARD_DEFAULT,
+            businessCard = Uri.decode(it.arguments?.getString(ID_FIELD)) ?: BUSINESS_CARD_DEFAULT,
             backToMain = { route -> appState.navigate(route) },
         )
     }
