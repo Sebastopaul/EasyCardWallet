@@ -1,9 +1,11 @@
 plugins {
-    id("com.android.application")
-    id("kotlin-android")
+    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.composeCompiler)
     id("kotlin-kapt")
     id("com.google.gms.google-services")
     id("dagger.hilt.android.plugin")
+    //id("com.google.devtools.ksp")
 }
 
 android {
@@ -71,6 +73,8 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.firestore.ktx)
+    //implementation(libs.firebase.storage.ktx)
+    //implementation(libs.firebase.ui.storage)
     implementation(libs.hilt.android)
     implementation(libs.tesseract4android)
     implementation(libs.text.recognition)
@@ -78,6 +82,7 @@ dependencies {
     implementation(libs.zxing.android.embedded)
 
     kapt(libs.hilt.android.compiler)
+    //ksp(libs.compiler)
 
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)

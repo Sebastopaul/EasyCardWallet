@@ -1,8 +1,6 @@
 package com.isitechproject.businesscardscanner.screens.scanbusinesscard
 
-import android.util.Log
 import android.util.Size
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
@@ -11,41 +9,42 @@ import androidx.camera.core.resolutionselector.ResolutionSelector
 import androidx.camera.core.resolutionselector.ResolutionStrategy
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
-import androidx.compose.runtime.mutableStateOf
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.mlkit.vision.text.Text
-import com.isitechproject.businesscardscanner.BusinessCardScannerActivity
+import com.isitechproject.businesscardscanner.CREATE_BUSINESS_CARD_SCREEN
 import com.isitechproject.businesscardscanner.utils.ImageAnalyzerForBusinessCards
 import com.isitechproject.businesscardscanner.utils.TextParser
 import com.isitechproject.easycardwallet.model.BusinessCard
 import com.isitechproject.easycardwallet.model.service.AccountService
-import com.isitechproject.easycardwallet.model.service.BusinessCardService
 import com.isitechproject.easycardwallet.screens.EasyCardWalletAppViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.runBlocking
 import java.util.concurrent.ExecutorService
 import javax.inject.Inject
 
 @HiltViewModel
 class ScanBusinessCardViewModel @Inject constructor(
-    private val accountService: AccountService,
-    private val businessCardService: BusinessCardService
+    accountService: AccountService,
+    //private val pictureService: PictureService,
+    //private val businessCardService: BusinessCardService
 ): EasyCardWalletAppViewModel(accountService) {
-    val cardId = mutableStateOf("")
-
-    fun saveBusinessCardTemplate(businessCard: BusinessCard) {
-        val businessCardToSave = businessCard.copy(uid = accountService.currentUserId)
-        runBlocking {
-            cardId.value = businessCardService.create(businessCardToSave)
-        }
-    }
+    //fun saveBusinessCardTemplate(
+    //    businessCard: BusinessCardPicture,
+    //    openNextScreen: (String) -> Unit,
+    //    ) {
+    //    val businessCardToSave = businessCard.copy(uid = accountService.currentUserId)
+    //    var cardId = ""
+    //    launchCatching {
+    //        cardId = pictureService.upload(businessCardToSave)
+    //    }
+    //    openNextScreen(cardId)
+    //}
 
     fun cameraListener(
         cameraExecutor: ExecutorService,
         cameraProviderFuture: ListenableFuture<ProcessCameraProvider>,
         previewView: PreviewView,
         activity: AppCompatActivity,
-        handleText: (Text, String) -> Unit = { _, _ -> }
+        handleText: (Text) -> Unit = { _ -> }
     ) {
         val cameraProvider = cameraProviderFuture.get()
 
@@ -103,5 +102,17 @@ class ScanBusinessCardViewModel @Inject constructor(
             return TextParser().parseBlocks(text.textBlocks)
         }
         return mapOf(Pair(BusinessCard.NAME_FIELD, text.text))
+    }
+
+    fun buildUri(map: Map<String, String>): String {
+        var uri = ""
+
+        map.forEach { (key, value) ->
+            if (value.isNotEmpty()) {
+                uri += "${if (uri.isNotEmpty()) "&" else ""}${key}=${value}"
+            }
+        }
+
+        return "$CREATE_BUSINESS_CARD_SCREEN?${uri}"
     }
 }

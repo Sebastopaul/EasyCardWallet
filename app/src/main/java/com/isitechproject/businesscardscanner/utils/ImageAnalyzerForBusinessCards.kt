@@ -16,7 +16,7 @@ import com.isitechproject.easycardwallet.utils.ImageConverterBase64
 
 class ImageAnalyzerForBusinessCards(
     private val context: Context,
-    private val handleText: (Text, String) -> Unit = { visionText, _ ->
+    private val handleText: (Text) -> Unit = { visionText ->
         Toast.makeText(
             context,
             "Value: " + visionText.text,
@@ -27,21 +27,16 @@ class ImageAnalyzerForBusinessCards(
 
     @OptIn(ExperimentalGetImage::class)
     override fun analyze(image: ImageProxy) {
-        val bitmap = image.toBitmap()
-        val inputImage = InputImage.fromBitmap(bitmap, image.imageInfo.rotationDegrees)
+        val img = image.image ?: return
+        val inputImage = InputImage.fromMediaImage(img, image.imageInfo.rotationDegrees)
 
         recognizer.process(inputImage)
             .addOnSuccessListener { visionText ->
                 if (visionText.text.length > 5) {
-                    handleText(visionText, convertImageToBitmap(inputImage))
+                    handleText(visionText)
                 }
             }
         image.close()
     }
 
-    private fun convertImageToBitmap(inputImage: InputImage): String {
-        val bitmap = inputImage.bitmapInternal ?: return ""
-
-        return ImageConverterBase64.toBase64String(bitmap) ?: ""
-    }
 }

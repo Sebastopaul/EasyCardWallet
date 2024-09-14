@@ -63,13 +63,33 @@ fun NavGraphBuilder.barcodeScannerGraph(appState: EasyCardWalletAppState, ) {
 
     composable(
         route = "$CREATE_BUSINESS_CARD_SCREEN$BUSINESS_CARD_ARG",
-        arguments = listOf(navArgument(ID_FIELD) { defaultValue = BUSINESS_CARD_DEFAULT }),
+        arguments = listOf(
+            navArgument(BusinessCard.COMPANY_NAME_FIELD) { defaultValue = BUSINESS_CARD_DEFAULT },
+            navArgument(BusinessCard.ADDRESS_FIELD) { defaultValue = BUSINESS_CARD_DEFAULT },
+            navArgument(BusinessCard.ZIP_FIELD) { defaultValue = BUSINESS_CARD_DEFAULT },
+            navArgument(BusinessCard.CITY_FIELD) { defaultValue = BUSINESS_CARD_DEFAULT },
+            navArgument(BusinessCard.CONTACT_FIRSTNAME_FIELD) { defaultValue = BUSINESS_CARD_DEFAULT },
+            navArgument(BusinessCard.CONTACT_LASTNAME_FIELD) { defaultValue = BUSINESS_CARD_DEFAULT },
+            navArgument(BusinessCard.CONTACT_PHONE_FIELD) { defaultValue = BUSINESS_CARD_DEFAULT },
+            navArgument(BusinessCard.CONTACT_MOBILE_FIELD) { defaultValue = BUSINESS_CARD_DEFAULT },
+            navArgument(BusinessCard.CONTACT_EMAIL_FIELD) { defaultValue = BUSINESS_CARD_DEFAULT },
+        ),
     ) {
         val context = LocalContext.current as BusinessCardScannerActivity
         context.shutdownCamera()
 
         CreateBusinessCardScreen(
-            businessCard = Uri.decode(it.arguments?.getString(ID_FIELD)) ?: BUSINESS_CARD_DEFAULT,
+            businessCard = BusinessCard(
+                companyName = Uri.decode(it.arguments?.getString(BusinessCard.COMPANY_NAME_FIELD)) ?: BUSINESS_CARD_DEFAULT,
+                address = Uri.decode(it.arguments?.getString(BusinessCard.ADDRESS_FIELD)) ?: BUSINESS_CARD_DEFAULT,
+                zip = Uri.decode(it.arguments?.getString(BusinessCard.ZIP_FIELD)) ?: BUSINESS_CARD_DEFAULT,
+                city = Uri.decode(it.arguments?.getString(BusinessCard.CITY_FIELD)) ?: BUSINESS_CARD_DEFAULT,
+                contactFirstname = Uri.decode(it.arguments?.getString(BusinessCard.CONTACT_FIRSTNAME_FIELD)) ?: BUSINESS_CARD_DEFAULT,
+                contactLastname = Uri.decode(it.arguments?.getString(BusinessCard.CONTACT_LASTNAME_FIELD)) ?: BUSINESS_CARD_DEFAULT,
+                contactPhone = Uri.decode(it.arguments?.getString(BusinessCard.CONTACT_PHONE_FIELD)) ?: BUSINESS_CARD_DEFAULT,
+                contactMobile = Uri.decode(it.arguments?.getString(BusinessCard.CONTACT_MOBILE_FIELD)) ?: BUSINESS_CARD_DEFAULT,
+                contactEmail = Uri.decode(it.arguments?.getString(BusinessCard.CONTACT_EMAIL_FIELD)) ?: BUSINESS_CARD_DEFAULT,
+            ),
             backToMain = { route -> appState.navigate(route) },
         )
     }

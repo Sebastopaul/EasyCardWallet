@@ -22,9 +22,13 @@ import com.isitechproject.businesscardscanner.BUSINESS_CARD_ARG
 import com.isitechproject.businesscardscanner.BusinessCardScannerActivity
 import com.isitechproject.businesscardscanner.CREATE_BUSINESS_CARD_SCREEN
 import com.isitechproject.easycardwallet.model.BusinessCard
+import com.isitechproject.easycardwallet.model.BusinessCardPicture
 import com.isitechproject.easycardwallet.model.service.impl.ID_FIELD
 import com.isitechproject.easycardwallet.utils.ImageConverterBase64
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
+@OptIn(ExperimentalUuidApi::class)
 @Composable
 fun ScanBusinessCardScreen(
     openCreationScreen: (String) -> Unit,
@@ -49,31 +53,14 @@ fun ScanBusinessCardScreen(
                                     cameraProviderFuture,
                                     this,
                                     context,
-                                ) { text, picture ->
-                                    val parsedTextBlocks = viewModel.parseText(text)
-
+                                ) { text ->
                                     Log.d("TEST", "PASS_HANDLER")
                                     Log.d("TEST", text.text)
                                     for (parsedText in viewModel.parseText(text)) {
                                         Log.d("TEST", "${parsedText.key}: ${parsedText.value}")
                                     }
                                     Log.d("TEST", BUSINESS_CARD_ARG)
-
-                                    viewModel.saveBusinessCardTemplate(
-                                        BusinessCard(
-                                            companyName = parsedTextBlocks[BusinessCard.COMPANY_NAME_FIELD].orEmpty(),
-                                            contactFirstname = parsedTextBlocks[BusinessCard.CONTACT_FIRSTNAME_FIELD].orEmpty(),
-                                            contactLastname = parsedTextBlocks[BusinessCard.CONTACT_LASTNAME_FIELD].orEmpty(),
-                                            contactEmail = parsedTextBlocks[BusinessCard.CONTACT_EMAIL_FIELD].orEmpty(),
-                                            contactPhone = parsedTextBlocks[BusinessCard.CONTACT_PHONE_FIELD].orEmpty(),
-                                            contactMobile = parsedTextBlocks[BusinessCard.CONTACT_MOBILE_FIELD].orEmpty(),
-                                            address = parsedTextBlocks[BusinessCard.ADDRESS_FIELD].orEmpty(),
-                                            zip = parsedTextBlocks[BusinessCard.ZIP_FIELD].orEmpty(),
-                                            city = parsedTextBlocks[BusinessCard.CITY_FIELD].orEmpty(),
-                                            picture = picture,
-                                        )
-                                    )
-                                    openCreationScreen("$CREATE_BUSINESS_CARD_SCREEN?$ID_FIELD=${Uri.encode(viewModel.cardId.value)}")
+                                    openCreationScreen(viewModel.buildUri(viewModel.parseText(text)))
                                 }
                             },
                             ContextCompat.getMainExecutor(previewContext)

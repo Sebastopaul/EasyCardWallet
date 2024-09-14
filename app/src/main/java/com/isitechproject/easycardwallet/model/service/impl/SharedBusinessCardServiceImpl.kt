@@ -8,8 +8,10 @@ import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
 import com.isitechproject.easycardwallet.model.AbstractSharedCard
 import com.isitechproject.easycardwallet.model.SharedBusinessCard
+import com.isitechproject.easycardwallet.model.SharedLoyaltyCard
 import com.isitechproject.easycardwallet.model.service.SharedBusinessCardService
 import com.isitechproject.easycardwallet.model.service.UserService
+import com.isitechproject.easycardwallet.model.service.impl.SharedLoyaltyCardServiceImpl.Companion
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -54,22 +56,33 @@ class SharedBusinessCardServiceImpl @Inject constructor(
             ?: throw NotFoundException("Could not find shared card with id: $id")
     }
 
-    override suspend fun getOneBySharedId(id: String): AbstractSharedCard {
-
-        Log.d("TEST", id);
+    override suspend fun getOneBySharedId(cardId: String, userId: String): AbstractSharedCard {
         val response = sharedBusinessCardsPath
-            .whereEqualTo(SHARED_CARD_ID_FIELD, id)
+            .whereEqualTo(SHARED_CARD_ID_FIELD, cardId)
+            .whereEqualTo(UID_FIELD, userId)
             .get().await()
 
         if (!response.isEmpty) {
-            val sharedBusinessCard = response.first()
-            Log.d("TEST_IF", sharedBusinessCard.id);
+            val sharedLoyaltyCard = response.first()
 
-            return sharedBusinessCard
-                .toObject<SharedBusinessCard>()
-                .withId(sharedBusinessCard.id)
+            return sharedLoyaltyCard
+                .toObject<SharedLoyaltyCard>()
+                .withId(sharedLoyaltyCard.id)
         }
-        throw NotFoundException("Could not find shared card with id: $id")
+        throw NotFoundException("Could not find shared card with id: $cardId")
+    }
+
+    override suspend fun getAllBySharedId(id: String): List<AbstractSharedCard> {
+        val response = sharedBusinessCardsPath
+            .whereEqualTo(SHARED_CARD_ID_FIELD, id)
+            .get().await()
+        val list = mutableListOf<SharedLoyaltyCard>()
+
+        response.forEach {
+            list.add(it.toObject<SharedLoyaltyCard>().withId(it.id))
+        }
+
+        return list
     }
 
     override suspend fun update(sharedCard: AbstractSharedCard) {

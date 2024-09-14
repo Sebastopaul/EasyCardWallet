@@ -12,8 +12,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.isitechproject.easycardwallet.R
 import com.isitechproject.easycardwallet.utils.ImageConverterBase64
 
 @Composable
@@ -42,11 +44,19 @@ fun Card(
                         .fillMaxWidth()
                 )
 
-                Image(
-                    bitmap = ImageConverterBase64.fromBase64String(cardPicture).asImageBitmap(),
-                    contentDescription = "",
-                    modifier = Modifier.fillMaxWidth(),
-                )
+                if (cardPicture.isEmpty()) {
+                    Image(
+                        painter = painterResource(R.drawable.business_card_icon),
+                        contentDescription = "",
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                } else {
+                    Image(
+                        bitmap = ImageConverterBase64.fromBase64String(cardPicture).asImageBitmap(),
+                        contentDescription = "",
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                }
             }
         }
     }

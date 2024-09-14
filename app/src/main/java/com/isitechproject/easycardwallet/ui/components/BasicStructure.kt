@@ -36,6 +36,7 @@ fun BasicStructure(
     switchScreen: (String) -> Unit,
     viewModel: EasyCardWalletAppViewModel,
     modifier: Modifier = Modifier,
+    showBottomBar: Boolean = true,
     content: @Composable () -> Unit
 ) {
     var showExitAppDialog by remember { mutableStateOf(false) }
@@ -44,7 +45,7 @@ fun BasicStructure(
 
     Scaffold(
         bottomBar = {
-            if (switchScreen != {}) {
+            if (showBottomBar) {
                 BottomAppBar(modifier = Modifier.fillMaxWidth()) {
                     Row(
                         horizontalArrangement = Arrangement.SpaceEvenly,

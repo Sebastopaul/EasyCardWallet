@@ -25,6 +25,5 @@ data class BusinessCard(
         const val CONTACT_MOBILE_FIELD = "contactMobile"
         const val CONTACT_EMAIL_FIELD = "contactEmail"
         const val NAME_FIELD = "name"
-        const val PICTURE_FIELD = "picture"
     }
 }

@@ -60,6 +60,9 @@ class BusinessCardViewModel @Inject constructor(
 
     fun deleteBusinessCard(popUpScreen: () -> Unit) {
         launchCatching {
+            for (sharedBusinessCard in sharedBusinessCardService.getAllBySharedId(businessCard.value.id)) {
+                sharedBusinessCardService.delete(sharedBusinessCard.id)
+            }
             businessCardService.delete(businessCard.value.id)
         }
 
@@ -68,9 +71,10 @@ class BusinessCardViewModel @Inject constructor(
 
     fun deleteSharedBusinessCard(popUpScreen: () -> Unit) {
         launchCatching {
-            val sharedBusinessCardToDestroy = sharedBusinessCardService.getOneBySharedId(businessCard.value.id)
-            Log.d("TEST_CATCHING", sharedBusinessCardToDestroy.id)
-            Log.d("TEST_CATCHING", sharedBusinessCardToDestroy.sharedCardId)
+            val sharedBusinessCardToDestroy = sharedBusinessCardService.getOneBySharedId(
+                businessCard.value.id,
+                userService.currentUserId
+            )
 
             sharedBusinessCardService.delete(sharedBusinessCardToDestroy.id)
         }

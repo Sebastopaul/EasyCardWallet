@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Button
@@ -29,13 +30,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.isitechproject.easycardwallet.model.BusinessCard
 import com.isitechproject.easycardwallet.ui.components.BasicStructure
 import com.isitechproject.easycardwallet.utils.ImageConverterBase64
 
 
 @Composable
 fun CreateBusinessCardScreen(
-    businessCard: String,
+    businessCard: BusinessCard,
     backToMain: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: CreateBusinessCardViewModel = hiltViewModel()
@@ -49,13 +51,13 @@ fun CreateBusinessCardScreen(
     val contactPhone = viewModel.contactPhone.collectAsState()
     val contactMobile = viewModel.contactMobile.collectAsState()
     val contactEmail = viewModel.contactEmail.collectAsState()
-    val picture = viewModel.picture.collectAsState()
 
     viewModel.initializeData(businessCard)
 
     BasicStructure(
         restartApp = {},
         switchScreen = {},
+        showBottomBar = false,
         viewModel = viewModel,
         modifier = modifier,
     ) {
@@ -72,10 +74,10 @@ fun CreateBusinessCardScreen(
                     .padding(16.dp)
             )
 
-            Image(
-                bitmap = ImageConverterBase64.fromBase64String(picture.value).asImageBitmap(),
-                contentDescription = "Picture taken",
-            )
+            //Image(
+            //    bitmap = ImageConverterBase64.fromBase64String(picture.value).asImageBitmap(),
+            //    contentDescription = "Picture taken",
+            //)
 
             Spacer(modifier = Modifier.padding(12.dp))
 
@@ -131,25 +133,27 @@ fun CreateBusinessCardScreen(
                 value = address.value,
                 onValueChange = { viewModel.updateAddress(it) },
                 placeholder = { Text("Address") },
-                leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "Address") },
+                leadingIcon = { Icon(imageVector = Icons.Default.LocationOn, contentDescription = "Address") },
             )
 
             BusinessCardTextField(
                 value = zip.value,
                 onValueChange = { viewModel.updateZip(it) },
                 placeholder = { Text("Zip Code") },
-                leadingIcon = { Icon(imageVector = Icons.Default.Phone, contentDescription = "Zip Code") },
+                leadingIcon = { Icon(imageVector = Icons.Default.LocationOn, contentDescription = "Zip Code") },
             )
 
             BusinessCardTextField(
                 value = city.value,
                 onValueChange = { viewModel.updateCity(it) },
                 placeholder = { Text("City") },
-                leadingIcon = { Icon(imageVector = Icons.Default.Phone, contentDescription = "City") },
+                leadingIcon = { Icon(imageVector = Icons.Default.LocationOn, contentDescription = "City") },
             )
 
+            Spacer(modifier = Modifier.padding(12.dp))
+
             Button(
-                onClick = { viewModel.onRegisterClick(picture.value, backToMain) },
+                onClick = { viewModel.onRegisterClick(backToMain) },
                 modifier = modifier
                     .fillMaxWidth()
                     .padding(16.dp)

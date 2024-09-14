@@ -27,45 +27,56 @@ class CreateBusinessCardViewModel @Inject constructor(
     val contactPhone = MutableStateFlow("")
     val contactMobile = MutableStateFlow("")
     val contactEmail = MutableStateFlow("")
-    val picture = MutableStateFlow("")
 
     private fun buildName(): String {
-        return ""
+        var name = ""
+
+        if (companyName.value.isNotEmpty()) {
+            name += companyName.value
+        }
+        if (contactFirstname.value.isNotEmpty()) {
+            name += "${if (name.isNotEmpty()) " - " else ""}${contactFirstname.value}"
+        }
+        if (contactLastname.value.isNotEmpty()) {
+            name += "${
+                if (name.isNotEmpty())
+                    if (contactFirstname.value.isNotEmpty()) " " else " - "
+                else ""
+            }${contactFirstname.value}"
+        }
+        return name
     }
 
-    private fun registerBusinessCard(picture: String) {
+    private fun registerBusinessCard() {
         launchCatching {
             businessCardService.create(
                 BusinessCard(
                     companyName = companyName.value,
+                    address = address.value,
+                    zip = zip.value,
+                    city = city.value,
                     contactFirstname = contactFirstname.value,
                     contactLastname = contactLastname.value,
                     contactPhone = contactPhone.value,
                     contactMobile = contactMobile.value,
                     contactEmail = contactEmail.value,
                     name = buildName(),
-                    picture = picture,
-                    uid = accountService.currentUserId
+                    uid = accountService.currentUserId,
                 )
             )
         }
     }
 
-    fun initializeData(businessCardId: String) {
-        launchCatching {
-            val businessCard = businessCardService.getOne(businessCardId) as BusinessCard
-
-            companyName.value = businessCard.companyName
-            address.value = businessCard.address
-            zip.value = businessCard.zip
-            city.value = businessCard.city
-            contactFirstname.value = businessCard.contactFirstname
-            contactLastname.value = businessCard.contactLastname
-            contactPhone.value = businessCard.contactPhone
-            contactMobile.value = businessCard.contactMobile
-            contactEmail.value = businessCard.contactEmail
-            picture.value = businessCard.picture
-        }
+    fun initializeData(businessCard: BusinessCard) {
+        companyName.value = businessCard.companyName
+        address.value = businessCard.address
+        zip.value = businessCard.zip
+        city.value = businessCard.city
+        contactFirstname.value = businessCard.contactFirstname
+        contactLastname.value = businessCard.contactLastname
+        contactPhone.value = businessCard.contactPhone
+        contactMobile.value = businessCard.contactMobile
+        contactEmail.value = businessCard.contactEmail
     }
 
     fun updateCompanyName(newValue: String) {
@@ -73,15 +84,15 @@ class CreateBusinessCardViewModel @Inject constructor(
     }
 
     fun updateAddress(newValue: String) {
-        companyName.value = newValue
+        address.value = newValue
     }
 
     fun updateZip(newValue: String) {
-        companyName.value = newValue
+        zip.value = newValue
     }
 
     fun updateCity(newValue: String) {
-        companyName.value = newValue
+        city.value = newValue
     }
 
     fun updateContactFirstname(newValue: String) {
@@ -105,10 +116,9 @@ class CreateBusinessCardViewModel @Inject constructor(
     }
 
     fun onRegisterClick(
-        cardPicture: String,
         backToMain: (String) -> Unit
     ) {
-        registerBusinessCard(cardPicture)
+        registerBusinessCard()
         backToMain(EASY_CARD_WALLET_MAIN_SCREEN)
     }
 }
