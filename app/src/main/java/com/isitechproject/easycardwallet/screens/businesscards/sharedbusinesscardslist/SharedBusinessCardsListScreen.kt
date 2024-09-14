@@ -1,4 +1,4 @@
-package com.isitechproject.easycardwallet.screens.visitcards.sharedvisitcardslist
+package com.isitechproject.easycardwallet.screens.businesscards.sharedbusinesscardslist
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,14 +18,14 @@ import com.isitechproject.easycardwallet.ui.components.SharedCardList
 
 
 @Composable
-fun SharedVisitCardsListScreen(
+fun SharedBusinessCardsListScreen(
     restartApp: (String) -> Unit,
     switchScreen: (String) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: SharedVisitCardsListViewModel = hiltViewModel()
+    viewModel: SharedBusinessCardsListViewModel = hiltViewModel()
 ) {
-    val sharedVisitCards = viewModel.sharedVisitCards.collectAsState(emptyList())
-    val visitCards = viewModel.visitCards.collectAsState(emptyList())
+    val sharedBusinessCards = viewModel.sharedBusinessCards.collectAsState(emptyList())
+    val businessCards = viewModel.businessCards.collectAsState(emptyList())
 
     viewModel.initializeData()
 
@@ -41,8 +41,8 @@ fun SharedVisitCardsListScreen(
                 .padding(10.dp)
         ) {
             SharedCardList(
-                sharedCardsList = sharedVisitCards.value,
-                cardsList = visitCards.value,
+                sharedCardsList = sharedBusinessCards.value,
+                cardsList = businessCards.value,
                 getUserEmail = { viewModel.getUserEmail(it) }
             ) {
                 viewModel.stopSharing(it)
@@ -51,9 +51,9 @@ fun SharedVisitCardsListScreen(
                 contentPadding = PaddingValues(vertical = 10.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp),
             ) {
-                items(sharedVisitCards.value) { sharedLoyaltyCard ->
+                items(sharedBusinessCards.value) { sharedLoyaltyCard ->
                     SharedCard(
-                        cardName = visitCards.value.first { it.id == sharedLoyaltyCard.sharedCardId }.name,
+                        cardName = businessCards.value.first { it.id == sharedLoyaltyCard.sharedCardId }.name,
                         userEmail = viewModel.getUserEmail(sharedLoyaltyCard.sharedUid)) {
                         viewModel.stopSharing(sharedLoyaltyCard.id)
                     }

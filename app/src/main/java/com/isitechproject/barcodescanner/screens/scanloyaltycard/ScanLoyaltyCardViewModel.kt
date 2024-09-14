@@ -8,7 +8,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.mlkit.vision.barcode.common.Barcode
-import com.isitechproject.barcodescanner.utils.ImageAnalyzer
+import com.isitechproject.barcodescanner.utils.ImageAnalyzerForBarcodes
 import com.isitechproject.easycardwallet.model.service.AccountService
 import com.isitechproject.easycardwallet.screens.EasyCardWalletAppViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -42,7 +42,7 @@ class ScanLoyaltyCardViewModel @Inject constructor(
             .also {
                 it.setAnalyzer(
                     cameraExecutor,
-                    ImageAnalyzer(
+                    ImageAnalyzerForBarcodes(
                         activity,
                         handleBarcode,
                     )

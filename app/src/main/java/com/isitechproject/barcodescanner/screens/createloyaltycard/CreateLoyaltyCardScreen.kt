@@ -21,17 +21,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.isitechproject.barcodescanner.BASE64_BARCODE_DEFAULT
 import com.isitechproject.barcodescanner.utils.MLKitZXingFormatConverter
 import com.isitechproject.barcodescanner.utils.generateBarcode
-import com.isitechproject.easycardwallet.R
 import com.isitechproject.easycardwallet.ui.components.BasicStructure
-import com.isitechproject.easycardwallet.ui.components.BitmapImage
 import com.isitechproject.easycardwallet.utils.ImageConverterBase64
 
 
@@ -114,7 +110,7 @@ fun CreateLoyaltyCardScreen(
                 .padding(12.dp))
 
             Button(
-                onClick = { ImageConverterBase64.to(bitmap)
+                onClick = { ImageConverterBase64.toBase64String(bitmap)
                     ?.let { viewModel.onRegisterClick(it, barcodeValue, backToMain) }
                 },
                 modifier = modifier

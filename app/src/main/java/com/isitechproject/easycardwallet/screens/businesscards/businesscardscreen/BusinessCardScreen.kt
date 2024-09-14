@@ -1,4 +1,4 @@
-package com.isitechproject.easycardwallet.screens.visitcards.visitcardscreen
+package com.isitechproject.easycardwallet.screens.businesscards.businesscardscreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -35,18 +35,18 @@ import com.isitechproject.easycardwallet.utils.ImageConverterBase64
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VisitCardScreen(
-    visitCardId: String,
+fun BusinessCardScreen(
+    businessCardId: String,
     popUpScreen: () -> Unit,
     restartApp: (String) -> Unit,
     switchScreen: (String) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: VisitCardViewModel = hiltViewModel()
+    viewModel: BusinessCardViewModel = hiltViewModel()
 ) {
-    val visitCard = viewModel.visitCard.collectAsState()
+    val businessCard = viewModel.businessCard.collectAsState()
     var showShareCardDialog by remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) { viewModel.initialize(visitCardId, restartApp) }
+    LaunchedEffect(Unit) { viewModel.initialize(businessCardId, restartApp) }
 
     BasicStructure(
         restartApp = restartApp,
@@ -60,31 +60,31 @@ fun VisitCardScreen(
             TopAppBar(
                 title = {
                     TextField(
-                        value = visitCard.value.name,
-                        onValueChange = { viewModel.updateVisitCard(it) },
+                        value = businessCard.value.name,
+                        onValueChange = { viewModel.updateBusinessCard(it) },
                     )
                 },
                 actions = {
                     if (viewModel.isUserProperty()) {
                         IconButton(onClick = { showShareCardDialog = true }) {
-                            Icon(Icons.Filled.Share, "Share visit card")
+                            Icon(Icons.Filled.Share, "Share business card")
                         }
-                        IconButton(onClick = { viewModel.saveVisitCard(popUpScreen) }) {
-                            Icon(Icons.Filled.Done, "Save visit card")
+                        IconButton(onClick = { viewModel.saveBusinessCard(popUpScreen) }) {
+                            Icon(Icons.Filled.Done, "Save business card")
                         }
-                        IconButton(onClick = { viewModel.deleteVisitCard(popUpScreen) }) {
-                            Icon(Icons.Filled.Delete, "Delete visit card")
+                        IconButton(onClick = { viewModel.deleteBusinessCard(popUpScreen) }) {
+                            Icon(Icons.Filled.Delete, "Delete business card")
                         }
                     } else {
-                        IconButton(onClick = { viewModel.deleteSharedVisitCard(popUpScreen) }) {
-                            Icon(Icons.Filled.Delete, "Delete shared visit card")
+                        IconButton(onClick = { viewModel.deleteSharedBusinessCard(popUpScreen) }) {
+                            Icon(Icons.Filled.Delete, "Delete shared business card")
                         }
                     }
                 }
             )
 
             Image(
-                bitmap = ImageConverterBase64.from(visitCard.value.picture).asImageBitmap(),
+                bitmap = ImageConverterBase64.fromBase64String(businessCard.value.picture).asImageBitmap(),
                 contentDescription = "QR Code",
                 modifier = Modifier.fillMaxSize()
             )
@@ -110,7 +110,7 @@ fun VisitCardScreen(
                         } },
                     confirmButton = {
                         Button(onClick = {
-                            viewModel.shareVisitCard()
+                            viewModel.shareBusinessCard()
                             viewModel.updateEmailToShare("")
                             showShareCardDialog = false
                         }) {

@@ -6,6 +6,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.firestore.dataObjects
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
+import com.google.firebase.firestore.toObjects
 import com.isitechproject.easycardwallet.model.AbstractSharedCard
 import com.isitechproject.easycardwallet.model.SharedLoyaltyCard
 import com.isitechproject.easycardwallet.model.service.SharedCardService
@@ -55,22 +56,33 @@ class SharedLoyaltyCardServiceImpl @Inject constructor(
             ?: throw NotFoundException("Could not find shared card with id: $id")
     }
 
-    override suspend fun getOneBySharedId(id: String): AbstractSharedCard {
-
-        Log.d("TEST", id);
+    override suspend fun getOneBySharedId(cardId: String, userId: String): AbstractSharedCard {
         val response = sharedLoyaltyCardsPath
-            .whereEqualTo(SHARED_CARD_ID_FIELD, id)
+            .whereEqualTo(SHARED_CARD_ID_FIELD, cardId)
+            .whereEqualTo(SHARED_TO_UID_FIELD, userId)
             .get().await()
 
         if (!response.isEmpty) {
             val sharedLoyaltyCard = response.first()
-            Log.d("TEST_IF", sharedLoyaltyCard.id);
 
             return sharedLoyaltyCard
                 .toObject<SharedLoyaltyCard>()
                 .withId(sharedLoyaltyCard.id)
         }
-        throw NotFoundException("Could not find shared card with id: $id")
+        throw NotFoundException("Could not find shared card with id: $cardId")
+    }
+
+    override suspend fun getAllBySharedId(id: String): List<AbstractSharedCard> {
+        val response = sharedLoyaltyCardsPath
+            .whereEqualTo(SHARED_CARD_ID_FIELD, id)
+            .get().await()
+        val list = mutableListOf<SharedLoyaltyCard>()
+
+        response.forEach {
+            list.add(it.toObject<SharedLoyaltyCard>().withId(it.id))
+        }
+
+        return list
     }
 
     override suspend fun update(sharedCard: AbstractSharedCard) {

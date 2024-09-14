@@ -62,6 +62,9 @@ class LoyaltyCardViewModel @Inject constructor(
 
     fun deleteLoyaltyCard(popUpScreen: () -> Unit) {
         launchCatching {
+            for (sharedLoyaltyCard in sharedLoyaltyCardService.getAllBySharedId(loyaltyCard.value.id)) {
+                sharedLoyaltyCardService.delete(sharedLoyaltyCard.id)
+            }
             loyaltyCardService.delete(loyaltyCard.value.id)
         }
 
@@ -70,9 +73,7 @@ class LoyaltyCardViewModel @Inject constructor(
 
     fun deleteSharedLoyaltyCard(popUpScreen: () -> Unit) {
         launchCatching {
-            val sharedLoyaltyCardToDestroy = sharedLoyaltyCardService.getOneBySharedId(loyaltyCard.value.id)
-            Log.d("TEST_CATCHING", sharedLoyaltyCardToDestroy.id)
-            Log.d("TEST_CATCHING", sharedLoyaltyCardToDestroy.sharedCardId)
+            val sharedLoyaltyCardToDestroy = sharedLoyaltyCardService.getOneBySharedId(loyaltyCard.value.id, userService.currentUserId)
 
             sharedLoyaltyCardService.delete(sharedLoyaltyCardToDestroy.id)
         }

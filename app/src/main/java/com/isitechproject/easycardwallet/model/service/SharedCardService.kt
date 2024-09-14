@@ -8,7 +8,8 @@ interface SharedCardService {
     val sharedCards: Flow<List<AbstractSharedCard>>
     suspend fun create(sharedCard: AbstractSharedCard)
     suspend fun getOne(id: String): AbstractSharedCard
-    suspend fun getOneBySharedId(id: String): AbstractSharedCard
+    suspend fun getOneBySharedId(cardId: String, userId: String): AbstractSharedCard
+    suspend fun getAllBySharedId(id: String): List<AbstractSharedCard>
     suspend fun update(sharedCard: AbstractSharedCard)
     suspend fun delete(id: String)
 }

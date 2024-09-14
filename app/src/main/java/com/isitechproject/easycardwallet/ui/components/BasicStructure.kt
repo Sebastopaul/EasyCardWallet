@@ -26,9 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.isitechproject.easycardwallet.LOYALTY_CARDS_LIST_SCREEN
 import com.isitechproject.easycardwallet.R
-import com.isitechproject.easycardwallet.VISIT_CARDS_LIST_SCREEN
 import com.isitechproject.easycardwallet.screens.EasyCardWalletAppViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -38,6 +36,7 @@ fun BasicStructure(
     switchScreen: (String) -> Unit,
     viewModel: EasyCardWalletAppViewModel,
     modifier: Modifier = Modifier,
+    showBottomBar: Boolean = true,
     content: @Composable () -> Unit
 ) {
     var showExitAppDialog by remember { mutableStateOf(false) }
@@ -46,7 +45,7 @@ fun BasicStructure(
 
     Scaffold(
         bottomBar = {
-            if (switchScreen != {}) {
+            if (showBottomBar) {
                 BottomAppBar(modifier = Modifier.fillMaxWidth()) {
                     Row(
                         horizontalArrangement = Arrangement.SpaceEvenly,
@@ -58,8 +57,11 @@ fun BasicStructure(
                                 contentDescription = "Loyalty cards list",
                             )
                         }
-                        IconButton(onClick = { viewModel.toVisitCardsList(switchScreen) }) {
-                            Icon(painter = painterResource(id = R.drawable.visit_card_icon), contentDescription = "Visit cards list")
+                        IconButton(onClick = { viewModel.toBusinessCardsList(switchScreen) }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.business_card_icon),
+                                contentDescription = "Business cards list",
+                            )
                         }
                     }
                 }

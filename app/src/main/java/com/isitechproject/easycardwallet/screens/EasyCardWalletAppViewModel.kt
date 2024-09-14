@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.isitechproject.easycardwallet.LOYALTY_CARDS_LIST_SCREEN
 import com.isitechproject.easycardwallet.SPLASH_SCREEN
-import com.isitechproject.easycardwallet.VISIT_CARDS_LIST_SCREEN
+import com.isitechproject.easycardwallet.BUSINESS_CARDS_LIST_SCREEN
 import com.isitechproject.easycardwallet.model.service.AccountService
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -37,8 +37,8 @@ open class EasyCardWalletAppViewModel(
         switchScreen(LOYALTY_CARDS_LIST_SCREEN)
     }
 
-    fun toVisitCardsList(switchScreen: (String) -> Unit) {
-        switchScreen(VISIT_CARDS_LIST_SCREEN)
+    fun toBusinessCardsList(switchScreen: (String) -> Unit) {
+        switchScreen(BUSINESS_CARDS_LIST_SCREEN)
     }
 
     fun toggleDrawer() {

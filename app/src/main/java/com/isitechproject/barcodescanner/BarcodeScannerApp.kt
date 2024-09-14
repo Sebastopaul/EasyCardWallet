@@ -8,6 +8,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -24,7 +25,9 @@ import com.isitechproject.easycardwallet.SCAN_LOYALTY_CARD_SCREEN
 import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 
 @Composable
-fun BarcodeScannerApp(activity: BarcodeScannerActivity) {
+fun BarcodeScannerApp(route: String = SCAN_LOYALTY_CARD_SCREEN) {
+    val activity = LocalContext.current as BarcodeScannerActivity
+
     EasyCardWalletTheme {
         Surface(color = MaterialTheme.colorScheme.background) {
             val appState = rememberAppState()
@@ -32,7 +35,7 @@ fun BarcodeScannerApp(activity: BarcodeScannerActivity) {
             Scaffold { innerPaddingModifier ->
                 NavHost(
                     navController = appState.navController,
-                    startDestination = SCAN_LOYALTY_CARD_SCREEN,
+                    startDestination = route,
                     modifier = Modifier.padding(innerPaddingModifier)
                 ) {
                     barcodeScannerGraph(appState, activity)
@@ -64,9 +67,9 @@ fun NavGraphBuilder.barcodeScannerGraph(
     }
 
     composable(
-        route = "$CREATE_LOYALTY_CARD_SCREEN$BASE64_BARCODE_ARG",
+        route = "$CREATE_LOYALTY_CARD_SCREEN$BARCODE_ARG",
         arguments = listOf(
-            navArgument(BASE64_BARCODE_ARG_NAME) { defaultValue = BASE64_BARCODE_DEFAULT },
+            navArgument(BARCODE_ARG_NAME) { defaultValue = BARCODE_DEFAULT },
             navArgument(BARCODE_FORMAT) {
                 defaultValue = BARCODE_FORMAT_DEFAULT
                 type = NavType.IntType
@@ -75,7 +78,7 @@ fun NavGraphBuilder.barcodeScannerGraph(
     ) {
         activity.shutdownCamera()
         CreateLoyaltyCardScreen(
-            barcodeValue = Uri.decode(it.arguments?.getString(BASE64_BARCODE_ARG_NAME)) ?: BASE64_BARCODE_DEFAULT,
+            barcodeValue = Uri.decode(it.arguments?.getString(BARCODE_ARG_NAME)) ?: BARCODE_DEFAULT,
             barcodeFormat = it.arguments?.getInt(BARCODE_FORMAT) ?: BARCODE_FORMAT_DEFAULT,
             backToMain = { route -> appState.navigate(route) }
         )

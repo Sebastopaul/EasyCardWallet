@@ -1,8 +1,6 @@
 package com.isitechproject.barcodescanner.screens.scanloyaltycard
 
 import android.net.Uri
-import android.util.Base64
-import android.util.Log
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout
 import androidx.camera.core.CameraSelector
@@ -18,8 +16,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.LifecycleOwner
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.isitechproject.barcodescanner.BARCODE_FORMAT
-import com.isitechproject.barcodescanner.BASE64_BARCODE_ARG_NAME
-import com.isitechproject.barcodescanner.BASE64_BARCODE_DEFAULT
+import com.isitechproject.barcodescanner.BARCODE_ARG_NAME
+import com.isitechproject.barcodescanner.BARCODE_DEFAULT
 import com.isitechproject.barcodescanner.BarcodeScannerActivity
 import com.isitechproject.barcodescanner.CREATE_LOYALTY_CARD_SCREEN
 
@@ -37,23 +35,6 @@ fun ScanLoyaltyCardScreen(
             viewModel
         )
     }
-}
-
-fun bindPreview(
-    cameraProvider: ProcessCameraProvider,
-    lifecycleOwner: LifecycleOwner,
-    previewView: PreviewView,
-) {
-    val preview: Preview = Preview.Builder()
-        .build()
-
-    val cameraSelector: CameraSelector = CameraSelector.Builder()
-        .requireLensFacing(CameraSelector.LENS_FACING_BACK)
-        .build()
-
-    preview.setSurfaceProvider(previewView.surfaceProvider)
-
-    cameraProvider.bindToLifecycle(lifecycleOwner, cameraSelector, preview)
 }
 
 @Composable
@@ -79,7 +60,7 @@ fun CameraPreview(
                             activity,
                         ) { barcode ->
                             openCreationScreen(
-                                "$CREATE_LOYALTY_CARD_SCREEN?$BASE64_BARCODE_ARG_NAME=${Uri.encode(getBarcodeValue(barcode))}&$BARCODE_FORMAT=${barcode.format}"
+                                "$CREATE_LOYALTY_CARD_SCREEN?$BARCODE_ARG_NAME=${Uri.encode(getBarcodeValue(barcode))}&$BARCODE_FORMAT=${barcode.format}"
                             )
                         }
                     }, ContextCompat.getMainExecutor(context))
@@ -95,6 +76,6 @@ fun getBarcodeValue(barcode: Barcode): String {
         Barcode.TYPE_EMAIL -> barcode.email.toString()
         Barcode.TYPE_TEXT -> barcode.displayValue.toString()
         Barcode.TYPE_PHONE -> barcode.phone.toString()
-        else -> barcode.rawValue ?: BASE64_BARCODE_DEFAULT
+        else -> barcode.rawValue ?: BARCODE_DEFAULT
     }
 }

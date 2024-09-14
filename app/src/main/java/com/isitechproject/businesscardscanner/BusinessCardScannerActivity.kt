@@ -1,7 +1,8 @@
-package com.isitechproject.barcodescanner
+package com.isitechproject.businesscardscanner
 
 import android.content.pm.PackageManager
 import android.Manifest
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,18 +14,21 @@ import com.google.firebase.BuildConfig
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
-import com.isitechproject.businesscardscanner.BusinessCardScannerApp
 import com.isitechproject.easycardwallet.AUTH_PORT
 import com.isitechproject.easycardwallet.FIRESTORE_PORT
 import com.isitechproject.easycardwallet.LOCALHOST
-import com.isitechproject.easycardwallet.model.service.impl.AccountServiceImpl
+import com.isitechproject.easycardwallet.R
 import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 @AndroidEntryPoint
-class BarcodeScannerActivity : AppCompatActivity() {
+class BusinessCardScannerActivity : AppCompatActivity() {
     lateinit var cameraExecutor: ExecutorService
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,25 +64,20 @@ class BarcodeScannerActivity : AppCompatActivity() {
 
     private fun checkIfCameraPermissionIsGranted() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            // Permission granted: start the preview
             setContent {
-                EasyCardWalletTheme {
-                    BarcodeScannerApp()
-                }
+                BusinessCardScannerApp()
             }
         } else {
-            // Permission denied
             MaterialAlertDialogBuilder(this)
                 .setTitle("Permission required")
-                .setMessage("This application needs to access the camera to process barcodes")
+                .setMessage("This application needs to access the camera to read business cards")
                 .setPositiveButton("Ok") { _, _ ->
-                    // Keep asking for permission until granted
                     checkCameraPermission()
                 }
                 .setCancelable(true)
                 .setOnCancelListener {
                     setContent {
-                        BarcodeScannerApp(EASY_CARD_WALLET_MAIN_SCREEN)
+                        BusinessCardScannerApp(EASY_CARD_WALLET_MAIN_SCREEN)
                     }
                 }
                 .create()
