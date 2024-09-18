@@ -54,13 +54,13 @@ fun BasicStructure(
                         IconButton(onClick = { viewModel.toLoyaltyCardsList(switchScreen) }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.loyalty_card_icon_0),
-                                contentDescription = "Loyalty cards list",
+                                contentDescription = stringResource(R.string.loyalty_cards_list),
                             )
                         }
                         IconButton(onClick = { viewModel.toBusinessCardsList(switchScreen) }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.business_card_icon),
-                                contentDescription = "Business cards list",
+                                contentDescription = stringResource(R.string.business_cards_list),
                             )
                         }
                     }

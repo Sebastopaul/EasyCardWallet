@@ -1,7 +1,7 @@
 package com.isitechproject.barcodescanner
 
-import android.content.pm.PackageManager
 import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,11 +13,9 @@ import com.google.firebase.BuildConfig
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
-import com.isitechproject.businesscardscanner.BusinessCardScannerApp
 import com.isitechproject.easycardwallet.AUTH_PORT
 import com.isitechproject.easycardwallet.FIRESTORE_PORT
 import com.isitechproject.easycardwallet.LOCALHOST
-import com.isitechproject.easycardwallet.model.service.impl.AccountServiceImpl
 import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.ExecutorService

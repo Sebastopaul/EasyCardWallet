@@ -16,7 +16,6 @@ import com.isitechproject.easycardwallet.ui.components.BasicStructure
 import com.isitechproject.easycardwallet.ui.components.SharedCard
 import com.isitechproject.easycardwallet.ui.components.SharedCardList
 
-
 @Composable
 fun SharedBusinessCardsListScreen(
     restartApp: (String) -> Unit,

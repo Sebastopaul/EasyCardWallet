@@ -21,12 +21,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.isitechproject.barcodescanner.utils.MLKitZXingFormatConverter
 import com.isitechproject.barcodescanner.utils.generateBarcode
+import com.isitechproject.easycardwallet.R
 import com.isitechproject.easycardwallet.ui.components.BasicStructure
 import com.isitechproject.easycardwallet.utils.ImageConverterBase64
 
@@ -54,7 +56,7 @@ fun CreateLoyaltyCardScreen(
                 .padding(8.dp))
 
             Text(
-                text = "Add a loyalty card",
+                text = stringResource(R.string.add_loyalty_card),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -67,7 +69,7 @@ fun CreateLoyaltyCardScreen(
 
             Image(
                 bitmap = bitmap.asImageBitmap(),
-                contentDescription = "",
+                contentDescription = stringResource(R.string.empty),
                 modifier = modifier
                     .fillMaxWidth()
                     .padding(16.dp, 4.dp)
@@ -78,7 +80,7 @@ fun CreateLoyaltyCardScreen(
                 .padding(12.dp))
 
             Text(
-                "Please name this card",
+                stringResource(R.string.name_card),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(16.dp),
             )
@@ -101,8 +103,8 @@ fun CreateLoyaltyCardScreen(
                 ),
                 value = name.value,
                 onValueChange = { viewModel.updateLoyaltyCardName(it) },
-                placeholder = { Text("Card name") },
-                leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "Email") }
+                placeholder = { Text(stringResource(R.string.card_name)) },
+                leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = stringResource(R.string.email)) }
             )
 
             Spacer(modifier = Modifier
@@ -118,7 +120,7 @@ fun CreateLoyaltyCardScreen(
                     .padding(16.dp)
             ) {
                 Text(
-                    text = "Register loyalty card",
+                    text = stringResource(R.string.register_loyalty_card),
                     fontSize = 16.sp,
                     modifier = modifier.padding(0.dp, 6.dp)
                 )

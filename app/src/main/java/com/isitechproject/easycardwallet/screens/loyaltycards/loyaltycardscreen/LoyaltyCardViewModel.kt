@@ -1,14 +1,11 @@
 package com.isitechproject.easycardwallet.screens.loyaltycards.loyaltycardscreen
 
-import android.util.Log
 import com.isitechproject.easycardwallet.LOYALTY_CARD_DEFAULT_ID
 import com.isitechproject.easycardwallet.SPLASH_SCREEN
 import com.isitechproject.easycardwallet.model.LoyaltyCard
 import com.isitechproject.easycardwallet.model.SharedLoyaltyCard
 import com.isitechproject.easycardwallet.model.service.AccountService
-import com.isitechproject.easycardwallet.model.service.CardService
 import com.isitechproject.easycardwallet.model.service.LoyaltyCardService
-import com.isitechproject.easycardwallet.model.service.SharedCardService
 import com.isitechproject.easycardwallet.model.service.SharedLoyaltyCardService
 import com.isitechproject.easycardwallet.model.service.UserService
 import com.isitechproject.easycardwallet.screens.EasyCardWalletAppViewModel

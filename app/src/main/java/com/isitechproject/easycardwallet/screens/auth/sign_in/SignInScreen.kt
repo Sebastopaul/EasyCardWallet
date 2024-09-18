@@ -55,7 +55,7 @@ fun SignInScreen(
     ) {
         Image(
             painter = painterResource(id = R.drawable.title),
-            contentDescription = "Auth image",
+            contentDescription = stringResource(R.string.app_name),
             modifier = modifier
                 .fillMaxWidth()
                 .padding(16.dp, 4.dp)
@@ -84,7 +84,7 @@ fun SignInScreen(
             value = email.value,
             onValueChange = { viewModel.updateEmail(it) },
             placeholder = { Text(stringResource(R.string.email)) },
-            leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "Email") }
+            leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = stringResource(R.string.email)) }
         )
 
         OutlinedTextField(
@@ -106,7 +106,7 @@ fun SignInScreen(
             value = password.value,
             onValueChange = { viewModel.updatePassword(it) },
             placeholder = { Text(stringResource(R.string.password)) },
-            leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "Email") },
+            leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = stringResource(R.string.password)) },
             visualTransformation = PasswordVisualTransformation()
         )
 

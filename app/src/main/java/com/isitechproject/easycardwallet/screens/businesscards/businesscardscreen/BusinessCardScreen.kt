@@ -32,7 +32,6 @@ import com.isitechproject.easycardwallet.R
 import com.isitechproject.easycardwallet.ui.components.BasicStructure
 import com.isitechproject.easycardwallet.utils.ImageConverterBase64
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BusinessCardScreen(
@@ -67,17 +66,17 @@ fun BusinessCardScreen(
                 actions = {
                     if (viewModel.isUserProperty()) {
                         IconButton(onClick = { showShareCardDialog = true }) {
-                            Icon(Icons.Filled.Share, "Share business card")
+                            Icon(Icons.Filled.Share, stringResource(R.string.share_card))
                         }
                         IconButton(onClick = { viewModel.saveBusinessCard(popUpScreen) }) {
-                            Icon(Icons.Filled.Done, "Save business card")
+                            Icon(Icons.Filled.Done, stringResource(R.string.save_card))
                         }
                         IconButton(onClick = { viewModel.deleteBusinessCard(popUpScreen) }) {
-                            Icon(Icons.Filled.Delete, "Delete business card")
+                            Icon(Icons.Filled.Delete, stringResource(R.string.delete_card))
                         }
                     } else {
                         IconButton(onClick = { viewModel.deleteSharedBusinessCard(popUpScreen) }) {
-                            Icon(Icons.Filled.Delete, "Delete shared business card")
+                            Icon(Icons.Filled.Delete, stringResource(R.string.delete_shared_card))
                         }
                     }
                 }
@@ -85,7 +84,7 @@ fun BusinessCardScreen(
 
             Image(
                 bitmap = ImageConverterBase64.fromBase64String(businessCard.value.picture).asImageBitmap(),
-                contentDescription = "QR Code",
+                contentDescription = stringResource(R.string.qr_code),
                 modifier = Modifier.fillMaxSize()
             )
 
@@ -93,12 +92,12 @@ fun BusinessCardScreen(
                 val emailToShare = viewModel.emailToShare.collectAsState()
 
                 AlertDialog(
-                    title = { Text("Enter the email of the user you want to share this card with.") },
+                    title = { Text(stringResource(R.string.share_card_dialog)) },
                     text = {
                         TextField(
                             value = emailToShare.value,
                             onValueChange = { viewModel.updateEmailToShare(it) },
-                            label = { Text(text = "Email") },
+                            label = { Text(text = stringResource(R.string.email)) },
                         )
                     },
                     dismissButton = {
@@ -114,7 +113,7 @@ fun BusinessCardScreen(
                             viewModel.updateEmailToShare("")
                             showShareCardDialog = false
                         }) {
-                            Text(text = "OK")
+                            Text(text = stringResource(R.string.ok))
                         } },
                     onDismissRequest = {
                         viewModel.updateEmailToShare("")

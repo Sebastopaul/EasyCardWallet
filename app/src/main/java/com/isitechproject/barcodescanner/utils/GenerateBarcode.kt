@@ -1,7 +1,6 @@
 package com.isitechproject.barcodescanner.utils
 
 import android.graphics.Bitmap
-import android.util.Log
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException

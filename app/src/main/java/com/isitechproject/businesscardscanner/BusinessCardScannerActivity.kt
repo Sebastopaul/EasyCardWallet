@@ -1,8 +1,7 @@
 package com.isitechproject.businesscardscanner
 
-import android.content.pm.PackageManager
 import android.Manifest
-import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
@@ -17,13 +16,7 @@ import com.google.firebase.firestore.firestore
 import com.isitechproject.easycardwallet.AUTH_PORT
 import com.isitechproject.easycardwallet.FIRESTORE_PORT
 import com.isitechproject.easycardwallet.LOCALHOST
-import com.isitechproject.easycardwallet.R
-import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.File
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 

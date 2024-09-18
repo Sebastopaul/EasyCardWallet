@@ -1,16 +1,12 @@
 package com.isitechproject.businesscardscanner.screens.createbusinesscard
 
-import com.isitechproject.barcodescanner.BARCODE_DEFAULT
 import com.isitechproject.barcodescanner.EASY_CARD_WALLET_MAIN_SCREEN
 import com.isitechproject.easycardwallet.model.BusinessCard
-import com.isitechproject.easycardwallet.model.LoyaltyCard
 import com.isitechproject.easycardwallet.model.service.AccountService
 import com.isitechproject.easycardwallet.model.service.BusinessCardService
-import com.isitechproject.easycardwallet.model.service.LoyaltyCardService
 import com.isitechproject.easycardwallet.screens.EasyCardWalletAppViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel

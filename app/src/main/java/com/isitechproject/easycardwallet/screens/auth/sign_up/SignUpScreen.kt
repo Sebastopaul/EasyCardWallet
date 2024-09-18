@@ -37,7 +37,6 @@ import com.isitechproject.easycardwallet.R
 import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 
 @Composable
-@OptIn(ExperimentalMaterial3Api::class)
 fun SignUpScreen(
     openAndPopUp: (String, String) -> Unit,
     modifier: Modifier = Modifier,
@@ -57,7 +56,7 @@ fun SignUpScreen(
     ) {
         Image(
             painter = painterResource(id = R.drawable.title),
-            contentDescription = "Auth image",
+            contentDescription = stringResource(R.string.app_name),
             modifier = modifier
                 .fillMaxWidth()
                 .padding(16.dp, 4.dp)
@@ -86,7 +85,7 @@ fun SignUpScreen(
             value = email.value,
             onValueChange = { viewModel.updateEmail(it) },
             placeholder = { Text(stringResource(R.string.email)) },
-            leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "Email") }
+            leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = stringResource(R.string.email)) }
         )
 
         OutlinedTextField(
@@ -108,7 +107,7 @@ fun SignUpScreen(
             value = password.value,
             onValueChange = { viewModel.updatePassword(it) },
             placeholder = { Text(stringResource(R.string.password)) },
-            leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "Email") },
+            leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = stringResource(R.string.password)) },
             visualTransformation = PasswordVisualTransformation()
         )
 
@@ -131,7 +130,7 @@ fun SignUpScreen(
             value = confirmPassword.value,
             onValueChange = { viewModel.updateConfirmPassword(it) },
             placeholder = { Text(stringResource(R.string.confirm_password)) },
-            leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "Email") },
+            leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = stringResource(R.string.confirm_password)) },
             visualTransformation = PasswordVisualTransformation()
         )
 

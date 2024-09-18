@@ -22,7 +22,6 @@ import com.isitechproject.easycardwallet.EasyCardWalletActivity
 import com.isitechproject.easycardwallet.EasyCardWalletAppState
 import com.isitechproject.easycardwallet.SCAN_LOYALTY_CARD_SCREEN
 import com.isitechproject.easycardwallet.model.BusinessCard
-import com.isitechproject.easycardwallet.model.service.impl.ID_FIELD
 import com.isitechproject.easycardwallet.ui.theme.EasyCardWalletTheme
 
 @Composable

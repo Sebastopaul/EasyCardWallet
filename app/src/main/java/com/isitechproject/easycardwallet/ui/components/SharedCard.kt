@@ -16,7 +16,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.isitechproject.easycardwallet.R
 
 @Composable
 fun SharedCard(
@@ -46,7 +48,7 @@ fun SharedCard(
             Spacer(modifier = Modifier.size(24.dp))
 
             IconButton(onClick = stopSharing) {
-                Icon(Icons.Filled.Delete, "Stop this share")
+                Icon(Icons.Filled.Delete, stringResource(R.string.stop_sharing))
             }
         }
     }

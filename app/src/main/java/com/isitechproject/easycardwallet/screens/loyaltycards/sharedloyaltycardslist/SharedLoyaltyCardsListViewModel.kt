@@ -2,9 +2,7 @@ package com.isitechproject.easycardwallet.screens.loyaltycards.sharedloyaltycard
 
 import com.isitechproject.easycardwallet.model.User
 import com.isitechproject.easycardwallet.model.service.AccountService
-import com.isitechproject.easycardwallet.model.service.CardService
 import com.isitechproject.easycardwallet.model.service.LoyaltyCardService
-import com.isitechproject.easycardwallet.model.service.SharedCardService
 import com.isitechproject.easycardwallet.model.service.SharedLoyaltyCardService
 import com.isitechproject.easycardwallet.model.service.UserService
 import com.isitechproject.easycardwallet.screens.EasyCardWalletAppViewModel

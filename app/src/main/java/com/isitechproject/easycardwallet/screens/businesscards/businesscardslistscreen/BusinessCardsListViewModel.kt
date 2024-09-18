@@ -2,12 +2,8 @@ package com.isitechproject.easycardwallet.screens.businesscards.businesscardslis
 
 import com.isitechproject.easycardwallet.BUSINESS_CARD_ID
 import com.isitechproject.easycardwallet.BUSINESS_CARD_SCREEN
-import com.isitechproject.easycardwallet.LOYALTY_CARD_ID
-import com.isitechproject.easycardwallet.LOYALTY_CARD_SCREEN
 import com.isitechproject.easycardwallet.SCAN_BUSINESS_CARD_SCREEN
-import com.isitechproject.easycardwallet.SCAN_LOYALTY_CARD_SCREEN
 import com.isitechproject.easycardwallet.SHARED_BUSINESS_CARDS_SCREEN
-import com.isitechproject.easycardwallet.SHARED_LOYALTY_CARDS_SCREEN
 import com.isitechproject.easycardwallet.model.service.AccountService
 import com.isitechproject.easycardwallet.model.service.BusinessCardService
 import com.isitechproject.easycardwallet.screens.EasyCardWalletAppViewModel

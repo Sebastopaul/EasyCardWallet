@@ -3,8 +3,6 @@ package com.isitechproject.barcodescanner.screens.scanloyaltycard
 import android.net.Uri
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.material3.MaterialTheme
@@ -13,11 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.LifecycleOwner
 import com.google.mlkit.vision.barcode.common.Barcode
-import com.isitechproject.barcodescanner.BARCODE_FORMAT
 import com.isitechproject.barcodescanner.BARCODE_ARG_NAME
 import com.isitechproject.barcodescanner.BARCODE_DEFAULT
+import com.isitechproject.barcodescanner.BARCODE_FORMAT
 import com.isitechproject.barcodescanner.BarcodeScannerActivity
 import com.isitechproject.barcodescanner.CREATE_LOYALTY_CARD_SCREEN
 

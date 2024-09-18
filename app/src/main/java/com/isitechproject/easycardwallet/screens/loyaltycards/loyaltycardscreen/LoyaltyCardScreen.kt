@@ -32,7 +32,6 @@ import com.isitechproject.easycardwallet.R
 import com.isitechproject.easycardwallet.ui.components.BasicStructure
 import com.isitechproject.easycardwallet.utils.ImageConverterBase64
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoyaltyCardScreen(
@@ -67,17 +66,17 @@ fun LoyaltyCardScreen(
                 actions = {
                     if (viewModel.isUserProperty()) {
                         IconButton(onClick = { showShareCardDialog = true }) {
-                            Icon(Icons.Filled.Share, "Share loyalty card")
+                            Icon(Icons.Filled.Share, stringResource(R.string.share_card))
                         }
                         IconButton(onClick = { viewModel.saveLoyaltyCard(popUpScreen) }) {
-                            Icon(Icons.Filled.Done, "Save loyalty card")
+                            Icon(Icons.Filled.Done, stringResource(R.string.save_card))
                         }
                         IconButton(onClick = { viewModel.deleteLoyaltyCard(popUpScreen) }) {
-                            Icon(Icons.Filled.Delete, "Delete loyalty card")
+                            Icon(Icons.Filled.Delete, stringResource(R.string.delete_card))
                         }
                     } else {
                         IconButton(onClick = { viewModel.deleteSharedLoyaltyCard(popUpScreen) }) {
-                            Icon(Icons.Filled.Delete, "Delete shared loyalty card")
+                            Icon(Icons.Filled.Delete, stringResource(R.string.delete_shared_card))
                         }
                     }
                 }
@@ -85,7 +84,7 @@ fun LoyaltyCardScreen(
 
             Image(
                 bitmap = ImageConverterBase64.fromBase64String(loyaltyCard.value.picture).asImageBitmap(),
-                contentDescription = "QR Code",
+                contentDescription = stringResource(R.string.qr_code),
                 modifier = Modifier.fillMaxSize()
             )
 
@@ -93,12 +92,12 @@ fun LoyaltyCardScreen(
                 val emailToShare = viewModel.emailToShare.collectAsState()
 
                 AlertDialog(
-                    title = { Text("Enter the email of the user you want to share this card with.") },
+                    title = { Text(stringResource(R.string.share_card_dialog)) },
                     text = {
                         TextField(
                             value = emailToShare.value,
                             onValueChange = { viewModel.updateEmailToShare(it) },
-                            label = { Text(text = "Email") },
+                            label = { Text(text = stringResource(R.string.email)) },
                         )
                     },
                     dismissButton = {
@@ -114,7 +113,7 @@ fun LoyaltyCardScreen(
                             viewModel.updateEmailToShare("")
                             showShareCardDialog = false
                         }) {
-                            Text(text = "OK")
+                            Text(text = stringResource(R.string.ok))
                         } },
                     onDismissRequest = {
                         viewModel.updateEmailToShare("")

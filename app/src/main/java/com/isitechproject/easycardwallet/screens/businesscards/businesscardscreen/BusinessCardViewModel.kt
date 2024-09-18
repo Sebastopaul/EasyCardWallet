@@ -1,14 +1,13 @@
 package com.isitechproject.easycardwallet.screens.businesscards.businesscardscreen
 
-import android.util.Log
 import com.isitechproject.easycardwallet.LOYALTY_CARD_DEFAULT_ID
 import com.isitechproject.easycardwallet.SPLASH_SCREEN
 import com.isitechproject.easycardwallet.model.BusinessCard
 import com.isitechproject.easycardwallet.model.SharedBusinessCard
 import com.isitechproject.easycardwallet.model.service.AccountService
+import com.isitechproject.easycardwallet.model.service.BusinessCardService
 import com.isitechproject.easycardwallet.model.service.SharedBusinessCardService
 import com.isitechproject.easycardwallet.model.service.UserService
-import com.isitechproject.easycardwallet.model.service.BusinessCardService
 import com.isitechproject.easycardwallet.screens.EasyCardWalletAppViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

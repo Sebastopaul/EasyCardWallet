@@ -1,7 +1,6 @@
 package com.isitechproject.easycardwallet.model.service.impl
 
 import android.content.res.Resources.NotFoundException
-import android.util.Log
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.dataObjects
 import com.google.firebase.firestore.firestore
@@ -11,7 +10,6 @@ import com.isitechproject.easycardwallet.model.SharedBusinessCard
 import com.isitechproject.easycardwallet.model.SharedLoyaltyCard
 import com.isitechproject.easycardwallet.model.service.SharedBusinessCardService
 import com.isitechproject.easycardwallet.model.service.UserService
-import com.isitechproject.easycardwallet.model.service.impl.SharedLoyaltyCardServiceImpl.Companion
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest

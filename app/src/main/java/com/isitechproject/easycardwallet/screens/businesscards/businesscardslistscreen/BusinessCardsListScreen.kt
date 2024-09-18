@@ -65,7 +65,7 @@ fun BusinessCardsListScreen(
                         IconButton(onClick = { viewModel.onSharedClick(openScreen) }) {
                             Icon(
                                 imageVector = Icons.Filled.Share,
-                                contentDescription = "Shared business cards",
+                                contentDescription = stringResource(R.string.shared_business_cards),
                             )
                         }
                     }

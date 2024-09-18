@@ -1,6 +1,5 @@
 package com.isitechproject.easycardwallet.model.service
 
-import com.isitechproject.easycardwallet.model.AbstractCard
 import com.isitechproject.easycardwallet.model.BusinessCardPicture
 
 interface PictureService {

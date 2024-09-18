@@ -7,9 +7,7 @@ import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
 import com.isitechproject.easycardwallet.model.AbstractCard
 import com.isitechproject.easycardwallet.model.LoyaltyCard
-import com.isitechproject.easycardwallet.model.service.CardService
 import com.isitechproject.easycardwallet.model.service.LoyaltyCardService
-import com.isitechproject.easycardwallet.model.service.SharedCardService
 import com.isitechproject.easycardwallet.model.service.SharedLoyaltyCardService
 import com.isitechproject.easycardwallet.model.service.UserService
 import kotlinx.coroutines.ExperimentalCoroutinesApi
